@@ -3,7 +3,6 @@ import * as mongoose from 'mongoose';
 export const ArticleSchema = new mongoose.Schema({
   addarticle: { type: String },
   quantity: { type: Number },
-  addgenre: { type: String },
   addprix: { type: Number },
   addreduction: { type: Number },
   addoccasion: { type: String },

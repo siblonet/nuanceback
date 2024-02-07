@@ -7,9 +7,6 @@ export const OrderSchema = new mongoose.Schema({
       ref: 'NuanceDoud', // Corrected reference to 'Article' model
     },
     quantcho: Number,
-    image: String,
-    color: String,
-    size: String,
     statut: {
       type: String,
       default: 'review'

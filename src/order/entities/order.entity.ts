@@ -7,9 +7,6 @@ export interface Order extends Document {
         {
             arti_id: Article
             quantcho: number;
-            image: string;
-            color: string;
-            size: string;
             statut: string;
             prix: number
         }
