@@ -4,8 +4,8 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): object {
     const fory = {
-      "nome":"Noble",
-      "lastname":"Faveur",
+      "nome":"Nuance",
+      "lastname":"D'oud",
     }
     return fory;
   }
