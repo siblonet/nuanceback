@@ -3,7 +3,6 @@ import { Document } from 'mongoose';
 export interface Article extends Document {
   addarticle: string;
   quantity: number;
-  addgenre: string;
   addprix: number;
   addreduction: number;
   addoccasion: string;
