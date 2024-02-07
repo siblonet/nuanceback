@@ -88,9 +88,6 @@ export class OrderService {
       {
         $set: {
           'articles.$.quantcho': updatedArticle.quantcho,
-          'articles.$.image': updatedArticle.image,
-          'articles.$.color': updatedArticle.color,
-          'articles.$.size': updatedArticle.size,
           ville: updatedArticle.ville,
           commune: updatedArticle.commune,
           lieu: updatedArticle.lieu,
