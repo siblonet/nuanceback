@@ -100,23 +100,13 @@ export class ActivityService {
     return uuidv4();
   }
 
-  async allArticles(owner: string): Promise<any> {
+  async allArticles(owner: String): Promise<any> {
     const pagesetting = await this.annonceModel.find({ owner: owner });
     const article = await this.boutiqueModel.find({ owner: owner });
-    const order = await this.orderModel
-      .find({ owner: owner })
-      .populate('articles.arti_id', 'quantcho image color size statut prix')
-      .populate('client');
-  
-    // Check if arrays are empty
-    if (!pagesetting.length && !article.length && !order.length) {
-      // Handle the case where no documents are found
-      return { message: 'No data found for the specified owner.' };
-    }
-  
-    return { article: article, pagesetting: pagesetting, order: order };
+    const order = await this.orderModel.find({ owner: owner }).populate('articles.arti_id').populate('client');
+    return { article: article, pagesetting: pagesetting, order: order }
   }
-  
+
 
   async allAnonnces(owner: String): Promise<Annonce[]> {
     return await this.annonceModel.find({ owner: owner });
