@@ -11,8 +11,8 @@ import axios from 'axios';
 export class OrderService {
 
   constructor(
-    @InjectModel('Order') private orderModel: Model<Order>,
-    @InjectModel('NobleCoil') private boutiqueModel: Model<Article>,
+    @InjectModel('OrderDoud') private orderModel: Model<Order>,
+    @InjectModel('NuanceDoud') private boutiqueModel: Model<Article>,
     private readonly peopleService: PeopleService) { }
 
 

@@ -11,8 +11,8 @@ import { MineindService } from 'src/mineind/mineind.service';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Order', schema: OrderSchema },
-      { name: 'NobleCoil', schema: ArticleSchema },
+      { name: 'NuanceDoud', schema: ArticleSchema },
+      { name: 'OrderDoud', schema: OrderSchema },
       { name: 'People', schema: PersonSchema }
     ])
   ],

@@ -14,7 +14,7 @@ import { OrderSchema } from 'src/order/dto/create-order.dto';
       { name: 'AnnonceDoud', schema: AnnonceSchema }
     ])
   ],
-  
+
   controllers: [ActivityController],
   providers: [ActivityService, MineindService]
 })
