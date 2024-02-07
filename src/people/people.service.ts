@@ -70,8 +70,8 @@ export class PeopleService {
   }
 
   generatToken(person: Person): Object {
-    const { _id, prenom, nom, phone, email, admin } = person;
-    const perset = `${_id}°${prenom}°${nom}°${phone}°${email}°${admin}`;
+    const { _id, prenom, nom, phone, email, staff, admin } = person;
+    const perset = `${_id}°${prenom}°${nom}°${phone}°${email}°${staff}°${admin}`;
     const dae = this.mineindService.whatisthis(perset);
     const adaa = dae.replaceAll("undefined", "");
     const doa = { token: adaa };

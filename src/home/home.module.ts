@@ -9,9 +9,9 @@ import { OrderSchema } from 'src/order/dto/create-order.dto';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'NobleCoil', schema: ArticleSchema },
-      { name: 'Order', schema: OrderSchema },
-      { name: 'Annonce', schema: AnnonceSchema }
+      { name: 'NuanceDoud', schema: ArticleSchema },
+      { name: 'OrderDoud', schema: OrderSchema },
+      { name: 'AnnonceDoud', schema: AnnonceSchema }
     ])
   ],
   

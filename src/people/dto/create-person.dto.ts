@@ -7,6 +7,10 @@ export const PersonSchema = new mongoose.Schema({
   email: String,
   motdepass: String,
   owner: String,
+  staff: {
+    type: String,
+    default: "false",
+  },
   admin: {
     type: String,
     default: "false",

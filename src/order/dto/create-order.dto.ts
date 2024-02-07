@@ -4,7 +4,7 @@ export const OrderSchema = new mongoose.Schema({
   articles: [{
     arti_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'NobleCoil', // Corrected reference to 'Article' model
+      ref: 'NuanceDoud', // Corrected reference to 'Article' model
     },
     quantcho: Number,
     image: String,

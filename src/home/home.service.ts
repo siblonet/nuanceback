@@ -12,9 +12,9 @@ export class ActivityService {
   private bucketName = 'seeme-7a462.appspot.com';
 
   constructor(
-    @InjectModel('NobleCoil') private boutiqueModel: Model<Article>,
-    @InjectModel('Annonce') private annonceModel: Model<Annonce>,
-    @InjectModel('Order') private orderModel: Model<Order>,
+    @InjectModel('NuanceDoud') private boutiqueModel: Model<Article>,
+    @InjectModel('OrderDoud') private annonceModel: Model<Annonce>,
+    @InjectModel('AnnonceDoud') private orderModel: Model<Order>,
     private readonly mineindService: MineindService) { }
 
   private async initializeGoogleCloudStorage(): Promise<Storage> {
