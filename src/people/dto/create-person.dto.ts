@@ -11,6 +11,10 @@ export const PersonSchema = new mongoose.Schema({
     type: String,
     default: "false",
   },
+  service: {
+    type: String,
+    default: "false",
+  },
   admin: {
     type: String,
     default: "false",

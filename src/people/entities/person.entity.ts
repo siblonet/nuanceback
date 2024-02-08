@@ -11,6 +11,7 @@ export interface PLog {
     owner: string;
     email: string;
     motdepass: string;
+    service?: string;
     staff?: string;
     admin?: string;
     pushtoken?: string;
