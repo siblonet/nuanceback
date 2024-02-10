@@ -50,8 +50,7 @@ export class OrderService {
       for (const article of articles) {
         await this.boutiqueModel.findByIdAndUpdate(
           article.arti_id,
-          { $inc: { quantity: -article.quantcho } },
-          { $inc: { quanvend: +article.quantcho } },
+          { $inc: { quantity: -article.quantcho, quanvend: +article.quantcho } },
           { new: true }
         );
       }
@@ -64,8 +63,7 @@ export class OrderService {
     try {
       const result = await this.orderModel.findByIdAndUpdate(
         id,
-        { $inc: { quantity: +quan } },
-        { $inc: { quanvend: -quan } },
+        { $inc: { quantity: +quan, quanvend: -quan } },
         { new: true } // to get the updated document
       );
       return result;
