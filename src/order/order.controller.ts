@@ -38,9 +38,9 @@ export class OrderController {
     return this.orderService.updateOrder(id, od, activle);
   }
 
-  @Put('statoo/:id')
-  updateOrderStatus(@Param('id') id: string, @Body() statuts: Order) {
-    //console.log(id, od, activle);
+  @Put('change/order/statuts/:id')
+  updateOrderStatus(@Param('id') id: string, @Body() statuts: any) {
+    //console.log(id, statuts);
     return this.orderService.updateOrderStatus(id, statuts);
   }
 

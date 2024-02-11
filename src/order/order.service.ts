@@ -105,6 +105,8 @@ export class OrderService {
   }
 
   async updateOrderStatus(id: string, statuts: any): Promise<any> {
+    //console.log(id, statuts);
+
     const admin = await this.orderModel.findByIdAndUpdate(id, statuts);
 
     if (!admin) {

@@ -205,6 +205,7 @@ export class PeopleService {
           to: pushToken,
         });
       } catch (err) {
+        console.log(err);
         console.error("Erreur lors de l'envoi de la notification : ");
       }
     };
