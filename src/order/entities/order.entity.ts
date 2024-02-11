@@ -7,7 +7,6 @@ export interface Order extends Document {
         {
             arti_id: Article
             quantcho: number;
-            statut: string;
             prix: number
         }
     ];

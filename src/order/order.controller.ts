@@ -38,10 +38,10 @@ export class OrderController {
     return this.orderService.updateOrder(id, od, activle);
   }
 
-  @Put('statoo/:id/:od')
-  updateOrderStatus(@Param('id') id: string, @Param('od') od: string, @Body() activle: Order) {
+  @Put('statoo/:id')
+  updateOrderStatus(@Param('id') id: string, @Body() statuts: Order) {
     //console.log(id, od, activle);
-    return this.orderService.updateOrderStatus(id, od, activle);
+    return this.orderService.updateOrderStatus(id, statuts);
   }
 
   @Delete('/:id/:artid/:quant')

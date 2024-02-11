@@ -7,10 +7,6 @@ export const OrderSchema = new mongoose.Schema({
       ref: 'NuanceDoud', // Corrected reference to 'Article' model
     },
     quantcho: Number,
-    statut: {
-      type: String,
-      default: 'review'
-    },
     prix: Number
   }],
   ville: String,
@@ -21,7 +17,7 @@ export const OrderSchema = new mongoose.Schema({
   owner: String,
   statut: {
     type: String,
-    default: 'uncomplete'
+    default: 'review'
   },
   client: {
     type: mongoose.Schema.Types.ObjectId,

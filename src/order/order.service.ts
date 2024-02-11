@@ -104,16 +104,8 @@ export class OrderService {
     return "done";
   }
 
-  async updateOrderStatus(id: string, od: string, updatedArticle: any): Promise<any> {
-    const admin = await this.orderModel.findOneAndUpdate(
-      { _id: id, 'articles._id': od },
-      {
-        $set: {
-          'articles.$.statut': updatedArticle.statut
-        },
-      },
-      { new: true }
-    );
+  async updateOrderStatus(id: string, statuts: any): Promise<any> {
+    const admin = await this.orderModel.findByIdAndUpdate(id, statuts);
 
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
