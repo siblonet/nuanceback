@@ -114,6 +114,40 @@ export class OrderService {
     return "done";
   }
 
+
+
+
+  async canceleOrders(id: string) {
+    try {
+      const order = await this.orderModel.findById(id);
+
+      if (!order) {
+        throw new Error('Order not found');
+      }
+
+      for (const article of order.articles) {
+        const { arti_id, quantcho } = article;
+        const updatedBoutique = await this.boutiqueModel.findById(arti_id);
+
+        if (updatedBoutique) {
+          await this.boutiqueModel.findOneAndUpdate(
+            { _id: arti_id },
+            { $inc: { quantity: +quantcho, quanvend: -quantcho } },
+            { new: true }
+          );
+
+        }
+      }
+
+      await this.orderModel.findByIdAndRemove(id);
+      return 'done';
+    } catch (error) {
+      console.error('Error cancelling orders:', error.message);
+      throw error; // Rethrow the error for further handling or logging
+    }
+  };
+
+
   async removeOrders(id: string, artid: string, quan: Number) {
     await this.orderModel.findByIdAndRemove(id);
     this.increaseArticleQuantity(artid, quan);
