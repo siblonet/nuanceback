@@ -74,7 +74,7 @@ export class OrderService {
 
 
   async allArticles(owner: String): Promise<Order[]> {
-    return await this.orderModel.find({ owner: owner }).populate('articles.arti_id').populate('client');
+    return await this.orderModel.find({ owner: owner }).sort({ created: -1 }).populate('articles.arti_id').populate('client');
   }
 
 
