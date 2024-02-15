@@ -18,5 +18,11 @@ export interface Order extends Document {
     owner: string;
     statut: string;
     client: Person;
+
+
+    payment_method: string;
+    payment_status: string;
+    transaction_id: string;
+
     created?: Date;
 }

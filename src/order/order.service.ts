@@ -38,11 +38,8 @@ export class OrderService {
     axios.post(urpu, dato).then().catch(err => {
       console.error(err);
     });
-    return { done: 'done' };
+    return { done: articl._id };
   }
-
-
-
 
 
   async decreaseArticleQuantity(articles: any[]) {
@@ -117,6 +114,17 @@ export class OrderService {
   }
 
 
+  async paymentStatus(orderid: string, transationid: any): Promise<any> {
+    //console.log(id, statuts);
+
+    const admin = await this.orderModel.findByIdAndUpdate(orderid, { payment_status: "paid", transaction_id: transationid });
+
+    if (!admin) {
+      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+    }
+
+    return "done";
+  }
 
 
   async canceleOrders(id: string) {

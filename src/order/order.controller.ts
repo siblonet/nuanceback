@@ -21,6 +21,8 @@ export class OrderController {
     return this.orderService.create(article, owner);
   }
 
+
+  
   @Get("/:owner")
   async allArticles(@Param('owner') owner: string): Promise<Order[]> {
     return await this.orderService.allArticles(owner);
@@ -42,6 +44,12 @@ export class OrderController {
   updateOrderStatus(@Param('id') id: string, @Body() statuts: any) {
     //console.log(id, statuts);
     return this.orderService.updateOrderStatus(id, statuts);
+  }
+
+
+  @Put("change/order/payment/statuts/:orderid/:transationid")
+  async paymentStatus(@Param('orderid') orderid: string, @Param('transationid') transationid: string): Promise<Order[]> {
+    return await this.orderService.paymentStatus(orderid, transationid);
   }
 
   @Delete('cancele/:id')

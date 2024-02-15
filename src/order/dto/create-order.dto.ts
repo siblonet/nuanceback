@@ -23,5 +23,12 @@ export const OrderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'People',
   },
+
+  payment_method: String,
+  payment_status: {
+    type: String,
+    default: 'nopay'
+  },
+  transaction_id: String,
   created: { type: Date, default: Date.now }
 });
