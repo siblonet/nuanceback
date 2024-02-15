@@ -114,10 +114,10 @@ export class OrderService {
   }
 
 
-  async paymentStatus(orderid: string, transationid: any): Promise<any> {
+  async paymentStatus(transationid: any): Promise<any> {
     //console.log(id, statuts);
 
-    const admin = await this.orderModel.findByIdAndUpdate(orderid, { payment_status: "paid", transaction_id: transationid });
+    const admin = await this.orderModel.findOneAndUpdate({transaction_id: transationid}, { payment_status: "paid"});
 
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);

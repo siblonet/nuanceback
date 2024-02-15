@@ -47,9 +47,9 @@ export class OrderController {
   }
 
 
-  @Put("change/order/payment/statuts/:orderid/:transationid")
-  async paymentStatus(@Param('orderid') orderid: string, @Param('transationid') transationid: string): Promise<Order[]> {
-    return await this.orderService.paymentStatus(orderid, transationid);
+  @Put("change/order/payment/statuts/:transationid")
+  async paymentStatus(@Param('transationid') transationid: string): Promise<Order[]> {
+    return await this.orderService.paymentStatus(transationid);
   }
 
   @Delete('cancele/:id')
