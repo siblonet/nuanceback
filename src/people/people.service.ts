@@ -15,7 +15,7 @@ export class PeopleService {
 
   async create(persondto: Person) {
     const { phone, nom, owner } = persondto;
-    const user = await this.personModel.findOne({ phone, owner});
+    const user = await this.personModel.findOne({ phone, owner });
     if (user) {
       return { ee: "phoneused" }
     } else if (nom === "Lanell") {
@@ -167,7 +167,7 @@ export class PeopleService {
   }
 
   async allNonadmin(owner: string): Promise<Person[]> {
-    return await this.personModel.find({ owner: owner, admin: owner === "matasa"? { $ne: "true" } : "false" });
+    return await this.personModel.find({ owner: owner, admin: owner === "matasa" ? { $ne: "true" } : "false" });
 
   }
 
@@ -194,7 +194,15 @@ export class PeopleService {
 
 
   async sendExpoPushNotifications(notification: any, owner: any) {
-    const pushTokens = await this.personModel.find({ admin: true, owner: owner, pushtoken: { $ne: "denied" } });
+    //const pushTokens = await this.personModel.find({ admin: true, owner: owner, pushtoken: { $ne: "denied" } });
+    const pushTokens = await this.personModel.find({
+      $or: [
+        { admin: true },
+        { staff: true },
+      ],
+      owner: owner,
+      pushtoken: { $ne: "denied" },
+    });
     const maxConcurrentRequests = 5; // Limitez le nombre de requêtes simultanées ici
 
     const sendNotification = async (pushToken: string) => {
