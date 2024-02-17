@@ -54,6 +54,33 @@ export class PeopleService {
 
   }
 
+
+  async createLocal(persondto: Person) {
+    const { phone, nom, owner } = persondto;
+    const user = await this.personModel.findOne({ phone, owner });
+    if (user) {
+      return { token: user._id };
+    } else {
+      const personreset: Person = {
+        prenom: persondto.prenom,
+        nom: persondto.nom,
+        phone: persondto.phone,
+        email: persondto.email,
+        owner: persondto.owner,
+        motdepass: this.indrog(persondto.motdepass),
+        admin: "false"
+      };
+
+      const person = await this.personModel.create({
+        ...personreset
+      });
+      await person.save();
+      return { token: person._id };
+    }
+
+  }
+
+
   indrog(dd: any) {
     const dae = this.mineindService.whatisthis(dd)
     const adaa = dae.replaceAll("undefined", "");

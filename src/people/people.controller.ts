@@ -18,6 +18,11 @@ export class PeopleController {
     return user
   }
 
+  @Post('account/local')
+  createLocal(@Body() person: Person) {
+    return this.peopleService.createLocal(person);
+  }
+
   @Put('personupdate/:id')
   PersonUpte(@Param('id') id: string, @Body() persona: Person) {
     return this.peopleService.PersonUpte(id, persona);
