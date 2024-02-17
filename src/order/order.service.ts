@@ -25,19 +25,24 @@ export class OrderService {
     await articl.save();
     await this.decreaseArticleQuantity(acrticle.articles);
 
-    const dato = {
-      "sound": "default",
-      "title": `Une commands de ${acrticle.articles.length} articles`,
-      "body": `${acrticle.articles[0].prix * acrticle.articles[0].quantcho} F`,
+    if (!acrticle.statut || acrticle.statut !== "done") {
+      const dato = {
+        "sound": "default",
+        "title": `Une commands de ${acrticle.articles.length} articles`,
+        "body": `${acrticle.articles[0].prix * acrticle.articles[0].quantcho} F`,
+      }
+      await this.peopleService.sendExpoPushNotifications(dato, owner);
+
+      const urlo = `http://localhost:3000/live/${owner}`;
+      const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
+
+      axios.post(urpu, dato).then().catch(err => {
+        console.error(err);
+      });
+    } else {
+      null
     }
-    await this.peopleService.sendExpoPushNotifications(dato, owner);
 
-    const urlo = `http://localhost:3000/live/${owner}`;
-    const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
-
-    axios.post(urpu, dato).then().catch(err => {
-      console.error(err);
-    });
     return { done: articl._id };
   }
 
@@ -117,7 +122,7 @@ export class OrderService {
   async paymentStatus(transationid: any): Promise<any> {
     //console.log(id, statuts);
 
-    const admin = await this.orderModel.findOneAndUpdate({transaction_id: transationid}, { payment_status: "paid"});
+    const admin = await this.orderModel.findOneAndUpdate({ transaction_id: transationid }, { payment_status: "paid" });
 
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
