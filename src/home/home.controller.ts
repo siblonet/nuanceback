@@ -23,9 +23,16 @@ export class ActivityController {
   };
 
   @Get('/:owner')
+  async allData(@Param('owner') owner: string): Promise<any> {
+    return await this.activityService.allData(owner);
+  };
+
+
+  @Get('only/article/:owner')
   async allArticles(@Param('owner') owner: string): Promise<any> {
     return await this.activityService.allArticles(owner);
   };
+
 
   @Get('annoncedata/:owner')
   async allAnonnces(@Param('owner') owner: string): Promise<Annonce[]> {

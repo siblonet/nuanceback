@@ -100,12 +100,15 @@ export class ActivityService {
     return uuidv4();
   }
 
-  
-  async allArticles(owner: String): Promise<any> {
+  async allData(owner: String): Promise<any> {
     const pagesetting = await this.annonceModel.find({ owner: owner });
     const article = await this.boutiqueModel.find({ owner: owner });
     const order = await this.orderModel.find({ owner: owner }).sort({ created: -1 }).populate('articles.arti_id').populate('client');
     return { article: article, pagesetting: pagesetting, order: order }
+  }
+
+  async allArticles(owner: String): Promise<any> {
+    return await this.boutiqueModel.find({ owner: owner });
   }
 
 
