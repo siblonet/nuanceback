@@ -19,7 +19,7 @@ export interface Order extends Document {
     statut: string;
     client: Person;
 
-
+    reduction: number;
     payment_method: string;
     payment_status: string;
     transaction_id: string;

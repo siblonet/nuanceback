@@ -24,6 +24,7 @@ export const OrderSchema = new mongoose.Schema({
     ref: 'People',
   },
 
+  reduction: Number,
   payment_method: String,
   payment_status: {
     type: String,
