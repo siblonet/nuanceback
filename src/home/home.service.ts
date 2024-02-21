@@ -51,8 +51,6 @@ export class ActivityService {
     return { ima: publicUrl };
   }
 
-
-
   async createFile(fileData: any, owner: any, id: any): Promise<{ url: string }> {
     const generatedUuid = this.generateUuid() + fileData.nam; // Assuming 'nam' is the file name
     const storage = await this.initializeGoogleCloudStorage();
@@ -93,7 +91,6 @@ export class ActivityService {
 
 
   async create(article: Article): Promise<Article> {
-     
     const docid = await this.boutiqueModel.create(article);
     return docid._id;
   }
@@ -123,11 +120,12 @@ export class ActivityService {
     if (!admin) {
       throw new HttpException('article not found', HttpStatus.NOT_FOUND);
     }
-    return 'done';
+    return {done: 'done'};
   }
 
-  async removeArticle(id: string) {
+  async removeArticle(id: string): Promise<any> {
     await this.boutiqueModel.findByIdAndRemove(id);
+    return {done: "done"}
   }
 
 }

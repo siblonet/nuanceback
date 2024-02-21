@@ -56,7 +56,7 @@ export class PeopleService {
 
 
   async createLocal(persondto: Person) {
-    const { phone, nom, owner } = persondto;
+    const { phone, owner } = persondto;
     const user = await this.personModel.findOne({ phone, owner });
     if (user) {
       return { token: user._id };
@@ -68,7 +68,8 @@ export class PeopleService {
         email: persondto.email,
         owner: persondto.owner,
         motdepass: this.indrog(persondto.motdepass),
-        admin: "false"
+        admin: "false",
+        staff: "false"
       };
 
       const person = await this.personModel.create({
@@ -149,7 +150,7 @@ export class PeopleService {
     if (!admin) {
       throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
     }
-    return "ok";
+    return {ok: "ok"};
 
   }
 
@@ -194,7 +195,7 @@ export class PeopleService {
   }
 
   async allNonadmin(owner: string): Promise<Person[]> {
-    return await this.personModel.find({ owner: owner, admin: owner === "matasa" ? { $ne: "true" } : "false" });
+    return await this.personModel.find({ owner: owner, admin: owner === "nuance" ? { $ne: "true" } : "false" });
 
   }
 

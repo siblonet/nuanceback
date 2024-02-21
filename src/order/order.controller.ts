@@ -21,7 +21,11 @@ export class OrderController {
     return this.orderService.create(article, owner);
   }
 
-
+  @Post("syncro/local/toline/:owner")
+  //@UseGuards(AuthGuard('jwt'), AdminGuard)
+  syncro(@Param('owner') owner: String, @Body() article: Order) {
+    return this.orderService.syncro(article, owner);
+  }
   
   @Get("/:owner")
   async allArticles(@Param('owner') owner: string): Promise<Order[]> {

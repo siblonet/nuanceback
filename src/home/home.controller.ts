@@ -47,7 +47,7 @@ export class ActivityController {
 
   // Update the existing DELETE route to handle article removal
   @Delete('/:id')
-  async removeArticle(@Param('id') id: string): Promise<void> {
+  async removeArticle(@Param('id') id: string): Promise<any> {
     return this.activityService.removeArticle(id);
   }
 }

@@ -47,6 +47,16 @@ export class OrderService {
   }
 
 
+
+  async syncro(acrticle: Order, owner: String) {
+    const articl = await this.orderModel.create({
+      ...acrticle
+    });
+    await articl.save();
+    return { done: articl._id };
+  }
+
+
   async decreaseArticleQuantity(articles: any[]) {
     try {
       for (const article of articles) {

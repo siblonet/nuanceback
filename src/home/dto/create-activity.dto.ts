@@ -15,7 +15,7 @@ export const ArticleSchema = new mongoose.Schema({
   addmarque: { type: String },
   barcode: { type: String },
   notes: { type: String },
-  owner: { type: String },
+  owner: { type: String, default: "nuance" },
   image: [{ ima: { type: String } }],  // Corrected the type for 'ima'
   created: { type: Date, default: Date.now }
 });
