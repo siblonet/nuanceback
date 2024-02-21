@@ -43,7 +43,7 @@ export class OrderService {
       null
     }
 
-    return { done: articl._id };
+    return { done: articl };
   }
 
 
