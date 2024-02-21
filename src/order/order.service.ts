@@ -42,8 +42,9 @@ export class OrderService {
     } else {
       null
     }
+    const aee = await this.orderModel.findById(articl._id).populate('articles.arti_id').populate('client')
 
-    return { done: articl };
+    return { done: aee };
   }
 
 
