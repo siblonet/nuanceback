@@ -196,7 +196,12 @@ export class PeopleService {
 
 
   async onePerson(phone: string, owner: string): Promise<Person> {
-    return await this.personModel.findOne({ phone: phone, owner: owner });
+    const person = await this.personModel.findOne({ phone: phone, owner: owner });
+    if (!person) {
+      throw new HttpException('New client', HttpStatus.NOT_FOUND);
+    }
+    return person
+
   }
 
 
