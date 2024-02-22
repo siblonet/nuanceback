@@ -150,7 +150,7 @@ export class PeopleService {
     if (!admin) {
       throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
     }
-    return {ok: "ok"};
+    return { ok: "ok" };
 
   }
 
@@ -193,6 +193,12 @@ export class PeopleService {
     return await this.personModel.find({ owner: owner });
 
   }
+
+
+  async onePerson(phone: string, owner: string): Promise<Person> {
+    return await this.personModel.findOne({ phone: phone, owner: owner });
+  }
+
 
   async allNonadmin(owner: string): Promise<Person[]> {
     return await this.personModel.find({ owner: owner, admin: owner === "nuance" ? { $ne: "true" } : "false" });

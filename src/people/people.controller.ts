@@ -58,6 +58,11 @@ export class PeopleController {
     return await this.peopleService.allPerson(owner);
   }
 
+  @Get("persons/one/:phone/:owner")
+  async onePerson(@Param('phone') phone: string, @Param('owner') owner: string): Promise<Person> {
+    return await this.peopleService.onePerson(phone, owner);
+  }
+
   // Update the existing DELETE route to handle article removal
   @Post('sendexpopushtoken/:owner')
   async sendExpopushnotification(@Param('owner') owner: string, @Body() notificaton: any): Promise<void> {
