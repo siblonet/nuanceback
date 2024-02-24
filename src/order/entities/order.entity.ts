@@ -18,6 +18,7 @@ export interface Order extends Document {
     owner: string;
     statut: string;
     client: Person;
+    staff: string;
 
     reduction: number;
     payment_method: string;
