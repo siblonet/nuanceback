@@ -23,7 +23,10 @@ export const OrderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'People',
   },
-  staff: String,
+  staff: {
+    type: String,
+    default: 'Online'
+  },
   reduction: Number,
   payment_method: String,
   payment_status: {
