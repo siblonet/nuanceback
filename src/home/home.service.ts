@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Annonce, Article } from './entities/activity.entity';
+import { Annonce, Article, VersionAvailabe } from './entities/activity.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { Storage } from '@google-cloud/storage';
 import { MineindService } from 'src/mineind/mineind.service';
@@ -14,6 +14,7 @@ export class ActivityService {
   constructor(
     @InjectModel('NuanceDoud') private boutiqueModel: Model<Article>,
     @InjectModel('AnnonceDoud') private annonceModel: Model<Annonce>,
+    @InjectModel('VersionAvailabe') private versionavailModel: Model<VersionAvailabe>,
     @InjectModel('OrderDoud') private orderModel: Model<Order>,
     private readonly mineindService: MineindService) { }
 
@@ -89,6 +90,13 @@ export class ActivityService {
     return { url: publicUrl };
   }
 
+  async versionAvailabe(version: VersionAvailabe): Promise<VersionAvailabe> {
+    return await this.versionavailModel.create(version);
+  }
+
+  async versionAvailabeget(): Promise<VersionAvailabe[]> {
+    return await this.versionavailModel.find();
+  }
 
   async create(article: Article): Promise<Article> {
     const docid = await this.boutiqueModel.create(article);
@@ -120,12 +128,12 @@ export class ActivityService {
     if (!admin) {
       throw new HttpException('article not found', HttpStatus.NOT_FOUND);
     }
-    return {done: 'done'};
+    return { done: 'done' };
   }
 
   async removeArticle(id: string): Promise<any> {
     await this.boutiqueModel.findByIdAndRemove(id);
-    return {done: "done"}
+    return { done: "done" }
   }
 
 }

@@ -29,3 +29,10 @@ export const AnnonceSchema = new mongoose.Schema({
   image: { type: String },  // Corrected the type for 'ima'
   created: { type: Date, default: Date.now }
 });
+
+export const VersionAvailabeSchema = new mongoose.Schema({
+  version: { type: Number },
+  owner: { type: String, default: "nuance" },
+  url: { type: String },  // Corrected the type for 'ima'
+  created: { type: Date, default: Date.now }
+});

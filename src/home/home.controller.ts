@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
-import { Annonce, Article } from './entities/activity.entity';
+import { Annonce, Article, VersionAvailabe } from './entities/activity.entity';
 import { ActivityService } from './home.service';
 
 @Controller('boutique')
@@ -13,7 +13,17 @@ export class ActivityController {
 
   @Post('annonce/:owner/:id') // Change the endpoint to reflect the more general nature of handling files
   async uploadFile(@Param('owner') owner: string, @Param('id') id: string, @Body() fileData: any): Promise<{ url: string }> {
-      return await this.activityService.createFile(fileData, owner, id);
+    return await this.activityService.createFile(fileData, owner, id);
+  }
+
+  @Post('version/new/poasting') // Change the endpoint to reflect the more general nature of handling files
+  async versionAvailabe(@Body() versionAvailabe: VersionAvailabe): Promise<VersionAvailabe> {
+    return await this.activityService.versionAvailabe(versionAvailabe);
+  }
+
+  @Get('version/new/pc/software') // Change the endpoint to reflect the more general nature of handling files
+  async versionAvailabeget(): Promise<VersionAvailabe[]> {
+    return await this.activityService.versionAvailabeget();
   }
 
   @Post()

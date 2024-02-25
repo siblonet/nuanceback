@@ -24,3 +24,9 @@ export interface Annonce extends Document {
   created?: Date;
 };
 
+export interface VersionAvailabe extends Document {
+  version: string;
+  owner: string;
+  url: string;
+  created?: Date;
+};
