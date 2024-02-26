@@ -13,9 +13,7 @@ export class PeopleController {
 
   @Post('login/:owner')
   async login(@Param('owner') owner: string, @Body() pLog: PLog) {
-    const user = await this.peopleService.login(pLog, owner);
-
-    return user
+    return await this.peopleService.login(pLog, owner);
   }
 
   @Post('account/local')
