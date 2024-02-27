@@ -34,5 +34,6 @@ export const VersionAvailabeSchema = new mongoose.Schema({
   version: { type: Number },
   owner: { type: String, default: "nuance" },
   url: { type: String },  // Corrected the type for 'ima'
+  device: { type: String },
   created: { type: Date, default: Date.now }
 });

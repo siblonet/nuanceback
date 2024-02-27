@@ -94,8 +94,8 @@ export class ActivityService {
     return await this.versionavailModel.create(version);
   }
 
-  async versionAvailabeget(): Promise<VersionAvailabe[]> {
-    return await this.versionavailModel.find();
+  async versionAvailabeget(device: string): Promise<VersionAvailabe> {
+    return await this.versionavailModel.findOne({device: device});
   }
 
   async create(article: Article): Promise<Article> {

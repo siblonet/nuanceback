@@ -21,9 +21,9 @@ export class ActivityController {
     return await this.activityService.versionAvailabe(versionAvailabe);
   }
 
-  @Get('version/new/pc/software') // Change the endpoint to reflect the more general nature of handling files
-  async versionAvailabeget(): Promise<VersionAvailabe[]> {
-    return await this.activityService.versionAvailabeget();
+  @Get('version/new/pc/software/:device') // Change the endpoint to reflect the more general nature of handling files
+  async versionAvailabeget(@Param('device') device: string): Promise<VersionAvailabe> {
+    return await this.activityService.versionAvailabeget(device);
   }
 
   @Post()
