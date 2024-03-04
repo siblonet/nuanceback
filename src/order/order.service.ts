@@ -29,8 +29,7 @@ export class OrderService {
       const dato = {
         "sound": "default",
         "title": `Une commands de ${acrticle.articles.length} articles`,
-        "body": `${acrticle.articles[0].prix * acrticle.articles[0].quantcho} F`,
-        "badge": 1,
+        "body": `${acrticle.articles[0].prix * acrticle.articles[0].quantcho} F`
       }
       await this.peopleService.sendExpoPushNotifications(dato, owner);
 
