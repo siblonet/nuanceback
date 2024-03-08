@@ -141,7 +141,7 @@ export class PeopleService {
     if (!admin) {
       throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
     }
-    return "ok";
+    return {done: "done"};
 
   }
 
