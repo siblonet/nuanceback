@@ -26,7 +26,7 @@ export class OrderController {
   syncro(@Param('owner') owner: String, @Body() article: Order) {
     return this.orderService.syncro(article, owner);
   }
-  
+
   @Get("/:owner")
   async allArticles(@Param('owner') owner: string): Promise<Order[]> {
     return await this.orderService.allArticles(owner);
@@ -51,9 +51,9 @@ export class OrderController {
   }
 
 
-  @Put("change/order/payment/statuts/:transationid")
-  async paymentStatus(@Param('transationid') transationid: string): Promise<Order[]> {
-    return await this.orderService.paymentStatus(transationid);
+  @Post("change/order/payment/statuts/transationid")
+  async paymentStatus(@Body() payment_status_data: any) {
+    await this.orderService.paymentStatus(payment_status_data);
   }
 
   @Delete('cancele/:id')

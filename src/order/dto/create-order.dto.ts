@@ -31,7 +31,7 @@ export const OrderSchema = new mongoose.Schema({
   payment_method: String,
   payment_status: {
     type: String,
-    default: 'nopay'
+    default: 'waiting'
   },
   transaction_id: String,
   created: { type: Date, default: Date.now }
