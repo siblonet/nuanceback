@@ -59,7 +59,7 @@ export class PeopleService {
     const { phone, owner } = persondto;
     const user = await this.personModel.findOne({ phone, owner });
     if (user) {
-      return { token: user._id };
+      return { userid: user._id };
     } else {
       const personreset: Person = {
         prenom: persondto.prenom,
@@ -76,7 +76,7 @@ export class PeopleService {
         ...personreset
       });
       await person.save();
-      return { token: person._id };
+      return { userid: person._id };
     }
 
   }
