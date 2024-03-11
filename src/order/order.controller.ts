@@ -56,16 +56,16 @@ export class OrderController {
     return this.orderService.updateOrderStatus(id, statuts);
   }
 
-
+/*
   @Post("/change/order/payment/statuts/transationid")
   async paymentStatus(@Body() payment_status_data: any): Promise<any> {
     console.log(payment_status_data);
     return await this.orderService.paymentStatus(payment_status_data);
-  }
+  }*/
 
 
 
-  /*@Post('/change/order/payment/statuts/transationid')
+  @Post('/change/order/payment/statuts/transationid')
   async paymentStatus(@Body() payment_status_data: any): Promise<any> {
     console.log(payment_status_data);
 
@@ -86,7 +86,7 @@ export class OrderController {
     }
 
     return parsedData;
-  }*/
+  }
 
 
 
