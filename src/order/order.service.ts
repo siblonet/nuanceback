@@ -215,7 +215,7 @@ export class OrderService {
       }
 
       await this.orderModel.findByIdAndRemove(id);
-      return 'done';
+      return { done: "done" };
     } catch (error) {
       console.error('Error cancelling orders:', error.message);
       throw error; // Rethrow the error for further handling or logging
@@ -226,7 +226,7 @@ export class OrderService {
   async removeOrders(id: string, artid: string, quan: Number) {
     await this.orderModel.findByIdAndRemove(id);
     this.increaseArticleQuantity(artid, quan);
-    return 'done';
+    return { done: "done" };
   };
 
   async removeOrdersArticl(id: string, ad: string, artid: string, quan: Number) {
