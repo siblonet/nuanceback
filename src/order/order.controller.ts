@@ -57,10 +57,38 @@ export class OrderController {
   }
 
 
-  @Post("change/order/payment/statuts/transationid")
+  @Post("/change/order/payment/statuts/transationid")
   async paymentStatus(@Body() payment_status_data: any): Promise<any> {
+    console.log(payment_status_data);
     return await this.orderService.paymentStatus(payment_status_data);
   }
+
+
+
+  /*@Post('/change/order/payment/statuts/transationid')
+  async paymentStatus(@Body() payment_status_data: any): Promise<any> {
+    console.log(payment_status_data);
+
+    // You may need to parse the nested form data manually
+    const parsedData = this.parseFormData(payment_status_data);
+
+    return await this.orderService.paymentStatus(parsedData);
+  }
+
+  private parseFormData(data: any): any {
+    const parsedData = {};
+
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const value = data[key];
+        parsedData[key] = Array.isArray(value) ? value[0] : value;
+      }
+    }
+
+    return parsedData;
+  }*/
+
+
 
   @Delete('cancele/:id')
   canceleOrders(@Param('id') id: string) {
