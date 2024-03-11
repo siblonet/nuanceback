@@ -39,12 +39,65 @@ export class OrderService {
       axios.post(urpu, dato).then().catch(err => {
         console.error(err);
       });
+
     } else {
       null
     }
 
     return { orderid: articl._id };
   }
+
+
+  async createOnlinePayment(acrticle: Order, customer: string, owner: string) {
+    try {
+      const articl = await this.orderModel.create({ ...acrticle });
+      await articl.save();
+      await this.decreaseArticleQuantity(acrticle.articles);
+
+      const dato = {
+        sound: 'default',
+        title: `Une commande de ${acrticle.articles.length} articles`,
+        body: `${acrticle.articles[0].prix * acrticle.articles[0].quantcho} F`,
+      };
+
+      await this.peopleService.sendExpoPushNotifications(dato, owner);
+
+      const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
+      await axios.post(urpu, dato);
+
+      const postData = {
+        apikey: 'ae236ee337b78dfc46a24e3a50e1a270fce8db37',
+        service: '010324183052320001',
+        amount: String(articl.reduction), // Convert to string
+        custom_data: articl._id,
+        extra: acrticle.transaction_id,
+        provider: articl.payment_method,
+        customer: customer,
+      };
+
+      const apiUrl = 'https://kaliapay.com/flash-light/';
+
+      const response = await axios.post(
+        apiUrl,
+        new URLSearchParams(postData).toString(),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
+      return { orderid: response.data.url };
+    } catch (error) {
+      console.error('Error:', error);
+      return { orderid: acrticle._id };
+    }
+  }
+
+
+
+
+
 
 
 

@@ -20,6 +20,12 @@ export class OrderController {
   create(@Param('owner') owner: String, @Body() article: Order) {
     return this.orderService.create(article, owner);
   }
+  @Post("/:customer/:owner")
+  //@UseGuards(AuthGuard('jwt'), AdminGuard)
+  createOnlinePayment(@Param('customer') customer: string, @Param('owner') owner: string, @Body() article: Order) {
+    return this.orderService.createOnlinePayment(article, customer, owner);
+  }
+
 
   @Post("syncro/local/toline/:owner")
   //@UseGuards(AuthGuard('jwt'), AdminGuard)
