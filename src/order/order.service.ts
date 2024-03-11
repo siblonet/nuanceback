@@ -25,7 +25,7 @@ export class OrderService {
     await articl.save();
     await this.decreaseArticleQuantity(acrticle.articles);
 
-    if (!acrticle.statut || acrticle.statut !== {done: "done"}) {
+    if (!acrticle.statut || acrticle.statut !== "done") {
       const dato = {
         "sound": "default",
         "title": `Une commands de ${acrticle.articles.length} articles`,
@@ -166,7 +166,7 @@ export class OrderService {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
 
-    return {done: "done"};
+    return { done: "done" };
   }
 
   async updateOrderStatus(id: string, statuts: any): Promise<any> {
@@ -178,16 +178,17 @@ export class OrderService {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
 
-    return {done: "done"};
+    return { done: "done" };
   }
 
 
   async paymentStatus(payment_status_data: any): Promise<any> {
+    console.log(payment_status_data);
     const admin = await this.orderModel.findByIdAndUpdate(payment_status_data.custom_data, { payment_status: payment_status_data.txn_status == "failed" ? "nopay" : "paid", statut: payment_status_data.txn_status == "failed" ? "fail" : "onway" });
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
-    return { done: {done: "done"} }
+    return { done: { done: "done" } }
   }
 
 
@@ -242,7 +243,7 @@ export class OrderService {
     );
 
     this.increaseArticleQuantity(artid, quan);
-    return {done: "done"};
+    return { done: "done" };
 
   }
 }
