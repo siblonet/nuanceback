@@ -52,8 +52,8 @@ export class OrderController {
 
 
   @Post("change/order/payment/statuts/transationid")
-  async paymentStatus(@Body() payment_status_data: any) {
-    await this.orderService.paymentStatus(payment_status_data);
+  async paymentStatus(@Body() payment_status_data: any): Promise<any> {
+    return await this.orderService.paymentStatus(payment_status_data);
   }
 
   @Delete('cancele/:id')
