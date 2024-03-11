@@ -130,7 +130,7 @@ export class OrderService {
 
 
   async paymentStatus(payment_status_data: any): Promise<any> {
-    const admin = await this.orderModel.findByIdAndUpdate(payment_status_data.orderid, { payment_status: payment_status_data.txn_status, statut: payment_status_data.txn_status == "failed" ? "fail" : "onway" });
+    const admin = await this.orderModel.findByIdAndUpdate(payment_status_data.custom_data, { payment_status: payment_status_data.txn_status == "failed" ? "nopay" : "paid", statut: payment_status_data.txn_status == "failed" ? "fail" : "onway" });
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
