@@ -189,7 +189,7 @@ export class OrderService {
     if (!admin) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
-    return { done: { done: "done" } }
+    return { done: "done" }
   }
 
 
