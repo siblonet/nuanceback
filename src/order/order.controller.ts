@@ -67,7 +67,7 @@ export class OrderController {
 
   @Post('/change/order/payment/statuts/transationid')
   async paymentStatus(@Body() payment_status_data: any): Promise<any> {
-    console.log(payment_status_data);
+    //console.log(payment_status_data);
 
     // You may need to parse the nested form data manually
     const parsedData = this.parseFormData(payment_status_data);
