@@ -20,6 +20,7 @@ export class OrderController {
   create(@Param('owner') owner: String, @Body() article: Order) {
     return this.orderService.create(article, owner);
   }
+
   @Post("/:customer/:owner")
   //@UseGuards(AuthGuard('jwt'), AdminGuard)
   createOnlinePayment(@Param('customer') customer: string, @Param('owner') owner: string, @Body() article: Order) {
@@ -50,18 +51,27 @@ export class OrderController {
     return this.orderService.updateOrder(id, od, activle);
   }
 
+
+
+  @Put('echange/order/:orderid/:orderarticleid/:articleid')
+  OrderEchange(@Param('orderid') orderid: string, @Param('orderarticleid') orderarticleid: string, @Param('articleid') articleid: string, @Body() echangedata: any) {
+    //console.log(id, od, activle);
+    return this.orderService.OrderEchange(orderid, orderarticleid, articleid, echangedata);
+  }
+
+
   @Put('change/order/statuts/:id')
   updateOrderStatus(@Param('id') id: string, @Body() statuts: any) {
     //console.log(id, statuts);
     return this.orderService.updateOrderStatus(id, statuts);
   }
 
-/*
-  @Post("/change/order/payment/statuts/transationid")
-  async paymentStatus(@Body() payment_status_data: any): Promise<any> {
-    console.log(payment_status_data);
-    return await this.orderService.paymentStatus(payment_status_data);
-  }*/
+  /*
+    @Post("/change/order/payment/statuts/transationid")
+    async paymentStatus(@Body() payment_status_data: any): Promise<any> {
+      console.log(payment_status_data);
+      return await this.orderService.paymentStatus(payment_status_data);
+    }*/
 
 
 

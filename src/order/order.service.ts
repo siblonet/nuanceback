@@ -170,6 +170,31 @@ export class OrderService {
     return { done: "done" };
   }
 
+
+
+  async OrderEchange(orderid: string, orderarticleid: any, articleid: any, echangedata: any): Promise<any> {
+    //console.log(id, statuts);
+
+    const order = await this.orderModel.findOneAndUpdate(
+      { _id: orderid, 'articles._id': orderarticleid },
+      {
+        $set: {
+          'articles.$.arti_id': articleid,
+          'articles.$.quantcho': echangedata.quantcho,
+          'articles.$.prix': echangedata.prix,
+          reduction: echangedata.reduction,
+        },
+      },
+      { new: true }
+    );
+
+    if (!order) {
+      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+    }
+
+    return { done: "done" };
+  }
+
   async updateOrderStatus(id: string, statuts: any): Promise<any> {
     //console.log(id, statuts);
 
