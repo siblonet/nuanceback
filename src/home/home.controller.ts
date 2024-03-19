@@ -16,6 +16,12 @@ export class ActivityController {
     return await this.activityService.createFile(fileData, owner, id);
   }
 
+
+  @Post('deleteannonce/annonce/:id') // Change the endpoint to reflect the more general nature of handling files
+  async deleteAnnonces(@Param('id') id: string, @Body() g: any): Promise<any> {
+    return await this.activityService.DeleteAnnonces(id, g);
+  }
+
   @Post('version/new/poasting') // Change the endpoint to reflect the more general nature of handling files
   async versionAvailabe(@Body() versionAvailabe: VersionAvailabe): Promise<VersionAvailabe> {
     return await this.activityService.versionAvailabe(versionAvailabe);

@@ -36,6 +36,22 @@ export class ActivityService {
     return storage;
   }
 
+
+
+
+  async DeleteAnnonces(id: string, g: any): Promise<any> {
+
+    const anonce = await this.annonceModel.findByIdAndUpdate(id, { image: "" });
+    if (!anonce) {
+      throw new HttpException('annonces not found', HttpStatus.NOT_FOUND);
+
+    }
+
+    return { done: "done" };
+  }
+
+
+
   async createImage(imagefolder: any): Promise<{ ima: string }> {
     const generatedUuid = this.generateUuid() + imagefolder.nam;
     const storage = await this.initializeGoogleCloudStorage();
@@ -95,7 +111,7 @@ export class ActivityService {
   }
 
   async versionAvailabeget(device: string): Promise<VersionAvailabe> {
-    return await this.versionavailModel.findOne({device: device});
+    return await this.versionavailModel.findOne({ device: device });
   }
 
   async create(article: Article): Promise<Article> {
