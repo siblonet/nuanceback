@@ -147,6 +147,24 @@ export class ActivityService {
     return { done: 'done' };
   }
 
+
+  async DiscountAll(owner: string, article: Article): Promise<any> {
+    try {
+      await this.boutiqueModel.updateMany({ owner: owner }, article);
+      return { done: 'done' };
+    } catch (error) {
+      throw new HttpException('article not found', HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async DiscountOne(id: string, article: Article): Promise<any> {
+    const admin = await this.boutiqueModel.findByIdAndUpdate(id, { addreduction: article.addreduction });
+    if (!admin) {
+      throw new HttpException('article not found', HttpStatus.NOT_FOUND);
+    }
+    return { done: 'done' };
+  }
+
   async removeArticle(id: string): Promise<any> {
     await this.boutiqueModel.findByIdAndRemove(id);
     return { done: "done" }

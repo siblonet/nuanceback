@@ -61,6 +61,19 @@ export class ActivityController {
     return this.activityService.updateArticles(id, article);
   };
 
+
+  // Update the existing PUT route to handle article update
+  @Put('discountall/:owner')
+  async DiscountAll(@Param('owner') owner: string, @Body() article: Article): Promise<Article> {
+    return this.activityService.DiscountAll(owner, article);
+  };
+
+  // Update the existing PUT route to handle article update
+  @Put('onediscount/one/:id')
+  async DiscountOne(@Param('id') id: string, @Body() article: Article): Promise<Article> {
+    return this.activityService.DiscountOne(id, article);
+  };
+
   // Update the existing DELETE route to handle article removal
   @Delete('/:id')
   async removeArticle(@Param('id') id: string): Promise<any> {
