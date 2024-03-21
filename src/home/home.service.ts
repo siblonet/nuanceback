@@ -148,16 +148,28 @@ export class ActivityService {
   }
 
 
-  async DiscountAll(owner: string, article: Article): Promise<any> {
+  async discountAll(owner: string, perc: number, bod: any): Promise<any> {
     try {
-      await this.boutiqueModel.updateMany({ owner: owner }, article);
-      return { done: 'done' };
+      if (perc > 0) {
+        const articles = await this.boutiqueModel.find({ owner: owner });
+        for (let article of articles) {
+          const percentage = (perc / 100) * article.addprix;
+          const reducedPrice = article.addprix - percentage;
+          await this.boutiqueModel.findByIdAndUpdate(article._id, { addreduction: reducedPrice });
+        }
+      } else {
+        await this.boutiqueModel.updateMany({ owner: owner }, { addreduction: 0 });
+      }
+
+      return { done: 'Discount applied successfully' };
     } catch (error) {
-      throw new HttpException('article not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
   }
 
-  async DiscountOne(id: string, article: Article): Promise<any> {
+
+
+  async discountOne(id: string, article: Article): Promise<any> {
     const admin = await this.boutiqueModel.findByIdAndUpdate(id, { addreduction: article.addreduction });
     if (!admin) {
       throw new HttpException('article not found', HttpStatus.NOT_FOUND);
