@@ -141,7 +141,7 @@ export class PeopleService {
     if (!admin) {
       throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
     }
-    return {done: "done"};
+    return { done: "done" };
 
   }
 
@@ -150,9 +150,20 @@ export class PeopleService {
     if (!admin) {
       throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
     }
+
     return { ok: "ok" };
+  }
+
+  async permissionHandled(id: any, owner: string, status: any): Promise<any> {
+    const admin = await this.personModel.findByIdAndUpdate(id, status);
+    if (!admin) {
+      throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
+    }
+    return await this.personModel.find({ owner: owner });
 
   }
+
+
 
   async Passwordupdate(id: any, persan: any): Promise<any> {
     const { oldpassword, motdepass } = persan;

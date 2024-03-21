@@ -31,6 +31,13 @@ export class PeopleController {
     return this.peopleService.PersonStatus(id, status);
   }
 
+
+  @Put('permission/handle/:id/:owner')
+  permissionHandled(@Param('id') id: string, @Param('owner') owner: string, @Body() status: any) {
+    return this.peopleService.permissionHandled(id, owner, status);
+  }
+
+
   @Put('passwordupdate/:id')
   Passwordupdate(@Param('id') id: string, @Body() passwor: any) {
     return this.peopleService.Passwordupdate(id, passwor);
