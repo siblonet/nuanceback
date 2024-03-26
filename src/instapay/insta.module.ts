@@ -14,4 +14,4 @@ import { InstapaySchema } from './entities/create-person.dto';
   controllers: [InstaPayController],
   providers: [InstaPayService, MineindService]
 })
-export class PeopleModule { }
+export class InstaModule { }
