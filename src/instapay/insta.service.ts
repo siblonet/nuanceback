@@ -1,8 +1,9 @@
-import {Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
 import { Insapay, IntaPlog } from './entities/person.entity';
+import axios from 'axios';
 
 
 @Injectable()
@@ -31,11 +32,32 @@ export class InstaPayService {
         ...personreset
       });
       await person.save();
-      return this.generatToken(person);
+      const instatoken = await this.requesttoBackendAutantikation();
+      return { ...this.generatToken(person), instapaytoken: instatoken };
     }
 
   }
 
+
+
+  async requesttoBackendAutantikation() {
+    const options = {
+      apiKey: "514e10ed-b242-46eb-851b-9ec9b47d7d11",
+      secretKey: "dNyDdOv6iKlE0iI"
+    };
+
+    try {
+      const apiUrl = 'https://api-rnpp.verif.ci/api/v1/authenticate';
+      const response = await axios.post(apiUrl, options);
+      if (!response || !response.data || !response.data.bearerToken) {
+        return false;
+      }
+      return response.data.bearerToken;
+
+    } catch (error) {
+      return false;
+    }
+  };
 
   async login(pLog: IntaPlog, owner: string) {
     const { phone, motdepass } = pLog;
