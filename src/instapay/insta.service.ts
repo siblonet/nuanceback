@@ -9,7 +9,7 @@ import axios from 'axios';
 @Injectable()
 export class InstaPayService {
   constructor(
-    @InjectModel('People') private personModel: Model<Insapay>,
+    @InjectModel('Instapay') private personModel: Model<Insapay>,
     private readonly mineindService: MineindService) { }
 
 
