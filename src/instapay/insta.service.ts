@@ -39,13 +39,11 @@ export class InstaPayService {
   }
 
 
-  async requesttoBackendAutantikation() {
-    const apiKeyA = this.mineindService.thisiswhat(process.env.APIKEY);
-    const secretKeyA = this.mineindService.thisiswhat(process.env.SECRETKEY);
 
+  async requesttoBackendAutantikation() {
     const options = {
-      apiKey: `${apiKeyA}`,
-      secretKey: `${secretKeyA}`
+      apiKey: "514e10ed-b242-46eb-851b-9ec9b47d7d11",
+      secretKey: "dNyDdOv6iKlE0iI"
     };
 
     try {
@@ -73,6 +71,8 @@ export class InstaPayService {
     return { ee: "Invalid" }
 
   }
+
+
 
 
 
