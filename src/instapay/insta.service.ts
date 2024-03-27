@@ -41,10 +41,14 @@ export class InstaPayService {
 
 
   async requesttoBackendAutantikation() {
+    const apiKeyA = this.mineindService.thisiswhat("607V01VW:Y979:75VY:360Y:2VX2Y74W4W00");
+    const secretKeyA = this.mineindService.thisiswhat("WmBwWlE5RpOv1Rr");
+
     const options = {
-      apiKey: "514e10ed-b242-46eb-851b-9ec9b47d7d11",
-      secretKey: "dNyDdOv6iKlE0iI"
+      apiKey: `${apiKeyA}`,
+      secretKey: `${secretKeyA}`
     };
+
 
     try {
       const apiUrl = 'https://api-rnpp.verif.ci/api/v1/authenticate';
