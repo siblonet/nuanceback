@@ -65,7 +65,8 @@ export class InstaPayService {
     if (!person) {
       return { ee: "Invalid" }
     } else if (this.enderog(motdepass, person.motdepass)) {
-      return this.generatToken(person);
+      const instatoken = await this.requesttoBackendAutantikation();
+      return { ...this.generatToken(person), instapaytoken: instatoken };
     }
     return { ee: "Invalid" }
 
