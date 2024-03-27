@@ -16,6 +16,10 @@ export class InstaPayController {
     return await this.peopleService.login(pLog, owner);
   }
 
+  @Post('loginsimple/logio/:owner')
+  async loginsimple(@Param('owner') owner: string, @Body() pLog: IntaPlog) {
+    return await this.peopleService.loginsimple(pLog, owner);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -72,6 +72,19 @@ export class InstaPayService {
 
   }
 
+  async loginsimple(pLog: IntaPlog, owner: string) {
+    const { phone, motdepass } = pLog;
+    const person = await this.personModel.findOne({ phone, owner })
+    if (!person) {
+      return { ee: "Invalid" }
+    } else if (this.enderog(motdepass, person.motdepass)) {
+      return this.generatToken(person);
+    }
+    return { ee: "Invalid" }
+  }
+
+
+
   remove(id: string) {
     return this.personModel.findByIdAndRemove(id);
   }
