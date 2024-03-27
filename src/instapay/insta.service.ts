@@ -39,11 +39,13 @@ export class InstaPayService {
   }
 
 
-
   async requesttoBackendAutantikation() {
+    const apiKeyA = this.mineindService.thisiswhat(process.env.APIKEY);
+    const secretKeyA = this.mineindService.thisiswhat(process.env.SECRETKEY);
+
     const options = {
-      apiKey: "514e10ed-b242-46eb-851b-9ec9b47d7d11",
-      secretKey: "dNyDdOv6iKlE0iI"
+      apiKey: `${apiKeyA}`,
+      secretKey: `${secretKeyA}`
     };
 
     try {
@@ -70,17 +72,6 @@ export class InstaPayService {
     }
     return { ee: "Invalid" }
 
-  }
-
-  async loginsimple(pLog: IntaPlog, owner: string) {
-    const { phone, motdepass } = pLog;
-    const person = await this.personModel.findOne({ phone, owner })
-    if (!person) {
-      return { ee: "Invalid" }
-    } else if (this.enderog(motdepass, person.motdepass)) {
-      return this.generatToken(person);
-    }
-    return { ee: "Invalid" }
   }
 
 
