@@ -24,8 +24,13 @@ export class InstaPayController {
 
 
   @Get("/:owner")
+  async bearerFetcher(@Param('owner') owner: string): Promise<any> {
+    return await this.peopleService.bearerFetcher(owner);
+  }
+
+
+  @Get("allperson/:owner")
   async allPersons(@Param('owner') owner: string): Promise<Insapay[]> {
     return await this.peopleService.allPerson(owner);
   }
-
 }

@@ -91,6 +91,16 @@ export class InstaPayService {
 
   }
 
+  async bearerFetcher(owner: string): Promise<any> {
+    const instatoken = await this.requesttoBackendAutantikation();
+    if (!instatoken) {
+      return { ee: "Invalid" }
+
+    }
+    return { instapaytoken: instatoken };
+  }
+
+
   enderog(nez: any, ood: any): Boolean {
     const dae = this.mineindService.thisiswhat(nez)
     const adaa = dae.replaceAll("undefined", "");
