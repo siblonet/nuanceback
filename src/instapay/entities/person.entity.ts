@@ -20,8 +20,7 @@ export interface Invitaion extends Document {
   name: string;
   phone: string;
   password: string;
-  detail: string,
-  invitation: number
+  detail: string
 }
 
 export interface Invited extends Document {

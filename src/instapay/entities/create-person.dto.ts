@@ -17,8 +17,7 @@ export const InvitaionSchema = new mongoose.Schema({
   name: String,
   phone: String,
   password: String,
-  detail: String,
-  invitation: Number
+  detail: String
 });
 
 export const InvitedSchema = new mongoose.Schema({
@@ -26,5 +25,5 @@ export const InvitedSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Invitaion', // Corrected reference to 'Article' model
   },
-  invitation: Number
+  phone: Number
 });
