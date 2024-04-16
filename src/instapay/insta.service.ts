@@ -148,16 +148,20 @@ export class InstaPayService {
   }
 
   async createInvitaion(invited: Invited): Promise<any> {
-    const { phone } = invited;
+    const { phone, _id } = invited;
+    const inviter = await this.invitaionModel.findById(_id);
     const user = await this.InvitedModel.findOne({ phone });
     if (user) {
       return { ee: "phoneused" }
-    } else {
+    } else if(inviter){
       const inva = await this.InvitedModel.create({
         ...invited
       });
       await inva.save();
       return { done: "done" };
+    }else{
+      throw new HttpException('wrong id', HttpStatus.NOT_FOUND);
+
     }
   }
 
