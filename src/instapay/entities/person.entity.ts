@@ -24,6 +24,6 @@ export interface Invitaion extends Document {
 }
 
 export interface Invited extends Document {
-  _id?: Invitaion;
+  invita: Invitaion;
   phone: string;
 }

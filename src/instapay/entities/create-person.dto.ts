@@ -21,7 +21,7 @@ export const InvitaionSchema = new mongoose.Schema({
 });
 
 export const InvitedSchema = new mongoose.Schema({
-  _id: {
+  invita: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Invitaion', // Corrected reference to 'Article' model
   },
