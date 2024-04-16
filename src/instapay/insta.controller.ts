@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Param, Delete, Get, Put } from '@nestjs/common';
-import { Insapay, IntaPlog } from './entities/person.entity';
+import { Insapay, IntaPlog, Invitaion, Invited } from './entities/person.entity';
 import { InstaPayService } from './insta.service';
 
 @Controller('instapay')
@@ -15,6 +15,7 @@ export class InstaPayController {
   async login(@Param('owner') owner: string, @Body() pLog: IntaPlog) {
     return await this.peopleService.login(pLog, owner);
   }
+
 
 
   @Delete(':id')
@@ -33,4 +34,22 @@ export class InstaPayController {
   async allPersons(@Param('owner') owner: string): Promise<Insapay[]> {
     return await this.peopleService.allPerson(owner);
   }
+
+
+
+  /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+  /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+  /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+  /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+  @Post('invitaion')
+  async invitaion(@Body() invitaion: Invitaion) {
+    return await this.peopleService.invitaion(invitaion);
+  }
+
+  @Post('invited/invitaion')
+  createInvitaion(@Body() invited: Invited) {
+    return this.peopleService.createInvitaion(invited);
+  }
+
 }

@@ -3,12 +3,14 @@ import { InstaPayService } from './insta.service';
 import { InstaPayController } from './insta.controller';
 import { MineindService } from 'src/mineind/mineind.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { InstapaySchema } from './entities/create-person.dto';
+import { InstapaySchema, InvitaionSchema, InvitedSchema } from './entities/create-person.dto';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: 'Instapay', schema: InstapaySchema }
+      { name: 'Instapay', schema: InstapaySchema },
+      { name: 'Invitaion', schema: InvitaionSchema },
+      { name: 'Invited', schema: InvitedSchema }
     ])
   ],
   controllers: [InstaPayController],

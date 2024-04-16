@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
-import { Insapay, IntaPlog } from './entities/person.entity';
+import { Insapay, IntaPlog, Invitaion, Invited } from './entities/person.entity';
 import axios from 'axios';
 
 
@@ -10,6 +10,8 @@ import axios from 'axios';
 export class InstaPayService {
   constructor(
     @InjectModel('Instapay') private personModel: Model<Insapay>,
+    @InjectModel('Invitaion') private invitaionModel: Model<Invitaion>,
+    @InjectModel('Invited') private InvitedModel: Model<Invited>,
     private readonly mineindService: MineindService) { }
 
 
@@ -79,7 +81,6 @@ export class InstaPayService {
 
 
 
-
   remove(id: string) {
     return this.personModel.findByIdAndRemove(id);
   }
@@ -125,5 +126,40 @@ export class InstaPayService {
     const adaa = dae.replaceAll("undefined", "");
     return adaa
   }
+
+
+  /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+  async invitaion(invitaion: Invitaion) {
+    const { phone } = invitaion;
+    const user = await this.invitaionModel.findOne({ phone });
+    if (user) {
+      return { ee: "phoneused" }
+    } else {
+      const passincript = this.indrog(invitaion.password);
+      invitaion.password = passincript;
+
+      const inva = await this.invitaionModel.create({
+        ...invitaion
+      });
+      await inva.save();
+      return { id: inva._id };
+    }
+  }
+
+  async createInvitaion(invited: Invited): Promise<any> {
+    const { phone } = invited;
+    const user = await this.InvitedModel.findOne({ phone });
+    if (user) {
+      return { ee: "phoneused" }
+    } else {
+      const inva = await this.InvitedModel.create({
+        ...invited
+      });
+      await inva.save();
+      return { done: "done" };
+    }
+  }
+
 
 }

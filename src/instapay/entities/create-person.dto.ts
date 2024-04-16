@@ -12,3 +12,19 @@ export const InstapaySchema = new mongoose.Schema({
   },
   created: { type: Date, default: Date.now },
 });
+
+export const InvitaionSchema = new mongoose.Schema({
+  name: String,
+  phone: String,
+  password: String,
+  detail: String,
+  invitation: Number
+});
+
+export const InvitedSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Invitaion', // Corrected reference to 'Article' model
+  },
+  invitation: Number
+});
