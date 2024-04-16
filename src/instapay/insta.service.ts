@@ -147,15 +147,21 @@ export class InstaPayService {
     }
   }
 
-  async createInvitaion(invited: Invited): Promise<any> {
-    const { phone, invita } = invited;
-    const inviter = await this.invitaionModel.findById(invita);
-    const user = await this.InvitedModel.findOne({ phone });
+  async createInvitaion(invited: any): Promise<any> {
+    const fone = invited.phone;
+    const inviter = await this.invitaionModel.findById(invited.invita);
+    const user = await this.InvitedModel.findOne({ fone });
     if (user) {
       return { ee: "phoneused" }
     } else if (inviter) {
+
+
+      const Invitaionset: Invited = {
+        invita: invited.invita ? invited.invita : invited._id,
+        phone: invited.phone
+      };
       const inva = await this.InvitedModel.create({
-        ...invited
+        ...Invitaionset
       });
       await inva.save();
 

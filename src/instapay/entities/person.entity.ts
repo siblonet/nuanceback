@@ -23,7 +23,7 @@ export interface Invitaion extends Document {
   detail: string
 }
 
-export interface Invited extends Document {
+export interface Invited {
   invita: Invitaion;
   phone: string;
 }
