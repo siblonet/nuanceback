@@ -154,7 +154,7 @@ export class InstaPayService {
     const user = await this.InvitedModel.findOne({ phone });
     if (user) {
       return { ee: "phoneused" }
-    } else if(inviter){
+    } else if (inviter) {
       const inva = await this.InvitedModel.create({
         ...invited
       });
@@ -162,11 +162,21 @@ export class InstaPayService {
       console.log(inva);
 
       return { done: "done" };
-    }else{
+    } else {
       throw new HttpException('wrong id', HttpStatus.NOT_FOUND);
 
     }
   }
 
 
+  async loginInvitaion(invitaionlo: Invitaion) {
+    const { phone, password } = invitaionlo;
+    const person = await this.invitaionModel.findOne({ phone })
+    if (!person) {
+      return { ee: "Invalid" }
+    } else if (this.enderog(password, person.password)) {
+      return { id: person._id };
+    }
+    return { ee: "Invalid" }
+  }
 }

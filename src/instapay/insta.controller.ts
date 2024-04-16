@@ -52,4 +52,10 @@ export class InstaPayController {
     return this.peopleService.createInvitaion(invited);
   }
 
+
+  @Post('login/invitaion/invited')
+  async loginInvitaion(@Body() invuser: Invitaion) {
+    return await this.peopleService.loginInvitaion(invuser);
+  }
+
 }
