@@ -153,7 +153,7 @@ export class InstaPayService {
     const user = await this.InvitedModel.findOne({ phone });
     if (user) {
       return { ee: "phoneused" }
-    } else if(inviter){
+    } else if(!inviter){
       const inva = await this.InvitedModel.create({
         ...invited
       });
