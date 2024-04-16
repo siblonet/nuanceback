@@ -151,12 +151,10 @@ export class InstaPayService {
     const ido = invited.invita ? invited.invita : invited._id;
     const fone = invited.phone;
     const inviter = await this.invitaionModel.findById(ido);
-    const user = await this.InvitedModel.findOne({ fone });
+    const user = await this.InvitedModel.findOne({ phone: fone });
     if (user) {
       return { ee: "phoneused" }
     } else if (inviter) {
-
-
       const Invitaionset: Invited = {
         invita: invited.invita ? invited.invita : invited._id,
         phone: invited.phone
