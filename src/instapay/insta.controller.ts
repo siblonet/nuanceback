@@ -42,12 +42,12 @@ export class InstaPayController {
   /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
-  @Post('invitaion')
+  @Post('invitaion/')
   async invitaion(@Body() invitaion: Invitaion) {
     return await this.peopleService.invitaion(invitaion);
   }
 
-  @Post('invited/invitaion')
+  @Post('invited/invitaion/')
   createInvitaion(@Body() invited: Invited) {
     return this.peopleService.createInvitaion(invited);
   }
