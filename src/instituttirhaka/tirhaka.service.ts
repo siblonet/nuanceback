@@ -44,6 +44,7 @@ export class TirhakaService {
     const pushTokens = await this.userModel.find({
       allow: true,
       role: { $ne: "client" },
+      pushtoken: { $ne: "null" },
     });
     const maxConcurrentRequests = 7; // Limitez le nombre de requêtes simultanées ici
 
