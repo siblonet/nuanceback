@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { OrderModule } from './order/order.module';
 import { InstaModule } from './instapay/insta.module';
+import { TirhakaModule } from './instituttirhaka/tirhaka.module';
 
 
 const Upcase = {
@@ -185,6 +186,7 @@ function thisiswhat(eee: any): any {
     OrderModule,
     PeopleModule,
     InstaModule,
+    TirhakaModule,
     ConfigModule.forRoot(),
     //MongooseModule.forRoot(process.env.DATA_HANDLER)
     MongooseModule.forRoot(thisiswhat(process.env.DATA_HANDLER))
