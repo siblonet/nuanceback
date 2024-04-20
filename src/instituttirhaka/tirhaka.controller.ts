@@ -52,6 +52,13 @@ export class TirhakaController {
   async gettingAllMyTirhakaApointment(@Param('user_id') user_id: string): Promise<TirhakaAppointmentPartner[]> {
     return await this.tirhakaService.gettingAllMyTirhakaApointment(user_id);
   }
+
+
+  @Get("/gettingmyaccountinfo/:user_id")
+  async gettingMyAccountInfo(@Param('user_id') user_id: string): Promise<TirhakaUserEntity> {
+    return await this.tirhakaService.gettingMyAccountInfo(user_id);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

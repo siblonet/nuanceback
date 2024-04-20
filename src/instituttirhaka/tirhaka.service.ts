@@ -187,6 +187,12 @@ export class TirhakaService {
   async gettingAllMyTirhakaApointment(user_id: any): Promise<TirhakaAppointmentPartner[]> {
     return await this.appointmentModel.findById(user_id).sort({ created: -1 }).populate('TirhakaService').populate('TirhakaUser').populate('TirhakaUser');
   }
+
+  
+  async gettingMyAccountInfo(user_id: any): Promise<TirhakaUserEntity> {
+    return await this.userModel.findById(user_id);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
