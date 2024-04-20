@@ -66,7 +66,7 @@ export class TirhakaController {
     return this.tirhakaService.tirhakaServiceUpdate(service_id, service_service_id, upser);
   }
 
-  @Put("/tirhakaservicespdate/tirhakaserviceadd/:service_type")
+  @Put("/tirhakaserviceadd/tirhakaservicespdate/:service_type")
   tirhakaServiceAdd(@Param('service_type') service_type: string, @Body() service_data: TirhakaServiceEntity) {
     return this.tirhakaService.tirhakaServiceAdd(service_type, service_data);
   }
