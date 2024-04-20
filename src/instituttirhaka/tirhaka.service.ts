@@ -253,6 +253,28 @@ export class TirhakaService {
   }
 
 
+  async tirhakaServiceAdd(service_type: string, service_data: any): Promise<TirhakaServiceEntity[]> {
+    // Find the document matching the service_type
+    const service = await this.serviceModel.findOneAndUpdate(
+      { servicetype: service_type },
+      {
+        // Use $push to add the new object to the services array
+        $push: {
+          services: service_data,
+        },
+      },
+      { new: true }
+    );
+
+    if (!service) {
+      throw new HttpException('Service not found', HttpStatus.NOT_FOUND);
+    }
+    // Return the updated document
+    return await this.serviceModel.find();
+  }
+
+
+
 
   async tirhakaAppointmentStatusUpdate(appoi_id: string, stau: TirhakaAppointmentPartner): Promise<TirhakaAppointmentPartner[]> {
     const appointment = await this.appointmentModel.findByIdAndUpdate(appoi_id, { statut: stau.statut });
