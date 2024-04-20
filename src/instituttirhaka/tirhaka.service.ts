@@ -212,7 +212,6 @@ export class TirhakaService {
     const person = await this.userModel.findByIdAndUpdate(id, {
       name: User.name,
       phone: User.phone,
-      password: User.password,
       address: User.address,
       email: User.email,
     });
