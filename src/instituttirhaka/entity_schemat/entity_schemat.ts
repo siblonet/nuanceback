@@ -21,14 +21,13 @@ export interface TirhakaServiceEntity extends Document {
     _id?: string;
     services: [{
         _id?: string;
-        servicetype: string;
         service: string;
         availability: boolean;
         price: number;
     }];
+    servicetype: string;
     availability: boolean;
 }
-
 
 export interface TirhakaAppointmentPartner extends Document {
     services: {
@@ -75,11 +74,11 @@ export const TirhakaUserSchema = new Schema({
 
 export const TirhakaServiceSchema = new Schema({
     services: [{
-        servicetype: String,
         service: String,
         availability: Boolean,
         price: Number,
     }],
+    servicetype: String,
     availability: Boolean,
 });
 

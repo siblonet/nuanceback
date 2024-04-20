@@ -226,10 +226,10 @@ export class TirhakaService {
       { _id: service_id, 'services._id': service_service_id },
       {
         $set: {
-          'services.$.servicetype': upser.servicetype,
           'services.$.service': upser.service,
           'services.$.availability': upser.availability,
           'services.$.price': upser.price,
+          servicetype: upser.servicetype,
         },
       },
       { new: true }
