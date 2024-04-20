@@ -101,6 +101,12 @@ export class TirhakaController {
     return this.tirhakaService.tirhakaDeletingService(id);
   }
 
+  @Delete('/removetirhakaserviceadd/:id/:serviid')
+  removetirhakaServiceAdd(@Param('id') id: string, @Param('serviid') serviid: string) {
+    return this.tirhakaService.removetirhakaServiceAdd(id, serviid);
+  }
+
+
   @Delete('/tirhakacancelingappointment/:id')
   tirhakaCancelingAppointment(@Param('id') id: string) {
     return this.tirhakaService.tirhakaCancelingAppointment(id);

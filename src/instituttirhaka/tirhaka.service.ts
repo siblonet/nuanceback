@@ -274,7 +274,22 @@ export class TirhakaService {
   }
 
 
+  async removetirhakaServiceAdd(id: string, serviid: string) {
+    await this.serviceModel.findByIdAndUpdate(id,
+      {
+        $pull:
+        {
+          services: {
+            _id: serviid
+          }
+        }
+      },
+      { new: true }
+    );
 
+    return { done: "done" };
+
+  }
 
   async tirhakaAppointmentStatusUpdate(appoi_id: string, stau: TirhakaAppointmentPartner): Promise<TirhakaAppointmentPartner[]> {
     const appointment = await this.appointmentModel.findByIdAndUpdate(appoi_id, { statut: stau.statut });
