@@ -32,8 +32,8 @@ export class TirhakaService {
   }
 
   generatToken(User: TirhakaUserEntity): Object {
-    const { _id, name, phone, role, allow, email } = User;
-    const perset = `${_id}°${name}°${role}°${phone}°${allow}°${email}`;
+    const { _id, name, phone, role, allow, email, address } = User;
+    const perset = `${_id}°${name}°${role}°${phone}°${allow}°${email}°${address}`;
     const dae = this.mineindService.whatisthis(perset);
     const adaa = dae.replaceAll("undefined", "");
     const doa = { token: adaa };
