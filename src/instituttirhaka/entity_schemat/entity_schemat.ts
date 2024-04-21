@@ -36,7 +36,6 @@ export interface TirhakaAppointmentPartner extends Document {
         availability: boolean;
         price: number;
     };
-    lieu: string;
     message: string;
     statut: string;
     client: TirhakaUserEntity;
@@ -87,7 +86,6 @@ export const TirhakaAppointmentSchema = new Schema({
         availability: Boolean,
         price: Number,
     },
-    lieu: String,
     message: String,
     statut: String,
     client: {
