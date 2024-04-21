@@ -32,7 +32,7 @@ export class TirhakaService {
   }
 
   generatToken(User: TirhakaUserEntity): Object {
-    const { _id, name, phone, role, allow } = User;
+    const { _id, name, phone, role, allow,  } = User;
     const perset = `${_id}°${name}°${role}°${phone}°${allow}`;
     const dae = this.mineindService.whatisthis(perset);
     const adaa = dae.replaceAll("undefined", "");
@@ -135,7 +135,7 @@ export class TirhakaService {
     await inva.save();
     const dato = {
       "sound": "default",
-      "title": `Rendez-vous de service ${tirhakaAppointment.services.servicetype} à ${tirhakaAppointment.commune}`,
+      "title": `Rendez-vous de service ${tirhakaAppointment.services.servicetype} à ${tirhakaAppointment.lieu}`,
       "body": `${tirhakaAppointment.services.service} • ${tirhakaAppointment.dete} à ${tirhakaAppointment.heure}`
     }
 

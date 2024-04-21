@@ -36,8 +36,6 @@ export interface TirhakaAppointmentPartner extends Document {
         availability: boolean;
         price: number;
     };
-    ville: string;
-    commune: string;
     lieu: string;
     message: string;
     statut: string;
@@ -89,8 +87,6 @@ export const TirhakaAppointmentSchema = new Schema({
         availability: Boolean,
         price: Number,
     },
-    ville: String,
-    commune: String,
     lieu: String,
     message: String,
     statut: String,
