@@ -140,8 +140,13 @@ export class TirhakaService {
     }
 
     await this.sendExpoPushNotifications(dato);
-    return await this.appointmentModel.find({ client: tirhakaAppointment.client }).sort({ created: -1 }).populate('TirhakaService').populate('TirhakaUser').populate('TirhakaUser');
+
+    // Populate the 'client' field (assuming it references 'TirhakaUser')
+    return await this.appointmentModel.find({ client: tirhakaAppointment.client })
+      .sort({ created: -1 })
+      .populate('client');
   }
+
 
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -180,15 +185,19 @@ export class TirhakaService {
 
 
   async gettingAllTirhakaAppointment(): Promise<TirhakaAppointmentPartner[]> {
-    return await this.appointmentModel.find().sort({ created: -1 }).populate('TirhakaService').populate('TirhakaUser').populate('TirhakaUser');
+    return await this.appointmentModel.find().sort({ created: -1 }).populate('client').populate('worker');
   }
 
 
   async gettingAllMyTirhakaApointment(user_id: any): Promise<TirhakaAppointmentPartner[]> {
-    return await this.appointmentModel.findById(user_id).sort({ created: -1 }).populate('TirhakaService').populate('TirhakaUser').populate('TirhakaUser');
+    return await this.appointmentModel.find({client: user_id}).sort({ created: -1 }).populate('worker');
   }
 
-  
+  async gettingAllMyChargedApointment(user_id: any): Promise<TirhakaAppointmentPartner[]> {
+    return await this.appointmentModel.find({worker: user_id}).sort({ created: -1 }).populate('client');
+  }
+
+
   async gettingMyAccountInfo(user_id: any): Promise<TirhakaUserEntity> {
     return await this.userModel.findById(user_id);
   }
@@ -297,7 +306,7 @@ export class TirhakaService {
   }
 
   async tirhakaAppointmentStatusUpdate(appoi_id: string, stau: TirhakaAppointmentPartner): Promise<TirhakaAppointmentPartner[]> {
-    const appointment = await this.appointmentModel.findByIdAndUpdate(appoi_id, { statut: stau.statut });
+    const appointment = await this.appointmentModel.findByIdAndUpdate(appoi_id, { statut: stau.statut, worker: stau.worker });
     if (!appointment) {
       throw new HttpException('Appointment not found', HttpStatus.NOT_FOUND);
     }

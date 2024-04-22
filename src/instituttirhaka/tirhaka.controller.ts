@@ -53,6 +53,10 @@ export class TirhakaController {
     return await this.tirhakaService.gettingAllMyTirhakaApointment(user_id);
   }
 
+  @Get("/gettingallmychargedapointment/:user_id")
+  async gettingAllMyChargedApointment(@Param('user_id') user_id: string): Promise<TirhakaAppointmentPartner[]> {
+    return await this.tirhakaService.gettingAllMyChargedApointment(user_id);
+  }
 
   @Get("/gettingmyaccountinfo/:user_id")
   async gettingMyAccountInfo(@Param('user_id') user_id: string): Promise<TirhakaUserEntity> {
