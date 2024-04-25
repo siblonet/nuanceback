@@ -233,6 +233,17 @@ export class TirhakaService {
   }
 
 
+  async tirhakaUserNotification(id: any, User: TirhakaUserEntity): Promise<any> {
+    const person = await this.userModel.findByIdAndUpdate(id, {
+      pushtoken: User.pushtoken
+    });
+
+    if (!person) {
+      throw new HttpException('Utilisateur introuvable', HttpStatus.NOT_FOUND);
+    }
+    return { done: "done" };
+
+  }
 
 
   async tirhakaServiceUpdate(service_id: string, service_service_id: string, upser: any): Promise<TirhakaServiceEntity[]> {

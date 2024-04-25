@@ -72,6 +72,12 @@ export class TirhakaController {
     return this.tirhakaService.tirhakaUserUpdate(id, tirhakauser);
   }
 
+  @Put("notificationtirhakauser/:id")
+  tirhakaUserNotification(@Param('id') id: string, @Body() tirhakauser: TirhakaUserEntity) {
+    return this.tirhakaService.tirhakaUserNotification(id, tirhakauser);
+  }
+
+
   @Put("/tirhakaservicespdate/:service_id/:service_service_id")
   tirhakaServiceUpdate(@Param('service_id') service_id: string, @Param('service_service_id') service_service_id: string, @Body() upser: TirhakaServiceEntity) {
     return this.tirhakaService.tirhakaServiceUpdate(service_id, service_service_id, upser);
