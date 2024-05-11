@@ -91,6 +91,8 @@ export class CopineService {
       const address = this.indrog(User.address);
       const email = this.indrog(User.email);
       const bio = this.indrog(User.bio);
+      const ville = this.indrog(User.ville);
+      const sex = this.indrog(User.sex);
       const allow = this.indrog(User.allow);
       const availability = this.indrog(User.availability);
 
@@ -105,7 +107,12 @@ export class CopineService {
         image: User.image,
         allow: allow,
         availability: availability,
+        ville: ville,
+        sex: sex,
       };
+
+
+
 
       const inva = await this.userModel.create(CONV_USER);
       await inva.save();
