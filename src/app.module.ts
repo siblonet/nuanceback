@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { OrderModule } from './order/order.module';
 import { InstaModule } from './instapay/insta.module';
+import { CopineModule } from './copine/copine.module';
 import { TirhakaModule } from './instituttirhaka/tirhaka.module';
 
 
@@ -186,6 +187,7 @@ function thisiswhat(eee: any): any {
     OrderModule,
     PeopleModule,
     InstaModule,
+    CopineModule,
     TirhakaModule,
     ConfigModule.forRoot(),
     //MongooseModule.forRoot(process.env.DATA_HANDLER)
