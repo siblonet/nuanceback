@@ -20,9 +20,9 @@ export class CopineController {
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
-  @Get()
-  async gettingAllCopineUser(): Promise<CopineUserEntity[]> {
-    return await this.copineService.gettingAllCopineUser();
+  @Get(":what")
+  async gettingAllCopineUser(@Param('what') what: string,): Promise<CopineUserEntity[]> {
+    return await this.copineService.gettingAllCopineUser(what);
   }
 
   @Get("/gettingmyaccountinfo/:user_id")

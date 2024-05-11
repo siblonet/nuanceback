@@ -148,10 +148,9 @@ export class CopineService {
 
 
 
-
-
-  async gettingAllCopineUser(): Promise<CopineUserEntity[]> {
-    return await this.userModel.find();
+  async gettingAllCopineUser(what: string): Promise<CopineUserEntity[]> {
+    const convo = this.indrog(what);
+    return await this.userModel.find({ role: convo });
   }
 
 
