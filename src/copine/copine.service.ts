@@ -79,42 +79,11 @@ export class CopineService {
 
   async copineCreatingUser(User: CopineUserEntity) {
     const { phone } = User;
-    const phonea = this.indrog(phone);
-    const user = await this.userModel.findOne({ phone: phonea });
+    const user = await this.userModel.findOne({ phone });
     if (user) {
       return { ee: "phoneused" }
     } else {
-
-      const name = this.indrog(User.name);
-      const password = this.indrog(User.password);
-      const role = this.indrog(User.role);
-      const address = this.indrog(User.address);
-      const email = this.indrog(User.email);
-      const bio = this.indrog(User.bio);
-      const ville = this.indrog(User.ville);
-      const sex = this.indrog(User.sex);
-      const allow = this.indrog(User.allow);
-      const availability = this.indrog(User.availability);
-
-      const CONV_USER = {
-        name: name,
-        phone: phonea,
-        password: password,
-        role: role,
-        address: address,
-        email: email,
-        bio: bio,
-        image: User.image,
-        allow: allow,
-        availability: availability,
-        ville: ville,
-        sex: sex,
-      };
-
-
-
-
-      const inva = await this.userModel.create(CONV_USER);
+      const inva = await this.userModel.create(User);
       await inva.save();
       return inva;
     }
