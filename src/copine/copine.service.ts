@@ -150,12 +150,7 @@ export class CopineService {
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   async copineUserUpdate(id: any, User: CopineUserEntity): Promise<any> {
-    const person = await this.userModel.findByIdAndUpdate(id, {
-      name: User.name,
-      phone: User.phone,
-      address: User.address,
-      email: User.email,
-    });
+    const person = await this.userModel.findByIdAndUpdate(id, User);
 
     if (!person) {
       throw new HttpException('Utilisateur introuvable', HttpStatus.NOT_FOUND);
