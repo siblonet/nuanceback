@@ -59,7 +59,8 @@ export class ActivityService {
     const file = bucket.file(generatedUuid);
 
     if (old_image) {
-      await bucket.file(old_image).delete();
+      const filenamea = old_image.split('/').pop();
+      await bucket.file(filenamea).delete();
     }
 
     const imageBuffer = Buffer.from(imagefolder.ima, 'base64');
@@ -79,8 +80,10 @@ export class ActivityService {
     const bucket = storage.bucket(this.bucketName);
     const file = bucket.file(generatedUuid);
     if (old_image) {
-      await bucket.file(old_image).delete();
+      const filenamea = old_image.split('/').pop();
+      await bucket.file(filenamea).delete();
     }
+
 
 
     const fileBuffer = Buffer.from(fileData.ima, 'base64');
@@ -117,6 +120,24 @@ export class ActivityService {
   }
 
 
+  async deleteImage(old_image: any = null): Promise<any> {
+    try {
+      const storage = await this.initializeGoogleCloudStorage();
+      const bucket = storage.bucket(this.bucketName);
+
+      if (old_image && old_image.image_url) {
+        // Extract the filename from the image_url
+        const filename = old_image.image_url.split('/').pop();
+        await bucket.file(filename).delete();
+      }
+
+      return { done: "done" };
+    } catch (error) {
+      // Handle errors
+      console.error('Error deleting image:', error);
+      throw error;
+    }
+  }
 
 
   async versionAvailabe(version: VersionAvailabe): Promise<VersionAvailabe> {

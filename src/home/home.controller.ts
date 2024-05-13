@@ -16,6 +16,10 @@ export class ActivityController {
     return await this.activityService.createFile(fileData, owner, id, fileData.old_image);
   }
 
+  @Post('deleteImage')
+  async deleteImage(@Body() image_url: any): Promise<any> {
+    return await this.activityService.deleteImage(image_url);
+  }
 
   @Post('deleteannonce/annonce/:id') // Change the endpoint to reflect the more general nature of handling files
   async deleteAnnonces(@Param('id') id: string, @Body() g: any): Promise<any> {
