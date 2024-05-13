@@ -69,7 +69,7 @@ export class ActivityService {
   }
 
   async createFile(fileData: any, owner: any, id: any): Promise<{ url: string }> {
-    const generatedUuid = this.generateUuid() + fileData.nam; // Assuming 'nam' is the file name
+    const generatedUuid = this.generateUuid() + owner + fileData.nam; // Assuming 'nam' is the file name
     const storage = await this.initializeGoogleCloudStorage();
     const bucket = storage.bucket(this.bucketName);
     const file = bucket.file(generatedUuid);
