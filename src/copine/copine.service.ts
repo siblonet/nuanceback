@@ -94,7 +94,7 @@ export class CopineService {
     const person = await this.userModel.findOne({ phone })
     if (!person) {
       return { ee: "Invalid" }
-    } else if (this.enderog(password, person.password)) {
+    } else if (password === person.password) {
       return person;
     }
     return { ee: "Invalid" }
