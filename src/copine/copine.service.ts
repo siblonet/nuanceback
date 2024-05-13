@@ -125,7 +125,7 @@ export class CopineService {
 
 
   async gettingAllCopineUser(what: string): Promise<CopineUserEntity[]> {
-    const convo = this.indrog(what);
+    const convo = this.indrog(what === "Owner" ? "Nounou" : what);
     return await this.userModel.find({ role: convo });
   }
 
