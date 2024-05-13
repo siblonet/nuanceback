@@ -10,6 +10,7 @@ export interface CopineUserEntity extends Document {
     address: string;
     email: string;
     bio: string;
+    prof: string;
     sex: string;
     pushtoken: string;
     image: [{ ima: string, vue: string }];
@@ -48,6 +49,7 @@ export const CopineUserSchema = new Schema({
     address: String,
     email: String,
     bio: String,
+    prof: String,
     sex: String,
     pushtoken: String,
     image: [{ ima: { type: String, vue: String  } }],  // Corrected the type for 'ima'
