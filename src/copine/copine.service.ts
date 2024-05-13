@@ -172,6 +172,42 @@ export class CopineService {
 
   }
 
+  async removeCandidateImage(id: string, imagid: string) {
+    await this.userModel.findByIdAndUpdate(id,
+      {
+        $pull:
+        {
+          image: {
+            _id: imagid
+          }
+        }
+      },
+      { new: true }
+    );
+
+    return { done: "done" };
+
+  }
+
+
+
+  async changeCandidateImage(id: string, imagid: string, imageurl: any): Promise<CopineUserEntity> {
+    const userimage = await this.userModel.findOneAndUpdate(
+      { _id: id, 'image._id': imagid },
+      {
+        $set: {
+          'image.$.ima': imageurl.url,
+        },
+      },
+      { new: true }
+    );
+
+    if (!userimage) {
+      throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
+    }
+    return userimage;
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

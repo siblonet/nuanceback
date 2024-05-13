@@ -44,6 +44,17 @@ export class CopineController {
     return this.copineService.copineUserNotification(id, copineuser);
   }
 
+
+  @Put("removecandidateimage/:id/:imageid")
+  removeCandidateImage(@Param('id') id: string, @Param('imageid') imageid: string) {
+    return this.copineService.removeCandidateImage(id, imageid);
+  }
+
+  @Put("changecandidateimage/:ed/:emageedi")
+  changeCandidateImage(@Param('ed') ed: string, @Param('emageedi') emageedi: string, @Body() emageurl: any) {
+    return this.copineService.changeCandidateImage(ed, emageedi, emageurl);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
