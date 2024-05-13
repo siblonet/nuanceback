@@ -15,6 +15,13 @@ export interface CopineUserEntity extends Document {
     image: [{ ima: string }];
     allow: boolean;
     availability: boolean;
+
+    situation: string;
+    age: string;
+    wapp: string;
+    natinalite: string;
+    religion: string;
+    etudient: string;
 }
 
 export interface CopineLoginEntity extends Document {
@@ -46,4 +53,11 @@ export const CopineUserSchema = new Schema({
     image: [{ ima: { type: String } }],  // Corrected the type for 'ima'
     allow: Boolean,
     availability: Boolean,
+
+    situation: String,
+    age: String,
+    wapp: String,
+    natinalite: String,
+    religion: String,
+    etudient: String,
 });
