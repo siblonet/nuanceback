@@ -173,7 +173,7 @@ export class CopineService {
   }
 
   async removeCandidateImage(id: string, imagid: string) {
-    await this.userModel.findByIdAndUpdate(id,
+    const userimagede = await this.userModel.findByIdAndUpdate(id,
       {
         $pull:
         {
@@ -185,8 +185,10 @@ export class CopineService {
       { new: true }
     );
 
-    return { done: "done" };
-
+    if (!userimagede) {
+      throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
+    }
+    return userimagede;
   }
 
 
