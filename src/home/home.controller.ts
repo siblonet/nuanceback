@@ -8,12 +8,12 @@ export class ActivityController {
 
   @Post('uploadImage')
   async createImage(@Body() base64Data: any): Promise<{ ima: String }> {
-    return await this.activityService.createImage(base64Data);
+    return await this.activityService.createImage(base64Data, base64Data.old_image);
   }
 
   @Post('annonce/:owner/:id') // Change the endpoint to reflect the more general nature of handling files
   async uploadFile(@Param('owner') owner: string, @Param('id') id: string, @Body() fileData: any): Promise<{ url: string }> {
-    return await this.activityService.createFile(fileData, owner, id);
+    return await this.activityService.createFile(fileData, owner, id, fileData.old_image);
   }
 
 

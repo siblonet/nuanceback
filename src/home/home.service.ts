@@ -52,11 +52,16 @@ export class ActivityService {
 
 
 
-  async createImage(imagefolder: any): Promise<{ ima: string }> {
+  async createImage(imagefolder: any, old_image: string = null): Promise<{ ima: string }> {
     const generatedUuid = this.generateUuid() + imagefolder.nam;
     const storage = await this.initializeGoogleCloudStorage();
     const bucket = storage.bucket(this.bucketName);
     const file = bucket.file(generatedUuid);
+
+    if (old_image) {
+      await bucket.file(old_image).delete();
+    }
+
     const imageBuffer = Buffer.from(imagefolder.ima, 'base64');
 
     await file.save(imageBuffer, {
@@ -68,11 +73,16 @@ export class ActivityService {
     return { ima: publicUrl };
   }
 
-  async createFile(fileData: any, owner: any, id: any): Promise<{ url: string }> {
+  async createFile(fileData: any, owner: any, id: any, old_image: string = null): Promise<{ url: string }> {
     const generatedUuid = this.generateUuid() + owner + fileData.nam; // Assuming 'nam' is the file name
     const storage = await this.initializeGoogleCloudStorage();
     const bucket = storage.bucket(this.bucketName);
     const file = bucket.file(generatedUuid);
+    if (old_image) {
+      await bucket.file(old_image).delete();
+    }
+
+
     const fileBuffer = Buffer.from(fileData.ima, 'base64');
 
     const contentType = fileData.contentType || 'application/octet-stream'; // Default to binary if contentType is not provided
@@ -105,6 +115,9 @@ export class ActivityService {
 
     return { url: publicUrl };
   }
+
+
+
 
   async versionAvailabe(version: VersionAvailabe): Promise<VersionAvailabe> {
     return await this.versionavailModel.create(version);
