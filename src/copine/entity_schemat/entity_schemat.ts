@@ -12,7 +12,7 @@ export interface CopineUserEntity extends Document {
     bio: string;
     sex: string;
     pushtoken: string;
-    image: [{ ima: string }];
+    image: [{ ima: string, vue: string }];
     allow: boolean;
     availability: boolean;
 
@@ -50,7 +50,7 @@ export const CopineUserSchema = new Schema({
     bio: String,
     sex: String,
     pushtoken: String,
-    image: [{ ima: { type: String } }],  // Corrected the type for 'ima'
+    image: [{ ima: { type: String, vue: String  } }],  // Corrected the type for 'ima'
     allow: Boolean,
     availability: Boolean,
 
