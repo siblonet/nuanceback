@@ -45,9 +45,9 @@ export class CopineController {
   }
 
 
-  @Put("removecandidateimage/:id/:imageid")
-  removeCandidateImage(@Param('id') id: string, @Param('imageid') imageid: string) {
-    return this.copineService.removeCandidateImage(id, imageid);
+  @Put("pushcandidateimage/:imageid")
+  PushCandidateImage(@Param('imageid') imageid: string, @Body() imago: any) {
+    return this.copineService.PushCandidateImage(imageid, imago);
   }
 
   @Put("changecandidateimage/:ed/:emageedi")

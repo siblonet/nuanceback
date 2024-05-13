@@ -172,26 +172,6 @@ export class CopineService {
 
   }
 
-  async removeCandidateImage(id: string, imagid: string) {
-    const userimagede = await this.userModel.findByIdAndUpdate(id,
-      {
-        $pull:
-        {
-          image: {
-            _id: imagid
-          }
-        }
-      },
-      { new: true }
-    );
-
-    if (!userimagede) {
-      throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
-    }
-    return userimagede;
-  }
-
-
 
   async changeCandidateImage(id: string, imagid: string, imageurl: any): Promise<CopineUserEntity> {
     const userimage = await this.userModel.findOneAndUpdate(
@@ -209,6 +189,25 @@ export class CopineService {
     }
     return userimage;
   }
+
+  async PushCandidateImage(id: string, imago: any): Promise<CopineUserEntity> {
+    const userimagede = await this.userModel.findOneAndUpdate(
+      { _id: id },
+      {
+        $push: {
+          image: imago,
+        },
+      },
+      { new: true }
+    );
+
+    if (!userimagede) {
+      throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
+    }
+    return userimagede;
+
+  }
+
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
