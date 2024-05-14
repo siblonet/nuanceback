@@ -42,12 +42,12 @@ export class CopineController {
   }
 
 
-  @Get("/commentcopinecreating/:whors")
+  @Get("/gettingbycopinecomment/:whors")
   gettingAllCopineComment(@Param('whors') whors: string): Promise<CopineCommentEntity[]> {
     return this.copineService.gettingAllCopineComment(whors);
   }
 
-  @Get("/replycopinecreating/:whors")
+  @Get("/gettingbycopinereply/:whors")
   gettingAllCopineReply(@Param('whors') whors: string): Promise<CopineReplyEntity[]> {
     return this.copineService.gettingAllCopineReply(whors);
   }
