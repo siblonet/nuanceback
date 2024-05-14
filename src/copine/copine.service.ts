@@ -155,7 +155,7 @@ export class CopineService {
     if (!person) {
       throw new HttpException('Utilisateur introuvable', HttpStatus.NOT_FOUND);
     }
-    return person;
+    return await this.userModel.findById(id);
 
   }
 
@@ -187,7 +187,7 @@ export class CopineService {
     if (!userimage) {
       throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
     }
-    return userimage;
+    return await this.userModel.findById(id);
   }
 
   async PushCandidateImage(id: string, imago: any): Promise<CopineUserEntity> {
@@ -204,7 +204,7 @@ export class CopineService {
     if (!userimagede) {
       throw new HttpException('user or image not found', HttpStatus.NOT_FOUND);
     }
-    return userimagede;
+    return await this.userModel.findById(id);
 
   }
 
