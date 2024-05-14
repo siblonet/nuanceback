@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import axios from 'axios';
-import { CopineUserEntity, CopineLoginEntity } from './entity_schemat/entity_schemat';
+import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity } from './entity_schemat/entity_schemat';
 import { MineindService } from 'src/mineind/mineind.service';
 
 
@@ -11,6 +11,8 @@ export class CopineService {
 
   constructor(
     @InjectModel('CopineUser') private userModel: Model<CopineUserEntity>,
+    @InjectModel('CopineComment') private commentModel: Model<CopineCommentEntity>,
+    @InjectModel('CopineReply') private replyModel: Model<CopineReplyEntity>,
     private readonly mineindService: MineindService) { }
 
 
@@ -100,7 +102,20 @@ export class CopineService {
     return { ee: "Invalid" }
   }
 
+  async copineCreatingComment(Comment: CopineCommentEntity): Promise<any> {
+    const inva = await this.commentModel.create(Comment);
+    await inva.save();
 
+    return this.commentModel.find({ recepto: Comment.recepto });
+  }
+
+
+  async copineCreatingReply(Reply: CopineReplyEntity): Promise<any> {
+    const inva = await this.replyModel.create(Reply);
+    await inva.save();
+
+    return this.replyModel.find({ recepto: Reply.recepto });
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -133,6 +148,16 @@ export class CopineService {
   async gettingMyAccountInfo(user_id: any): Promise<CopineUserEntity> {
     return await this.userModel.findById(user_id);
   }
+
+
+  async gettingAllCopineComment(whors: string): Promise<CopineCommentEntity[]> {
+    return this.commentModel.find({ recepto: whors }).populate('commenta');
+  }
+
+  async gettingAllCopineReply(whors: string): Promise<CopineReplyEntity[]> {
+    return this.replyModel.find({ recepto: whors }).populate('commenta');
+  }
+
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -208,6 +233,25 @@ export class CopineService {
 
   }
 
+  async copineCommentUpdate(id: any, Comment: CopineCommentEntity): Promise<CopineCommentEntity> {
+    const comment = await this.commentModel.findByIdAndUpdate(id, Comment);
+
+    if (!comment) {
+      throw new HttpException('Commentaire introuvable', HttpStatus.NOT_FOUND);
+    }
+    return await this.commentModel.findById(id).populate('commenta');
+  }
+
+
+  async copineReplyUpdate(id: any, Reply: CopineReplyEntity): Promise<CopineReplyEntity> {
+    const comment = await this.replyModel.findByIdAndUpdate(id, Reply);
+
+    if (!comment) {
+      throw new HttpException('reponse introuvable', HttpStatus.NOT_FOUND);
+    }
+    return await this.replyModel.findById(id).populate('commenta');
+  }
+
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -228,6 +272,24 @@ export class CopineService {
     await this.userModel.findByIdAndRemove(id);
     return { done: "done" };
   };
+
+
+  async copineDeletingComment(id: any) {
+    const comment = await this.commentModel.findByIdAndRemove(id);
+    if (!comment) {
+      throw new HttpException('Commentaire introuvable', HttpStatus.NOT_FOUND);
+    }
+    return { done: "done" };
+  }
+
+
+  async copineDeletingReply(id: any) {
+    const reply = await this.replyModel.findByIdAndRemove(id);
+    if (!reply) {
+      throw new HttpException('reply introuvable', HttpStatus.NOT_FOUND);
+    }
+    return { done: "done" };
+  }
 
 
 }

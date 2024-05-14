@@ -30,6 +30,20 @@ export interface CopineLoginEntity extends Document {
     password: string;
 }
 
+export interface CopineCommentEntity extends Document {
+    _id?: string;
+    commenta: CopineUserEntity;
+    recepto: CopineUserEntity;
+    message: string;
+}
+
+
+export interface CopineReplyEntity extends Document {
+    _id?: string;
+    commenta: CopineUserEntity;
+    recepto: CopineCommentEntity;
+    message: string;
+}
 
 
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -52,7 +66,7 @@ export const CopineUserSchema = new Schema({
     prof: String,
     sex: String,
     pushtoken: String,
-    image: [{ ima: { type: String, vue: String  } }],  // Corrected the type for 'ima'
+    image: [{ ima: { type: String, vue: String } }],  // Corrected the type for 'ima'
     allow: Boolean,
     availability: Boolean,
 
@@ -62,4 +76,29 @@ export const CopineUserSchema = new Schema({
     natinalite: String,
     religion: String,
     etudient: String,
+});
+
+
+export const CopineCommentUserSchema = new Schema({
+    commenta: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineUser',
+    },
+    recepto: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineUser',
+    },
+    message: String,
+});
+
+export const CopineReplyUserSchema = new Schema({
+    commenta: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineUser',
+    },
+    recepto: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineComment',
+    },
+    message: String,
 });

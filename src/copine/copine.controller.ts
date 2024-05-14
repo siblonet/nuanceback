@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CopineService } from './copine.service';
-import { CopineLoginEntity, CopineUserEntity } from './entity_schemat/entity_schemat';
+import { CopineCommentEntity, CopineLoginEntity, CopineReplyEntity, CopineUserEntity } from './entity_schemat/entity_schemat';
 
 @Controller('copine')
 export class CopineController {
@@ -16,18 +16,40 @@ export class CopineController {
     return this.copineService.copineConnexion(copinelogin);
   }
 
+
+  @Post("/commentcopinecreating")
+  copineCreatingComment(@Body() copinecomment: CopineCommentEntity) {
+    return this.copineService.copineCreatingComment(copinecomment);
+  }
+
+  @Post("/replycopinecreating")
+  copineCreatingReply(@Body() copinereply: CopineReplyEntity) {
+    return this.copineService.copineCreatingReply(copinereply);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   @Get(":what")
-  async gettingAllCopineUser(@Param('what') what: string,): Promise<CopineUserEntity[]> {
+  async gettingAllCopineUser(@Param('what') what: string): Promise<CopineUserEntity[]> {
     return await this.copineService.gettingAllCopineUser(what);
   }
 
   @Get("/gettingmyaccountinfo/:user_id")
   async gettingMyAccountInfo(@Param('user_id') user_id: string): Promise<CopineUserEntity> {
     return await this.copineService.gettingMyAccountInfo(user_id);
+  }
+
+
+  @Get("/commentcopinecreating/:whors")
+  gettingAllCopineComment(@Param('whors') whors: string): Promise<CopineCommentEntity[]> {
+    return this.copineService.gettingAllCopineComment(whors);
+  }
+
+  @Get("/replycopinecreating/:whors")
+  gettingAllCopineReply(@Param('whors') whors: string): Promise<CopineReplyEntity[]> {
+    return this.copineService.gettingAllCopineReply(whors);
   }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -55,6 +77,17 @@ export class CopineController {
     return this.copineService.changeCandidateImage(ed, emageedi, emageurl);
   }
 
+
+  @Put("/updatecopinecomment/:whors")
+  copineCommentUpdate(@Param('whors') whors: string, @Body() comment: any) {
+    return this.copineService.copineCommentUpdate(whors, comment);
+  }
+
+  @Put("/copineupdatereply/:whars")
+  copineReplyUpdate(@Param('whars') whars: string, @Body() replay: any) {
+    return this.copineService.copineReplyUpdate(whars, replay);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -65,4 +98,14 @@ export class CopineController {
     return this.copineService.copineDeletingUser(id);
   }
 
+
+  @Delete("/deletingcopinecomment/:whors")
+  copineDeletingComment(@Param('whors') whors: string) {
+    return this.copineService.copineDeletingComment(whors);
+  }
+
+  @Delete("/deletingreplycopine/:whars")
+  copineDeletingReply(@Param('whars') whars: string) {
+    return this.copineService.copineDeletingReply(whars);
+  }
 }
