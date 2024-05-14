@@ -35,6 +35,8 @@ export interface CopineCommentEntity extends Document {
     commenta: CopineUserEntity;
     recepto: CopineUserEntity;
     message: string;
+    comented_at?: Date;
+
 }
 
 
@@ -43,6 +45,7 @@ export interface CopineReplyEntity extends Document {
     commenta: CopineUserEntity;
     recepto: CopineCommentEntity;
     message: string;
+    comented_at?: Date;
 }
 
 
@@ -89,6 +92,7 @@ export const CopineCommentUserSchema = new Schema({
         ref: 'CopineUser',
     },
     message: String,
+    comented_at: { type: Date, default: Date.now },
 });
 
 export const CopineReplyUserSchema = new Schema({
@@ -101,4 +105,5 @@ export const CopineReplyUserSchema = new Schema({
         ref: 'CopineComment',
     },
     message: String,
+    comented_at: { type: Date, default: Date.now },
 });
