@@ -93,7 +93,7 @@ export const CopineCommentUserSchema = new Schema({
         ref: 'CopineUser',
     },
     message: String,
-    reply: Number,
+    reply: { type: Number, default: 0 },
     comented_at: { type: Date, default: Date.now },
 });
 
