@@ -147,6 +147,10 @@ export class CopineService {
     return await this.userModel.find({ role: convo });
   }
 
+  async teamgettingGiveAccess(what: string): Promise<CopineUserEntity[]> {
+    const convo = this.indrog(what);
+    return await this.userModel.find({ role: convo });
+  }
 
   async gettingMyAccountInfo(user_id: any): Promise<CopineUserEntity> {
     return await this.userModel.findById(user_id);

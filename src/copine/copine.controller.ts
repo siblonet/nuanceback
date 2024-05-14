@@ -36,6 +36,13 @@ export class CopineController {
     return await this.copineService.gettingAllCopineUser(what);
   }
 
+
+  @Get("/team/show/giveaccess/:what")
+  async teamgettingGiveAccess(@Param('what') what: string): Promise<CopineUserEntity[]> {
+    return await this.copineService.teamgettingGiveAccess(what);
+  }
+
+
   @Get("/gettingmyaccountinfo/:user_id")
   async gettingMyAccountInfo(@Param('user_id') user_id: string): Promise<CopineUserEntity> {
     return await this.copineService.gettingMyAccountInfo(user_id);
