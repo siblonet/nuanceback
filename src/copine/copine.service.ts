@@ -144,7 +144,7 @@ export class CopineService {
 
   async gettingAllCopineUser(what: string): Promise<CopineUserEntity[]> {
     const convo = this.indrog(what === "Owner" ? "Nounou" : what);
-    return await this.userModel.find({ role: convo });
+    return await this.userModel.find({ role: convo, allow: { $ne: false } });
   }
 
   async teamgettingGiveAccess(what: string): Promise<CopineUserEntity[]> {
@@ -153,7 +153,7 @@ export class CopineService {
     if (what !== "Owner") {
       return await this.userModel.find({ role: { $ne: owner } });
     }
-    
+
     const convo = this.indrog(what);
     return await this.userModel.find({ role: convo });
   }
