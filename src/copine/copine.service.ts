@@ -284,7 +284,14 @@ export class CopineService {
       throw new HttpException('Commentaire introuvable', HttpStatus.NOT_FOUND);
     }
 
-    await this.replyModel.deleteMany({ recepto: comment._id });
+    const replay = await this.replyModel.findOne({ recepto: comment._id });
+    if (replay) {
+      await this.replyModel.deleteMany({ recepto: comment._id });
+
+    } else {
+
+    }
+
     await this.commentModel.findByIdAndRemove(id);
 
     return { done: "done" };
