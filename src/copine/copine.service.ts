@@ -278,12 +278,18 @@ export class CopineService {
 
 
   async copineDeletingComment(id: any) {
-    const comment = await this.commentModel.findByIdAndRemove(id);
+    const comment = await this.commentModel.findById(id);
+
     if (!comment) {
       throw new HttpException('Commentaire introuvable', HttpStatus.NOT_FOUND);
     }
+
+    await this.replyModel.deleteMany({ recepto: comment._id });
+    await this.commentModel.findByIdAndRemove(id);
+
     return { done: "done" };
   }
+
 
 
   async copineDeletingReply(id: any) {
@@ -298,7 +304,7 @@ export class CopineService {
       { $inc: { reply: -1 } }, // Use '-1' to decrement by 1
       { new: true }
     );
-    
+
     await this.replyModel.findByIdAndRemove(id);
     return { done: "done" };
   }
