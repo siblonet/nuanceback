@@ -113,6 +113,9 @@ export class CopineService {
   async copineCreatingReply(Reply: CopineReplyEntity): Promise<any> {
     const inva = await this.replyModel.create(Reply);
     await inva.save();
+    await this.commentModel.findByIdAndUpdate(Reply.recepto,
+      { $inc: { reply: 1 } },
+      { new: true });
 
     return this.replyModel.find({ recepto: Reply.recepto });
   }
@@ -284,10 +287,19 @@ export class CopineService {
 
 
   async copineDeletingReply(id: any) {
-    const reply = await this.replyModel.findByIdAndRemove(id);
+    const reply = await this.replyModel.findById(id);
+
     if (!reply) {
       throw new HttpException('reply introuvable', HttpStatus.NOT_FOUND);
     }
+
+    await this.commentModel.findByIdAndUpdate(
+      reply.recepto,
+      { $inc: { reply: -1 } }, // Use '-1' to decrement by 1
+      { new: true }
+    );
+    
+    await this.replyModel.findByIdAndRemove(id);
     return { done: "done" };
   }
 
