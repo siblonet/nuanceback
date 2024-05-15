@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import axios from 'axios';
-import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity } from './entity_schemat/entity_schemat';
+import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity, CopineRecordEntity } from './entity_schemat/entity_schemat';
 import { MineindService } from 'src/mineind/mineind.service';
 
 
@@ -13,6 +13,7 @@ export class CopineService {
     @InjectModel('CopineUser') private userModel: Model<CopineUserEntity>,
     @InjectModel('CopineComment') private commentModel: Model<CopineCommentEntity>,
     @InjectModel('CopineReply') private replyModel: Model<CopineReplyEntity>,
+    @InjectModel('CopineRecord') private recordModel: Model<CopineRecordEntity>,
     private readonly mineindService: MineindService) { }
 
 
@@ -79,7 +80,7 @@ export class CopineService {
 
 
 
-  async copineCreatingUser(User: CopineUserEntity) {
+  async copineCreatingUser(User: any) {
     const { phone } = User;
     const user = await this.userModel.findOne({ phone });
     if (user) {
@@ -87,6 +88,7 @@ export class CopineService {
     } else {
       const inva = await this.userModel.create(User);
       await inva.save();
+      await this.SuscribedServicesUpdateUsers(User.ecord);
       return inva;
     }
   }
@@ -114,11 +116,12 @@ export class CopineService {
     const inva = await this.replyModel.create(Reply);
     await inva.save();
     await this.commentModel.findByIdAndUpdate(Reply.recepto,
-      { $inc: { reply: 1 } },
-      { new: true });
+      { $inc: { reply: 1 } }
+    );
 
     return this.replyModel.find({ recepto: Reply.recepto });
   }
+
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -171,6 +174,9 @@ export class CopineService {
     return this.replyModel.find({ recepto: whors }).populate('commenta');
   }
 
+  async SuscribedServicesUsers(): Promise<CopineRecordEntity> {
+    return this.recordModel.findOne({ getta: "getta" });
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -218,8 +224,7 @@ export class CopineService {
         $set: {
           'image.$.ima': imageurl.url,
         },
-      },
-      { new: true }
+      }
     );
 
     if (!userimage) {
@@ -235,8 +240,7 @@ export class CopineService {
         $push: {
           image: imago,
         },
-      },
-      { new: true }
+      }
     );
 
     if (!userimagede) {
@@ -264,6 +268,32 @@ export class CopineService {
     }
     return await this.replyModel.findById(id).populate('commenta');
   }
+
+  async SuscribedServicesUpdateUsers(Record: any): Promise<CopineRecordEntity> {
+    const getta = await this.recordModel.findOne({ getta: "getta" });
+    if (!getta) {
+      const recordb = {
+        getta: "getta"
+      }
+      const recorda = await this.recordModel.create({
+        ...recordb
+      });
+      await recorda.save();
+
+      await this.recordModel.findOneAndUpdate(
+        { getta: "getta" },
+        { $inc: Record }
+      );
+    }
+
+    await this.recordModel.findOneAndUpdate(
+      { getta: "getta" },
+      { $inc: Record }
+    );
+    return await this.recordModel.findOne({ getta: "getta" });
+  }
+
+
 
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -318,8 +348,7 @@ export class CopineService {
 
     await this.commentModel.findByIdAndUpdate(
       reply.recepto,
-      { $inc: { reply: -1 } }, // Use '-1' to decrement by 1
-      { new: true }
+      { $inc: { reply: -1 } } // Use '-1' to decrement by 1
     );
 
     await this.replyModel.findByIdAndRemove(id);

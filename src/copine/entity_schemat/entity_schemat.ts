@@ -30,6 +30,26 @@ export interface CopineLoginEntity extends Document {
     password: string;
 }
 
+export interface CopineRecordEntity extends Document {
+    _id?: string;
+    getta: string;
+    nounou: number;
+    chauffeur: number;
+    menange: number;
+    maitre_maison: number;
+    Chef_Cuisinier: number,
+    Coiffeur: number,
+    Coiffeuse: number,
+    Coursier: number,
+    Vendeuse: number,
+    Rayonniste: number,
+    Rayonnist: number,
+    Technicien_de_surface: number,
+    esthticienne: number,
+    Teleconseilleur: number,
+}
+
+
 export interface CopineCommentEntity extends Document {
     _id?: string;
     commenta: CopineUserEntity;
@@ -108,4 +128,22 @@ export const CopineReplyUserSchema = new Schema({
     },
     message: String,
     comented_at: { type: Date, default: Date.now },
+});
+
+export const CopineRecordEntitySchema = new Schema({
+    getta: String,
+    nounou: { type: Number, default: 0 },
+    chauffeur: { type: Number, default: 0 },
+    menange: { type: Number, default: 0 },
+    maitre_maison: { type: Number, default: 0 },
+    Chef_Cuisinier: { type: Number, default: 0 },
+    Coiffeur: { type: Number, default: 0 },
+    Coiffeuse: { type: Number, default: 0 },
+    Coursier: { type: Number, default: 0 },
+    Vendeuse: { type: Number, default: 0 },
+    Rayonniste: { type: Number, default: 0 },
+    Rayonnist: { type: Number, default: 0 },
+    Technicien_de_surface: { type: Number, default: 0 },
+    esthticienne: { type: Number, default: 0 },
+    Teleconseilleur: { type: Number, default: 0 },
 });

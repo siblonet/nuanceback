@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CopineService } from './copine.service';
-import { CopineCommentEntity, CopineLoginEntity, CopineReplyEntity, CopineUserEntity } from './entity_schemat/entity_schemat';
+import { CopineCommentEntity, CopineLoginEntity, CopineRecordEntity, CopineReplyEntity, CopineUserEntity } from './entity_schemat/entity_schemat';
 
 @Controller('copine')
 export class CopineController {
@@ -58,6 +58,13 @@ export class CopineController {
   gettingAllCopineReply(@Param('whors') whors: string): Promise<CopineReplyEntity[]> {
     return this.copineService.gettingAllCopineReply(whors);
   }
+
+  @Get("/suscribed/services/users")
+  async SuscribedServicesUsers(): Promise<CopineRecordEntity> {
+    return await this.copineService.SuscribedServicesUsers();
+  }
+
+
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 

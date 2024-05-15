@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
-import { CopineCommentUserSchema, CopineReplyUserSchema, CopineUserSchema } from './entity_schemat/entity_schemat';
+import { CopineCommentUserSchema, CopineRecordEntitySchema, CopineReplyUserSchema, CopineUserSchema } from './entity_schemat/entity_schemat';
 import { CopineController } from './copine.controller';
 import { CopineService } from './copine.service';
 
@@ -10,7 +10,8 @@ import { CopineService } from './copine.service';
     MongooseModule.forFeature([
       { name: 'CopineUser', schema: CopineUserSchema },
       { name: 'CopineComment', schema: CopineCommentUserSchema },
-      { name: 'CopineReply', schema: CopineReplyUserSchema }      
+      { name: 'CopineRecord', schema: CopineRecordEntitySchema },
+      { name: 'CopineReply', schema: CopineReplyUserSchema }
     ])
   ],
 
