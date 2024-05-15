@@ -108,7 +108,7 @@ export class CopineService {
     const inva = await this.commentModel.create(Comment);
     await inva.save();
 
-    return this.commentModel.find({ recepto: Comment.recepto });
+    return await this.commentModel.find({ recepto: Comment.recepto });
   }
 
 
@@ -119,7 +119,7 @@ export class CopineService {
       { $inc: { reply: 1 } }
     );
 
-    return this.replyModel.find({ recepto: Reply.recepto });
+    return await this.replyModel.find({ recepto: Reply.recepto });
   }
 
 
@@ -167,15 +167,20 @@ export class CopineService {
 
 
   async gettingAllCopineComment(whors: string): Promise<CopineCommentEntity[]> {
-    return this.commentModel.find({ recepto: whors }).populate('commenta');
+    return await this.commentModel.find({ recepto: whors }).populate('commenta');
   }
 
   async gettingAllCopineReply(whors: string): Promise<CopineReplyEntity[]> {
-    return this.replyModel.find({ recepto: whors }).populate('commenta');
+    return await this.replyModel.find({ recepto: whors }).populate('commenta');
   }
 
   async SuscribedServicesUsers(): Promise<CopineRecordEntity> {
-    return this.recordModel.findOne({ getta: "getta" });
+    const gotio = await this.recordModel.findOne({ getta: "getta" });
+    if (!gotio) {
+      throw new HttpException('Utilisateur introuvable', HttpStatus.NOT_FOUND);
+
+    }
+    return gotio
   }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
