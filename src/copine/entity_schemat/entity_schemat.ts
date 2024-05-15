@@ -33,10 +33,10 @@ export interface CopineLoginEntity extends Document {
 export interface CopineRecordEntity extends Document {
     _id?: string;
     getta: string;
-    nounou: number;
-    chauffeur: number;
-    menange: number;
-    maitre_maison: number;
+    Nounou: number;
+    Chauffeur: number;
+    Menage: number;
+    Maitre_maison: number;
     Chef_Cuisinier: number,
     Coiffeur: number,
     Coiffeuse: number,
@@ -132,10 +132,10 @@ export const CopineReplyUserSchema = new Schema({
 
 export const CopineRecordEntitySchema = new Schema({
     getta: String,
-    nounou: { type: Number, default: 0 },
-    chauffeur: { type: Number, default: 0 },
-    menange: { type: Number, default: 0 },
-    maitre_maison: { type: Number, default: 0 },
+    Nounou: { type: Number, default: 0 },
+    Chauffeur: { type: Number, default: 0 },
+    Menage: { type: Number, default: 0 },
+    Maitre_maison: { type: Number, default: 0 },
     Chef_Cuisinier: { type: Number, default: 0 },
     Coiffeur: { type: Number, default: 0 },
     Coiffeuse: { type: Number, default: 0 },
