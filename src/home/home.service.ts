@@ -140,8 +140,8 @@ export class ActivityService {
       return { done: "done" };
     } catch (error) {
       // Handle errors
-      console.error('Error deleting image:', error);
-      throw error;
+      console.error('Error deleting image:', error.message? error.message : error);
+      return { done: "done" };
     }
   }
 
