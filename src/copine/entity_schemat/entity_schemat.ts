@@ -23,6 +23,7 @@ export interface CopineUserEntity extends Document {
     natinalite: string;
     religion: string;
     etudient: string;
+    status: boolean;
 }
 
 export interface CopineLoginEntity extends Document {
@@ -100,6 +101,7 @@ export const CopineUserSchema = new Schema({
     natinalite: String,
     religion: String,
     etudient: String,
+    status: { type: Boolean, default: false};
 });
 
 
