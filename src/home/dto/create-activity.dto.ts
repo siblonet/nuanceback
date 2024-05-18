@@ -17,7 +17,7 @@ export const ArticleSchema = new mongoose.Schema({
   notes: { type: String },
   owner: { type: String, default: "nuance" },
   image: [{ ima: { type: String } }],  // Corrected the type for 'ima'
-  created: { type: Date, default: Date.now }
+  created: { type: Date, default: Date.now },
 });
 
 //export default mongoose.model('Article', ArticleSchema);
@@ -36,4 +36,18 @@ export const VersionAvailabeSchema = new mongoose.Schema({
   url: { type: String },  // Corrected the type for 'ima'
   device: { type: String },
   created: { type: Date, default: Date.now }
+});
+
+export const ActionedDataSchema = new mongoose.Schema({
+  actioned_article: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'NuanceDoud',
+  },
+  actioned_user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'People',
+  },
+  action: { type: String },
+  soft_use: { type: String },
+  actioned_dat: { type: Date, default: Date.now }
 });

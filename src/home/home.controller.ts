@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
-import { Annonce, Article, VersionAvailabe } from './entities/activity.entity';
+import { Annonce, Article, VersionAvailabe, ActionedData } from './entities/activity.entity';
 import { ActivityService } from './home.service';
 
 @Controller('boutique')
@@ -36,9 +36,9 @@ export class ActivityController {
     return await this.activityService.versionAvailabeget(device);
   }
 
-  @Post()
-  async create(@Body() article: Article) {
-    return await this.activityService.create(article);
+  @Post('/:soft_use/:creata_id')
+  async create(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Body() article: Article) {
+    return await this.activityService.create(soft_use, creata_id, article);
 
   };
 
@@ -48,40 +48,57 @@ export class ActivityController {
   };
 
 
-  @Get('only/article/:owner')
-  async allArticles(@Param('owner') owner: string): Promise<any> {
-    return await this.activityService.allArticles(owner);
+  @Get('only/article/:owner/:wh')
+  async allArticles(@Param('owner') owner: string, @Param('wh') wh: string): Promise<any> {
+    return await this.activityService.allArticles(owner, wh);
   };
 
+
+  @Get('searchArticles/only/article/:owner')
+  async searchArticles(@Param('owner') owner: string): Promise<any> {
+    return await this.activityService.searchArticles(owner);
+  };
+
+
+
+  @Get('returnData/Length/:owner')
+  async returnDataLength(@Param('owner') owner: string): Promise<any> {
+    return await this.activityService.returnDataLength(owner);
+  };
 
   @Get('annoncedata/:owner')
   async allAnonnces(@Param('owner') owner: string): Promise<Annonce[]> {
     return await this.activityService.allAnonnces(owner);
   };
 
+  @Get('Action/Records/request')
+  async userActionRecord(): Promise<ActionedData[]> {
+    return await this.activityService.userActionRecord();
+  };
+
   // Update the existing PUT route to handle article update
-  @Put('/:id')
-  async updateArticle(@Param('id') id: string, @Body() article: Article): Promise<Article> {
-    return this.activityService.updateArticles(id, article);
+  @Put('/:soft_use/:creata_id/:id')
+  async updateArticle(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string, @Body() article: Article): Promise<Article> {
+    return this.activityService.updateArticles(soft_use, creata_id, id, article);
   };
 
 
   // Update the existing PUT route to handle article update
-  @Put('discountall/:owner/:perc')
-  async discountAll(@Param('owner') owner: string, @Param('perc') perc: number, @Body() bon: any): Promise<any> {
-    return this.activityService.discountAll(owner, perc, bon);
+  @Put('discountall/:soft_use/:creata_id/:owner/:perc')
+  async discountAll(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('owner') owner: string, @Param('perc') perc: number, @Body() bon: any): Promise<any> {
+    return this.activityService.discountAll(soft_use, creata_id, owner, perc, bon);
   };
 
   // Update the existing PUT route to handle article update
-  @Put('onediscount/one/:id')
-  async discountOne(@Param('id') id: string, @Body() article: Article): Promise<Article> {
-    return this.activityService.discountOne(id, article);
+  @Put('onediscount/one/:soft_use/:creata_id/:id')
+  async discountOne(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string, @Body() article: Article): Promise<Article> {
+    return this.activityService.discountOne(soft_use, creata_id, id, article);
   };
 
   // Update the existing DELETE route to handle article removal
-  @Delete('/:id')
-  async removeArticle(@Param('id') id: string): Promise<any> {
-    return this.activityService.removeArticle(id);
+  @Delete('/:soft_use/:creata_id/:id')
+  async removeArticle(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string): Promise<any> {
+    return this.activityService.removeArticle(soft_use, creata_id, id);
   }
 }
 

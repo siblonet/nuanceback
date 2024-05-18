@@ -215,6 +215,15 @@ export class PeopleService {
 
   }
 
+  async withidPersons(id: string): Promise<Person> {
+    const person = await this.personModel.findById(id);
+    if (!person) {
+      throw new HttpException('User not fine', HttpStatus.NOT_FOUND);
+    }
+    return person
+
+  }
+
 
   async allNonadmin(owner: string): Promise<Person[]> {
     return await this.personModel.find({ owner: owner, admin: owner === "nuance" ? { $ne: "true" } : "false" });
@@ -263,7 +272,6 @@ export class PeopleService {
           to: pushToken,
         });
       } catch (err) {
-        console.log(err);
         console.error("Erreur lors de l'envoi de la notification : ");
       }
     };

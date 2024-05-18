@@ -15,16 +15,16 @@ import { Order } from './entities/order.entity';
 export class OrderController {
   constructor(private orderService: OrderService) { }
 
-  @Post("/:owner")
+  @Post("/:soft_use/:creata_id/:owner")
   //@UseGuards(AuthGuard('jwt'), AdminGuard)
-  create(@Param('owner') owner: String, @Body() article: Order) {
-    return this.orderService.create(article, owner);
+  create(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('owner') owner: String, @Body() article: Order) {
+    return this.orderService.create(soft_use, creata_id, article, owner);
   }
 
-  @Post("/:customer/:owner")
+  @Post("/:soft_use/:creata_id/:customer/:owner")
   //@UseGuards(AuthGuard('jwt'), AdminGuard)
-  createOnlinePayment(@Param('customer') customer: string, @Param('owner') owner: string, @Body() article: Order) {
-    return this.orderService.createOnlinePayment(article, customer, owner);
+  createOnlinePayment(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('customer') customer: string, @Param('owner') owner: string, @Body() article: Order) {
+    return this.orderService.createOnlinePayment(soft_use, creata_id, article, customer, owner);
   }
 
 
@@ -37,6 +37,17 @@ export class OrderController {
   @Get("/:owner")
   async allArticles(@Param('owner') owner: string): Promise<Order[]> {
     return await this.orderService.allArticles(owner);
+  }
+
+  @Get("allUntraitedOrder/:owner")
+  async allUntraitedOrder(@Param('owner') owner: string): Promise<Order[]> {
+    return await this.orderService.allUntraitedOrder(owner);
+  }
+
+
+  @Get("traitedAllOrder/:owner/:skipNum/:limitNum")
+  async alltraitedOrder(@Param('owner') owner: string, @Param('skipNum') skipNum: number, @Param('limitNum') limitNum: number): Promise<{ lengf: number, orders: Order[] }> {
+    return await this.orderService.alltraitedOrder(owner, skipNum, limitNum);
   }
 
   @Get("myorder/:id")
@@ -100,19 +111,25 @@ export class OrderController {
 
 
 
-  @Delete('cancele/:id')
-  canceleOrders(@Param('id') id: string) {
-    return this.orderService.canceleOrders(id);
+  @Delete('cancele/:soft_use/:creata_id/:id')
+  canceleOrders(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string) {
+    return this.orderService.canceleOrders(soft_use, creata_id, id);
   }
 
-  @Delete('/:id/:artid/:quant')
-  removeOrders(@Param('id') id: string, @Param('artid') artid: string, @Param('quant') quant: Number) {
-    return this.orderService.removeOrders(id, artid, quant);
+  @Delete('/:soft_use/:creata_id/:id/:artid/:quant')
+  removeOrders(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string, @Param('artid') artid: string, @Param('quant') quant: Number) {
+    return this.orderService.removeOrders(soft_use, creata_id, id, artid, quant);
   }
 
-  @Delete('oarderar/:id/:ad/:artid/:quant')
-  removeOrdersArticl(@Param('id') id: string, @Param('ad') ad: string, @Param('artid') artid: string, @Param('quant') quant: Number) {
-    return this.orderService.removeOrdersArticl(id, ad, artid, quant);
+  @Delete('already/article/deleted/:id')
+  articleAreadyremoved(@Param('id') id: string) {
+    return this.orderService.articleAreadyremoved(id);
+  }
+
+
+  @Delete('oarderar/:soft_use/:creata_id/:id/:ad/:artid/:quant')
+  removeOrdersArticl(@Param('soft_use') soft_use: string, @Param('creata_id') creata_id: string, @Param('id') id: string, @Param('ad') ad: string, @Param('artid') artid: string, @Param('quant') quant: Number) {
+    return this.orderService.removeOrdersArticl(soft_use, creata_id, id, ad, artid, quant);
   }
 
 }

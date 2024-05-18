@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Annonce, Article, VersionAvailabe } from './entities/activity.entity';
+import { ActionedData, Annonce, Article, VersionAvailabe } from './entities/activity.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { Storage } from '@google-cloud/storage';
 import { MineindService } from 'src/mineind/mineind.service';
 import { Order } from 'src/order/entities/order.entity';
+import { Person } from 'src/people/entities/person.entity';
 
 @Injectable()
 export class ActivityService {
@@ -16,6 +17,8 @@ export class ActivityService {
     @InjectModel('AnnonceDoud') private annonceModel: Model<Annonce>,
     @InjectModel('VersionAvailabe') private versionavailModel: Model<VersionAvailabe>,
     @InjectModel('OrderDoud') private orderModel: Model<Order>,
+    @InjectModel('People') private personModel: Model<Person>,
+    @InjectModel('ActionedData') private actionedModel: Model<ActionedData>,
     private readonly mineindService: MineindService) { }
 
   private async initializeGoogleCloudStorage(): Promise<Storage> {
@@ -40,12 +43,15 @@ export class ActivityService {
 
 
   async DeleteAnnonces(id: string, g: any): Promise<any> {
+    const anonceim = await this.annonceModel.findById(id);
 
-    const anonce = await this.annonceModel.findByIdAndUpdate(id, { image: "" });
-    if (!anonce) {
+    if (!anonceim) {
       throw new HttpException('annonces not found', HttpStatus.NOT_FOUND);
 
     }
+    await this.deleteImage({ image_url: anonceim.image })
+
+    await this.annonceModel.findByIdAndUpdate(id, { image: "" });
 
     return { done: "done" };
   }
@@ -148,9 +154,20 @@ export class ActivityService {
     return await this.versionavailModel.findOne({ device: device });
   }
 
-  async create(article: Article): Promise<Article> {
-    const docid = await this.boutiqueModel.create(article);
-    return docid._id;
+  async create(soft_use: string, creata_id: string, article: Article): Promise<Article> {
+    if (soft_use && creata_id && soft_use !== "nuance" && creata_id !== "nuance") {
+      const docid = await this.boutiqueModel.create(article);
+      await this.actionedModel.create({
+        actioned_article: docid._id,
+        actioned_user: creata_id,
+        action: "Created un article",
+        soft_use: soft_use,
+      });
+
+      return docid._id;
+    }
+    throw new HttpException('user id needed', HttpStatus.BAD_REQUEST);
+
   }
 
   generateUuid(): string {
@@ -159,61 +176,178 @@ export class ActivityService {
 
   async allData(owner: String): Promise<any> {
     const pagesetting = await this.annonceModel.find({ owner: owner });
-    const article = await this.boutiqueModel.find({ owner: owner });
-    const order = await this.orderModel.find({ owner: owner }).sort({ created: -1 }).populate('articles.arti_id').populate('client');
-    return { article: article, pagesetting: pagesetting, order: order }
+    const article = await this.boutiqueModel.find({ owner: owner, quantity: { $ne: 0 } }).sort({ created: -1 });
+    //const order = await this.orderModel.find({ owner: owner }).sort({ created: -1 }).populate('articles.arti_id').populate('client');
+    return { article: article, pagesetting: pagesetting }
   }
 
-  async allArticles(owner: String): Promise<any> {
-    return await this.boutiqueModel.find({ owner: owner });
+  async allArticles(owner: String, wh: string): Promise<any> {
+    return await this.boutiqueModel.find({ owner: owner, quantity: wh == "avail" ? { $ne: 0 } : 0 });
   }
 
+  async searchArticles(owner: String): Promise<any> {
+    return await this.boutiqueModel.find({ owner });
+  }
+
+
+
+  async returnDataLength(owner: string): Promise<any> {
+    //2024-03-06T15:33:31.780+00:00
+    const currentDate = new Date();
+    const datePart = currentDate.toISOString().split('T')[0];
+
+    const startOfDay = new Date(`${datePart}T00:00:00.000Z`);
+    const endOfDay = new Date(`${datePart}T23:59:59.999Z`);
+    const aAL = await this.boutiqueModel.countDocuments({ owner, quantity: { $ne: 0 } })//.exec();
+    const eAL = await this.boutiqueModel.countDocuments({ owner, quantity: 0 })//.exec();
+    const AMR = await this.actionedModel.countDocuments()//.exec();
+    const udOL = await this.orderModel.find({ owner, statut: { $nin: ['done', 'fail'] } })//.exec();
+    const dOL = await this.orderModel.countDocuments({
+      owner,
+      statut: 'done',
+      created: {
+        $gte: startOfDay,
+        $lt: endOfDay
+      }
+    })
+    const fdOL = await this.orderModel.countDocuments({ owner, statut: 'fail' })//.exec();
+    const PNL = await this.personModel.countDocuments({ owner, nom: { $ne: 'Anony' } })//.exec();
+    const PNAL = await this.personModel.countDocuments({ owner, nom: 'Anony' })//.exec();
+
+    const dOTP = await this.orderModel.aggregate([
+      {
+        $match: {
+          owner: owner,
+          statut: 'done',
+          created: {
+            $gte: startOfDay,
+            $lt: endOfDay
+          }
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$reduction' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          total: 1,
+        },
+      },
+    ]);
+
+    const dataLength = {
+      aAL,
+      eAL,
+      udOL,
+      dOL,
+      fdOL,
+      PNL,
+      PNAL,
+      AMR,
+      total: dOTP.length ? dOTP[0].total : 0
+    };
+
+    //await this.boutiqueModel.deleteMany({ addarticle: "KHAMRAH QAHWA", quantity: 0 });
+
+    return dataLength;
+  }
 
   async allAnonnces(owner: String): Promise<Annonce[]> {
     return await this.annonceModel.find({ owner: owner });
   }
 
-  async updateArticles(id: string, article: Article): Promise<any> {
-    const admin = await this.boutiqueModel.findByIdAndUpdate(id, article);
-    if (!admin) {
-      throw new HttpException('article not found', HttpStatus.NOT_FOUND);
-    }
-    return { done: 'done' };
+  async userActionRecord(): Promise<ActionedData[]> {
+    return await this.actionedModel.find().sort({ created: -1 }).populate("actioned_article").populate("actioned_user");
   }
 
+  async updateArticles(soft_use: string, creata_id: string, id: string, article: Article): Promise<any> {
+    if (soft_use && creata_id && soft_use !== "nuance" && creata_id !== "nuance") {
 
-  async discountAll(owner: string, perc: number, bod: any): Promise<any> {
-    try {
-      if (perc > 0) {
-        const articles = await this.boutiqueModel.find({ owner: owner });
-        for (let article of articles) {
-          const percentage = (perc / 100) * article.addprix;
-          const reducedPrice = article.addprix - percentage;
-          await this.boutiqueModel.findByIdAndUpdate(article._id, { addreduction: reducedPrice });
-        }
-      } else {
-        await this.boutiqueModel.updateMany({ owner: owner }, { addreduction: 0 });
+      const admin = await this.boutiqueModel.findByIdAndUpdate(id, article);
+      if (!admin) {
+        throw new HttpException('article not found', HttpStatus.NOT_FOUND);
       }
 
-      return { done: 'Discount applied successfully' };
-    } catch (error) {
-      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+      await this.actionedModel.create({
+        actioned_article: id,
+        actioned_user: creata_id,
+        action: "Updated un article",
+        soft_use: soft_use,
+      });
+      return { done: 'done' };
     }
+    throw new HttpException('user id needed', HttpStatus.BAD_REQUEST)
+  }
+
+
+  async discountAll(soft_use: string, creata_id: string, owner: string, perc: number, bod: any): Promise<any> {
+    if (soft_use && creata_id && soft_use !== "nuance" && creata_id !== "nuance") {
+
+      try {
+        if (perc > 0) {
+          const articles = await this.boutiqueModel.find({ owner: owner });
+          for (let article of articles) {
+            const percentage = (perc / 100) * article.addprix;
+            const reducedPrice = article.addprix - percentage;
+            await this.boutiqueModel.findByIdAndUpdate(article._id, { addreduction: reducedPrice });
+          }
+        } else {
+          await this.boutiqueModel.updateMany({ owner: owner }, { addreduction: 0 });
+        }
+        await this.actionedModel.create({
+          actioned_article: creata_id,
+          actioned_user: creata_id,
+          action: "Discounted all article",
+          soft_use: soft_use,
+        });
+        return { done: 'Discount applied successfully' };
+      } catch (error) {
+        throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+      }
+    }
+    throw new HttpException('user id needed', HttpStatus.BAD_REQUEST)
   }
 
 
 
-  async discountOne(id: string, article: Article): Promise<any> {
-    const admin = await this.boutiqueModel.findByIdAndUpdate(id, { addreduction: article.addreduction });
-    if (!admin) {
-      throw new HttpException('article not found', HttpStatus.NOT_FOUND);
+  async discountOne(soft_use: string, creata_id: string, id: string, article: Article): Promise<any> {
+    if (soft_use && creata_id && soft_use !== "nuance" && creata_id !== "nuance") {
+
+      const admin = await this.boutiqueModel.findByIdAndUpdate(id, { addreduction: article.addreduction });
+      if (!admin) {
+        throw new HttpException('article not found', HttpStatus.NOT_FOUND);
+      }
+
+      await this.actionedModel.create({
+        actioned_article: id,
+        actioned_user: creata_id,
+        action: "Discounted an article",
+        soft_use: soft_use,
+      });
+      return { done: 'done' };
     }
-    return { done: 'done' };
+    throw new HttpException('user id needed', HttpStatus.BAD_REQUEST)
   }
 
-  async removeArticle(id: string): Promise<any> {
-    await this.boutiqueModel.findByIdAndRemove(id);
-    return { done: "done" }
+  async removeArticle(soft_use: string, creata_id: string, id: string): Promise<any> {
+    if (soft_use && creata_id && soft_use !== "nuance" && creata_id !== "nuance") {
+      await this.boutiqueModel.findByIdAndRemove(id);
+
+      await this.actionedModel.create({
+        actioned_article: id,
+        actioned_user: creata_id,
+        action: "just deleted an article",
+        soft_use: soft_use,
+      });
+      return { done: "done" }
+    }
+
+    throw new HttpException('user id needed', HttpStatus.BAD_REQUEST);
+
   }
 
 }

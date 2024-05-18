@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { Person } from 'src/people/entities/person.entity';
 
 export interface Article extends Document {
   addarticle: string;
@@ -31,3 +32,12 @@ export interface VersionAvailabe extends Document {
   device: string;
   created?: Date;
 };
+
+
+export interface ActionedData extends Document {
+  actioned_article: Article;
+  actioned_user: Person;
+  action: string;
+  soft_use: string;
+  actioned_dat: Date;
+}
