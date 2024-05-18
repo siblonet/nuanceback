@@ -87,7 +87,11 @@ export class ActivityService {
     const file = bucket.file(generatedUuid);
     if (old_image) {
       const filenamea = old_image.split('/').pop();
-      await bucket.file(filenamea).delete();
+      try {
+        await bucket.file(filenamea).delete();
+      } catch (error) {
+
+      }
     }
 
 
@@ -140,7 +144,7 @@ export class ActivityService {
       return { done: "done" };
     } catch (error) {
       // Handle errors
-      console.error('Error deleting image:', error.message? error.message : error);
+      console.error('Error deleting image:', error.message ? error.message : error);
       return { done: "done" };
     }
   }
