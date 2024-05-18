@@ -101,7 +101,7 @@ export const CopineUserSchema = new Schema({
     natinalite: String,
     religion: String,
     etudient: String,
-    status: { type: Boolean, default: false};
+    status: { type: Boolean, default: false},
 });
 
 
