@@ -205,7 +205,7 @@ export class ActivityService {
     const aAL = await this.boutiqueModel.countDocuments({ owner, quantity: { $ne: 0 } })//.exec();
     const eAL = await this.boutiqueModel.countDocuments({ owner, quantity: 0 })//.exec();
     const AMR = await this.actionedModel.countDocuments()//.exec();
-    const udOL = await this.orderModel.find({ owner, statut: { $nin: ['done', 'fail'] } })//.exec();
+    const udOL = await this.orderModel.find({ owner, statut: { $nin: ['done', 'fail'] } }).populate('articles.arti_id').populate('client');
     const dOL = await this.orderModel.countDocuments({
       owner,
       statut: 'done',
