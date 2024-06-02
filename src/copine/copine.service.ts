@@ -88,7 +88,7 @@ export class CopineService {
     } else {
       const inva = await this.userModel.create(User);
       await inva.save();
-      await this.SuscribedServicesUpdateUsers(User.ecord);
+      //await this.SuscribedServicesUpdateUsers(User.ecord);
       return inva;
     }
   }
