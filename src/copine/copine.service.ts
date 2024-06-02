@@ -99,9 +99,9 @@ export class CopineService {
     if (!person) {
       return { ee: "Invalid" }
     } else if (password === person.password && password !== "1234") {
-      return person;
-    } else if (password === person.password && password === "1234") {
       return { con: "Invalid" }
+    } else if (password === person.password && password === "1234") {
+      return person;
     }
     return { ee: "Invalid" }
   }
