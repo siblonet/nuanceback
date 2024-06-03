@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CopineService } from './copine.service';
-import { CopineCommentEntity, CopineLoginEntity, CopineRecordEntity, CopineReplyEntity, CopineUserEntity } from './entity_schemat/entity_schemat';
+import { CopineCommentEntity, CopineLoginEntity, CopineRecordEntity, CopineReplyEntity, CopineUserEntity, Job } from './entity_schemat/entity_schemat';
 
 @Controller('copine')
 export class CopineController {
@@ -27,6 +27,10 @@ export class CopineController {
     return this.copineService.copineCreatingReply(copinereply);
   }
 
+  @Post("/JobcopineCreating")
+  copineCreatingJob(@Body() copinejob: Job) {
+    return this.copineService.copineCreatingJob(copinejob);
+  }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

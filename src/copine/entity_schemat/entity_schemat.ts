@@ -24,6 +24,7 @@ export interface CopineUserEntity extends Document {
     religion: string;
     etudient: string;
     status: boolean;
+    job: Job;
 }
 
 export interface CopineLoginEntity extends Document {
@@ -70,6 +71,18 @@ export interface CopineReplyEntity extends Document {
     comented_at?: Date;
 }
 
+export interface Job extends Document {
+    _id?: string;
+    role: string,
+    days: string,
+    heurstart: string,
+    heurend: string,
+    ville: string,
+    commune: string,
+    salaire: number,
+    descip: string,
+    recruter: CopineUserEntity,
+}
 
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -101,7 +114,11 @@ export const CopineUserSchema = new Schema({
     natinalite: String,
     religion: String,
     etudient: String,
-    status: { type: Boolean, default: false},
+    status: { type: Boolean, default: false },
+    job: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineJob',
+    },
 });
 
 
@@ -148,4 +165,19 @@ export const CopineRecordEntitySchema = new Schema({
     Technicien_de_surface: { type: Number, default: 0 },
     esthticienne: { type: Number, default: 0 },
     Teleconseilleur: { type: Number, default: 0 },
+});
+
+export const CopineJobSchema = new Schema({
+    role: String,
+    days: String,
+    heurstart: String,
+    heurend: String,
+    ville: String,
+    commune: String,
+    salaire: { type: Number, default: 0 },
+    descip: String,
+    recruter: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineUser',
+    },
 });

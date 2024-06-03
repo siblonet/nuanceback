@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import axios from 'axios';
-import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity, CopineRecordEntity } from './entity_schemat/entity_schemat';
+import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity, CopineRecordEntity, Job } from './entity_schemat/entity_schemat';
 import { MineindService } from 'src/mineind/mineind.service';
 
 
@@ -14,6 +14,7 @@ export class CopineService {
     @InjectModel('CopineComment') private commentModel: Model<CopineCommentEntity>,
     @InjectModel('CopineReply') private replyModel: Model<CopineReplyEntity>,
     @InjectModel('CopineRecord') private recordModel: Model<CopineRecordEntity>,
+    @InjectModel('CopineJob') private jobModel: Model<Job>,
     private readonly mineindService: MineindService) { }
 
 
@@ -126,6 +127,11 @@ export class CopineService {
     return await this.replyModel.find({ recepto: Reply.recepto });
   }
 
+  async copineCreatingJob(Job: any) {
+    const inva = await this.jobModel.create(Job);
+    await inva.save();
+    return inva;
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
