@@ -83,6 +83,7 @@ export interface Job extends Document {
     descip: string,
     matrimonial: string,
     age: string,
+    sex: string,
     recruter: CopineUserEntity,
 }
 
@@ -180,6 +181,7 @@ export const CopineJobSchema = new Schema({
     descip: String,
     matrimonial: String,
     age: String,
+    sex: String,
     recruter: {
         type: Schema.Types.ObjectId,
         ref: 'CopineUser',
