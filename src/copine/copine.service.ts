@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import axios from 'axios';
-import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity, CopineRecordEntity, Job } from './entity_schemat/entity_schemat';
+import { CopineUserEntity, CopineLoginEntity, CopineCommentEntity, CopineReplyEntity, CopineRecordEntity, Job, JobAssigne } from './entity_schemat/entity_schemat';
 import { MineindService } from 'src/mineind/mineind.service';
 
 
@@ -15,6 +15,7 @@ export class CopineService {
     @InjectModel('CopineReply') private replyModel: Model<CopineReplyEntity>,
     @InjectModel('CopineRecord') private recordModel: Model<CopineRecordEntity>,
     @InjectModel('CopineJob') private jobModel: Model<Job>,
+    @InjectModel('CopineJobAssigne') private jobAssigneModel: Model<JobAssigne>,
     private readonly mineindService: MineindService) { }
 
 
@@ -133,6 +134,12 @@ export class CopineService {
     return inva;
   }
 
+  async copineCreatingJobAssigne(Job: any) {
+    const inva = await this.jobAssigneModel.create(Job);
+    await inva.save();
+    return inva;
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -195,6 +202,14 @@ export class CopineService {
 
   async GetJobsicrested(_id: any): Promise<Job[]> {
     const recruter = await this.jobModel.find({ recruter: _id });
+    if (!recruter) {
+      return []
+    }
+    return recruter
+  }
+
+  async GetJobAssigned(_id: any): Promise<JobAssigne[]> {
+    const recruter = await this.jobAssigneModel.find({ assignedid: _id });
     if (!recruter) {
       return []
     }
@@ -316,7 +331,14 @@ export class CopineService {
     return await this.recordModel.findOne({ getta: "getta" });
   }
 
+  async copineJobAssigneUpdate(id: any, Jobassigne: JobAssigne): Promise<JobAssigne> {
+    const jobAssigne = await this.jobAssigneModel.findByIdAndUpdate(id, Jobassigne);
 
+    if (!jobAssigne) {
+      throw new HttpException('jobAssigne introuvable', HttpStatus.NOT_FOUND);
+    }
+    return jobAssigne;
+  }
 
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

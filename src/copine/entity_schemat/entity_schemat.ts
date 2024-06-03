@@ -87,6 +87,13 @@ export interface Job extends Document {
     recruter: CopineUserEntity,
 }
 
+export interface JobAssigne extends Document {
+    _id?: string;
+    jobid: Job,
+    assignedid: CopineUserEntity,
+    message: string
+}
+
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Schemat start @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -186,4 +193,16 @@ export const CopineJobSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'CopineUser',
     },
+});
+
+export const CopineJobAssigneSchema = new Schema({
+    jobid: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineJob',
+    },
+    assignedid: {
+        type: Schema.Types.ObjectId,
+        ref: 'CopineUser',
+    },
+    message: String
 });

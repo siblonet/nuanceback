@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CopineService } from './copine.service';
-import { CopineCommentEntity, CopineLoginEntity, CopineRecordEntity, CopineReplyEntity, CopineUserEntity, Job } from './entity_schemat/entity_schemat';
+import { CopineCommentEntity, CopineLoginEntity, CopineRecordEntity, CopineReplyEntity, CopineUserEntity, Job, JobAssigne } from './entity_schemat/entity_schemat';
 
 @Controller('copine')
 export class CopineController {
@@ -30,6 +30,11 @@ export class CopineController {
   @Post("/JobcopineCreating")
   copineCreatingJob(@Body() copinejob: Job) {
     return this.copineService.copineCreatingJob(copinejob);
+  }
+
+  @Post("/AssigneJob")
+  copineCreatingJobAssigne(@Body() assignjob: JobAssigne) {
+    return this.copineService.copineCreatingJobAssigne(assignjob);
   }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Creations Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
@@ -73,6 +78,11 @@ export class CopineController {
     return await this.copineService.GetJobsicrested(id);
   }
 
+
+  @Get("/Assigne/tome/job/:id")
+  async GetJobAssigned(@Param('id') id: string): Promise<JobAssigne[]> {
+    return await this.copineService.GetJobAssigned(id);
+  }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Starting point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -109,6 +119,12 @@ export class CopineController {
     return this.copineService.copineReplyUpdate(whars, replay);
   }
 
+  @Put("/updateassignement/:id")
+  copineAssignedUpdate(@Param('id') id: string, @Body() assigneJob: any) {
+    return this.copineService.copineJobAssigneUpdate(id, assigneJob);
+  }
+
+  
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Updatting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 

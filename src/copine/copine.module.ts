@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
-import { CopineCommentUserSchema, CopineJobSchema, CopineRecordEntitySchema, CopineReplyUserSchema, CopineUserSchema } from './entity_schemat/entity_schemat';
+import { CopineCommentUserSchema, CopineJobAssigneSchema, CopineJobSchema, CopineRecordEntitySchema, CopineReplyUserSchema, CopineUserSchema } from './entity_schemat/entity_schemat';
 import { CopineController } from './copine.controller';
 import { CopineService } from './copine.service';
 
@@ -12,7 +12,8 @@ import { CopineService } from './copine.service';
       { name: 'CopineComment', schema: CopineCommentUserSchema },
       { name: 'CopineRecord', schema: CopineRecordEntitySchema },
       { name: 'CopineReply', schema: CopineReplyUserSchema },
-      { name: 'CopineJob', schema: CopineJobSchema }
+      { name: 'CopineJob', schema: CopineJobSchema },
+      { name: 'CopineJobAssigne', schema: CopineJobAssigneSchema }
     ])
   ],
 
