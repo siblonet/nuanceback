@@ -81,6 +81,8 @@ export interface Job extends Document {
     commune: string,
     salaire: number,
     descip: string,
+    matrimonial: string,
+    age: string,
     recruter: CopineUserEntity,
 }
 
@@ -176,6 +178,8 @@ export const CopineJobSchema = new Schema({
     commune: String,
     salaire: { type: Number, default: 0 },
     descip: String,
+    matrimonial: String,
+    age: String,
     recruter: {
         type: Schema.Types.ObjectId,
         ref: 'CopineUser',
