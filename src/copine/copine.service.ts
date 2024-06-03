@@ -209,7 +209,7 @@ export class CopineService {
   }
 
   async GetJobAssigned(_id: any): Promise<JobAssigne[]> {
-    const recruter = await this.jobAssigneModel.find({ assignedid: _id });
+    const recruter = await this.jobAssigneModel.find({ assignedid: _id }).populate("jobid");
     if (!recruter) {
       return []
     }
