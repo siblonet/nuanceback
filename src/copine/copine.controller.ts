@@ -68,7 +68,10 @@ export class CopineController {
     return await this.copineService.SuscribedServicesUsers();
   }
 
-
+  @Get("/Job/Creating/copine/:id")
+  async GetJobsicrested(@Param('id') id: string): Promise<Job[]> {
+    return await this.copineService.GetJobsicrested(id);
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Geting Ending point @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
