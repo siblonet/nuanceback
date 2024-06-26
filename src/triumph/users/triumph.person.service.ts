@@ -102,7 +102,9 @@ export class TriumphPersonService {
     return await this.triumphuserModel.find().sort({ created: -1 });
   }
 
-
+  async getMe(id: string): Promise<TriumphUser> {
+    return await this.triumphuserModel.findById(id);
+  }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

@@ -40,6 +40,12 @@ export class TriumphPersonController {
     return await this.personService.getAllUsers();
   };
 
+  @Get("/:id")
+  async getMe(@Param('id') id: string): Promise<TriumphUser> {
+    return await this.personService.getMe(id);
+  };
+
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
