@@ -31,10 +31,14 @@ export class CarsController {
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get starts @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
   @Get()
-  async getAllHouses(): Promise<CarsEntity[]> {
+  async getAllCasrs(): Promise<CarsEntity[]> {
     return await this.carsService.getAllCasrs();
   };
 
+  @Get('retirveone/:id')
+  async getOneCars(@Param('id') id: string): Promise<CarsEntity> {
+    return this.carsService.getOneCars(id);
+  };
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

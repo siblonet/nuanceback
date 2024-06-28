@@ -32,6 +32,9 @@ export class CarsService {
     return await this.carsModel.find().sort({ created: -1 });
   }
 
+  async getOneCars(id: string): Promise<CarsEntity> {
+    return await this.carsModel.findById(id);
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
