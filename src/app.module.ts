@@ -12,6 +12,7 @@ import { CopineModule } from './copine/copine.module';
 import { TirhakaModule } from './instituttirhaka/tirhaka.module';
 import { TriumphModule } from './triumph/home/home.module';
 import { PersonTriumphModule } from './triumph/users/triumph.person.module';
+import { CarsModule } from './aboucar/cars/cars.module';
 
 
 const Upcase = {
@@ -193,6 +194,7 @@ function thisiswhat(eee: any): any {
     TirhakaModule,
     TriumphModule,
     PersonTriumphModule,
+    CarsModule,
     ConfigModule.forRoot(),
     //MongooseModule.forRoot(process.env.DATA_HANDLER)
     MongooseModule.forRoot(thisiswhat(process.env.DATA_HANDLER))
