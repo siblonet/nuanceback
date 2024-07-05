@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { BefreeAgriculterService } from './home.service';
-import { BefreePays, BefreeCooperative, BefreeAgrulter, BefreeAgrulture } from './home.entity';
+import { BefreePays, BefreeCooperative, BefreeAgrulter, BefreeAgrulture, BefreeCategorie } from './home.entity';
 
 @Controller('BefreeAgriculter')
 export class BefreeAgriculterController {
@@ -28,6 +28,12 @@ export class BefreeAgriculterController {
   async postBefreeAgrulture(@Body() housed: BefreeAgrulture) {
     return await this.befreeAgriculterService.postBefreeAgrulture(housed);
 
+  };
+
+
+  @Post("postBefreeCategorie")
+  async postBefreeCategorie(@Body() housee: BefreeCategorie) {
+    return await this.befreeAgriculterService.postBefreeCategorie(housee);
   };
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Post ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -65,6 +71,13 @@ export class BefreeAgriculterController {
   async getAllBefreeAgrulture(): Promise<BefreeAgrulture[]> {
     return await this.befreeAgriculterService.getAllBefreeAgrulture();
   };
+
+  @Get("getAllBefreeCategorie")
+  async getAllBefreeCategorie(): Promise<BefreeCategorie[]> {
+    return await this.befreeAgriculterService.getAllBefreeCategorie();
+  };
+
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -97,6 +110,11 @@ export class BefreeAgriculterController {
   @Put('updateBefreeAgrulture/:id')
   async updateBefreeAgrulture(@Param('id') id: string, @Body() housed: BefreeAgrulture): Promise<BefreeAgrulture> {
     return this.befreeAgriculterService.updateBefreeAgrulture(id, housed);
+  };
+
+  @Put('updateBefreeCategorie/:id')
+  async updateBefreeCategorie(@Param('id') id: string, @Body() housee: BefreeCategorie): Promise<BefreeCategorie> {
+    return this.befreeAgriculterService.updateBefreeCategorie(id, housee);
   };
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -134,6 +152,13 @@ export class BefreeAgriculterController {
   async deleteBefreeAgrulture(@Param('id') id: string): Promise<any> {
     return this.befreeAgriculterService.deleteBefreeAgrulture(id);
   }
+
+
+  @Delete('deleteBefreeCategorie/:id')
+  async deleteBefreeCategorie(@Param('id') id: string): Promise<any> {
+    return this.befreeAgriculterService.deleteBefreeCategorie(id);
+  }
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ delete ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
 }

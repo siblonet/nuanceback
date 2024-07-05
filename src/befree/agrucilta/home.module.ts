@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BefreeAgriculterController } from './home.controller';
 import { BefreeAgriculterService } from './home.service';
-import { BefreePaysSchema, BefreeCooperativeSchema, BefreeAgrulterSchema, BefreeAgrultureSchema } from './home.schema';
+import { BefreePaysSchema, BefreeCooperativeSchema, BefreeAgrulterSchema, BefreeAgrultureSchema, BefreeCategorieSchema } from './home.schema';
 
 @Module({
   imports: [
@@ -11,6 +11,7 @@ import { BefreePaysSchema, BefreeCooperativeSchema, BefreeAgrulterSchema, Befree
       { name: 'BefreeCooperative', schema: BefreeCooperativeSchema },
       { name: 'BefreeAgrulter', schema: BefreeAgrulterSchema },
       { name: 'BefreeAgrulture', schema: BefreeAgrultureSchema },
+      { name: 'BefreeCategorie', schema: BefreeCategorieSchema }
     ])
   ],
 

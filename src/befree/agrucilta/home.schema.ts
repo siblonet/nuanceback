@@ -8,6 +8,16 @@ export const BefreePaysSchema = new mongoose.Schema({
 })
 
 
+export const BefreeCategorieSchema = new mongoose.Schema({
+  name: String,
+  pays: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BefreePays',
+  },
+  created: { type: Date, default: Date.now },
+})
+
+
 export const BefreeCooperativeSchema = new mongoose.Schema({
   nom: String,
   certificate: [{ photo: String }],

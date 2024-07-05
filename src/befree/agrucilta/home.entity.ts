@@ -5,6 +5,12 @@ export interface BefreePays {
   created?: Date;
 }
 
+export interface BefreeCategorie {
+  _id?: string;
+  name: string;
+  pays: BefreePays;
+  created?: Date;
+}
 
 export interface BefreeCooperative {
   _id?: string;

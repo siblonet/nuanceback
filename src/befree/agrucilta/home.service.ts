@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { BefreeAgrulter, BefreeAgrulture, BefreeCooperative, BefreePays } from './home.entity';
+import { BefreeAgrulter, BefreeAgrulture, BefreeCategorie, BefreeCooperative, BefreePays } from './home.entity';
 
 
 @Injectable()
@@ -12,6 +12,7 @@ export class BefreeAgriculterService {
     @InjectModel('BefreeCooperative') private befreeCooperative: Model<BefreeCooperative>,
     @InjectModel('BefreeAgrulter') private befreeAgrulter: Model<BefreeAgrulter>,
     @InjectModel('BefreeAgrulture') private befreeAgrulture: Model<BefreeAgrulture>,
+    @InjectModel('BefreeCategorie') private befreeCategorie: Model<BefreeCategorie>
   ) { }
 
 
@@ -30,6 +31,10 @@ export class BefreeAgriculterService {
 
   async postBefreeAgrulture(housed: BefreeAgrulture): Promise<BefreeAgrulture> {
     return await this.befreeAgrulture.create(housed);
+  }
+
+  async postBefreeCategorie(housed: BefreeCategorie): Promise<BefreeCategorie> {
+    return await this.befreeCategorie.create(housed);
   }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Post ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -63,6 +68,10 @@ export class BefreeAgriculterService {
     return await this.befreeAgrulture.find();
   }
 
+
+  async getAllBefreeCategorie(): Promise<BefreeCategorie[]> {
+    return await this.befreeCategorie.find();
+  }
 
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -106,6 +115,13 @@ export class BefreeAgriculterService {
     }
   }
 
+
+  async updateBefreeCategorie(id: string, house: BefreeCategorie): Promise<any> {
+    const housea = await this.befreeCategorie.findByIdAndUpdate(id, house);
+    if (!housea) {
+      throw new HttpException('house not found', HttpStatus.NOT_FOUND);
+    }
+  }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
@@ -138,4 +154,8 @@ export class BefreeAgriculterService {
     return await this.befreeAgrulture.findByIdAndRemove(id);
   }
 
+
+  async deleteBefreeCategorie(id: string): Promise<any> {
+    return await this.befreeCategorie.findByIdAndRemove(id);
+  }
 }
