@@ -25,8 +25,14 @@ export class BefreeAgriculterService {
     return await this.befreeCooperative.create(houseb);
   }
 
-  async postBefreeAgrulter(housec: BefreeAgrulter): Promise<BefreeAgrulter> {
-    return await this.befreeAgrulter.create(housec);
+  async postBefreeAgrulter(housec: BefreeAgrulter): Promise<any> {
+    const { identifiant_interne_exploitation } = housec;
+    const agri = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation });
+    if (agri) {
+      return { ee: "phoneused" }
+    } else {
+      return await this.befreeAgrulter.create(housec);
+    }
   }
 
   async postBefreeAgrulture(housed: BefreeAgrulture): Promise<BefreeAgrulture> {
@@ -74,7 +80,7 @@ export class BefreeAgriculterService {
   }
 
 
-  
+
   async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
     return await this.befreeAgrulter.findById(id);
   }
