@@ -16,7 +16,7 @@ export interface BefreeCooperative {
   _id?: string;
   nom: string;
   certificate: [{ photo: string }];
-  pays: BefreePays;
+  pays: BefreeCategorie;
   created?: Date;
 }
 

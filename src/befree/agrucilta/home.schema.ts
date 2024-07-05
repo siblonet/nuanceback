@@ -23,7 +23,7 @@ export const BefreeCooperativeSchema = new mongoose.Schema({
   certificate: [{ photo: String }],
   pays: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'BefreePays',
+    ref: 'BefreeCategorie',
   },
   created: { type: Date, default: Date.now },
 })
