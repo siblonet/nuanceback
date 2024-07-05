@@ -21,7 +21,7 @@ export const BefreeCategorieSchema = new mongoose.Schema({
 export const BefreeCooperativeSchema = new mongoose.Schema({
   nom: String,
   certificate: [{ photo: String }],
-  pays: {
+  categorie: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'BefreeCategorie',
   },
