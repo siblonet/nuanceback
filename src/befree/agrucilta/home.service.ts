@@ -73,6 +73,11 @@ export class BefreeAgriculterService {
     return await this.befreeCategorie.find();
   }
 
+
+  
+  async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
+    return await this.befreeAgrulter.findById(id);
+  }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

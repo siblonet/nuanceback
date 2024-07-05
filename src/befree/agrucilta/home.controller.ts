@@ -78,6 +78,11 @@ export class BefreeAgriculterController {
   };
 
 
+  @Get("ByIdgetBefreeAgrulter/:id")
+  async getBefreeAgrulterById(@Param('id') id: string): Promise<BefreeAgrulter[]> {
+    return await this.befreeAgriculterService.getBefreeAgrulterById(id);
+  };
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
