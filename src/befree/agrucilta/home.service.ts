@@ -90,7 +90,7 @@ export class BefreeAgriculterService {
   }
 
   async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
-    return await this.befreeAgrulter.findOne({ cooperative: id });
+    return await this.befreeAgrulter.find({ cooperative: id });
   }
 
 
