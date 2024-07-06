@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BefreeAgrulter, BefreeAgrulture, BefreeCategorie, BefreeCooperative, BefreePays } from './home.entity';
@@ -102,9 +102,26 @@ export class BefreeAgriculterService {
   }
 
 
-  async getByIdItergetBefreeAgrulter(id: string): Promise<BefreeAgrulter> {
-    return await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id });
+
+  async getByIdItergetBefreeAgrulter(id: string): Promise<{ agriculter: BefreeAgrulter, agriculture: BefreeAgrulture }> {
+    try {
+      const agriculter = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id });
+      if (!agriculter) {
+        throw new NotFoundException(`Agriculter with id ${id} not found`);
+      }
+
+      const agriculture = await this.befreeAgrulture.findOne({ agriculter: agriculter._id });
+      if (!agriculture) {
+        throw new NotFoundException(`Agriculture for agriculter with id ${agriculter._id} not found`);
+      }
+
+      return { agriculter, agriculture };
+    } catch (error) {
+      throw new Error(`Error while retrieving agriculter or agriculture: ${error.message}`);
+    }
   }
+
+
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */

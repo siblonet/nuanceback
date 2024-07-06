@@ -94,7 +94,7 @@ export class BefreeAgriculterController {
   };
 
   @Get("ByIdItergetBefreeAgrulter/:id")
-  async getByIdItergetBefreeAgrulter(@Param('id') id: string): Promise<BefreeAgrulter> {
+  async getByIdItergetBefreeAgrulter(@Param('id') id: string): Promise<any> {
     return await this.befreeAgriculterService.getByIdItergetBefreeAgrulter(id);
   };
 
