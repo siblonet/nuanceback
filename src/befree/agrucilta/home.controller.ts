@@ -62,6 +62,12 @@ export class BefreeAgriculterController {
     return await this.befreeAgriculterService.getAllBefreeCooperative();
   };
 
+  @Get("getAllBefreePayCooperative/:id")
+  async getAllBefreePayCooperative(@Param('id') id: string): Promise<BefreeCooperative[]> {
+    return await this.befreeAgriculterService.getAllBefreePayCooperative(id);
+  };
+
+
   @Get("getAllBefreeAgrulter")
   async getAllBefreeAgrulter(): Promise<BefreeAgrulter[]> {
     return await this.befreeAgriculterService.getAllBefreeAgrulter();
@@ -77,6 +83,10 @@ export class BefreeAgriculterController {
     return await this.befreeAgriculterService.getAllBefreeCategorie();
   };
 
+  @Get("getAllBefreePayCategorie/:id")
+  async getAllBefreePayCategorie(@Param('id') id: string): Promise<BefreeCategorie[]> {
+    return await this.befreeAgriculterService.getAllBefreePayCategorie(id);
+  };
 
   @Get("ByIdgetBefreeAgrulter/:id")
   async getBefreeAgrulterById(@Param('id') id: string): Promise<BefreeAgrulter[]> {
