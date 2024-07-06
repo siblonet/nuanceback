@@ -95,7 +95,7 @@ export const BefreeAgrultureSchema = new mongoose.Schema({
   verification_latitute: String,
   verification_longitude: String,
   produit_agricole: String,
-  cooperative: {
+  agriculter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'BefreeAgrulter',
   },
