@@ -112,7 +112,7 @@ export class BefreeAgriculterService {
 
       const agriculture = await this.befreeAgrulture.findOne({ agriculter: agriculter._id });
       if (!agriculture) {
-        throw new Error(`Agriculture for agriculter with id ${agriculter._id} not found`);
+        return { agriculter, agriculture };
       }
 
       return { agriculter, agriculture };
