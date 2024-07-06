@@ -82,7 +82,12 @@ export class BefreeAgriculterService {
 
 
   async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
-    return await this.befreeAgrulter.findById(id);
+    return await this.befreeAgrulter.findOne({cooperative: id});
+  }
+
+  
+  async getByIdItergetBefreeAgrulter(id: string): Promise<BefreeAgrulter> {
+    return await this.befreeAgrulter.findOne({identifiant_interne_exploitation: id});
   }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
