@@ -86,6 +86,6 @@ export interface BefreeAgrulture {
   verification_latitute: string;
   verification_longitude: string;
   produit_agricole: string;
-  cooperative: BefreeAgrulter;
+  agriculter: BefreeAgrulter;
   created?: Date;
 }

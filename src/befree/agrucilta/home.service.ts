@@ -25,15 +25,23 @@ export class BefreeAgriculterService {
     return await this.befreeCooperative.create(houseb);
   }
 
-  async postBefreeAgrulter(housec: BefreeAgrulter): Promise<any> {
+  async postBefreeAgrulter(housec: BefreeAgrulter): Promise<{ message: string } | { _id: string }> {
     const { identifiant_interne_exploitation } = housec;
-    const agri = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation });
-    if (agri) {
-      return { ee: "phoneused" }
-    } else {
-      return await this.befreeAgrulter.create(housec);
+
+    try {
+      const existingAgri = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation });
+
+      if (existingAgri) {
+        return { message: "phoneused" };
+      } else {
+        const newAgriculter = await this.befreeAgrulter.create(housec);
+        return { _id: newAgriculter._id };
+      }
+    } catch (error) {
+      throw new Error(`Error while creating agriculter: ${error.message}`);
     }
   }
+
 
   async postBefreeAgrulture(housed: BefreeAgrulture): Promise<BefreeAgrulture> {
     return await this.befreeAgrulture.create(housed);
