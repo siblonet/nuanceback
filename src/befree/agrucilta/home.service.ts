@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BefreeAgrulter, BefreeAgrulture, BefreeCategorie, BefreeCooperative, BefreePays } from './home.entity';
@@ -107,12 +107,12 @@ export class BefreeAgriculterService {
     try {
       const agriculter = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id });
       if (!agriculter) {
-        throw new NotFoundException(`Agriculter with id ${id} not found`);
+        throw new Error(`Agriculter with id ${id} not found`);
       }
 
       const agriculture = await this.befreeAgrulture.findOne({ agriculter: agriculter._id });
       if (!agriculture) {
-        throw new NotFoundException(`Agriculture for agriculter with id ${agriculter._id} not found`);
+        throw new Error(`Agriculture for agriculter with id ${agriculter._id} not found`);
       }
 
       return { agriculter, agriculture };
