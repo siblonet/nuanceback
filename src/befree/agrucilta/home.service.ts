@@ -66,6 +66,11 @@ export class BefreeAgriculterService {
     return await this.befreeCooperative.find();
   }
 
+
+  async getAllBefreePayCooperative(id: string): Promise<BefreeCooperative[]> {
+    return await this.befreeCooperative.find({ categorie: id });
+  }
+
   async getAllBefreeAgrulter(): Promise<BefreeAgrulter[]> {
     return await this.befreeAgrulter.find();
   }
@@ -80,14 +85,17 @@ export class BefreeAgriculterService {
   }
 
 
-
-  async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
-    return await this.befreeAgrulter.findOne({cooperative: id});
+  async getAllBefreePayCategorie(id: string): Promise<BefreeCategorie[]> {
+    return await this.befreeCategorie.find({ pays: id });
   }
 
-  
+  async getBefreeAgrulterById(id: string): Promise<BefreeAgrulter[]> {
+    return await this.befreeAgrulter.findOne({ cooperative: id });
+  }
+
+
   async getByIdItergetBefreeAgrulter(id: string): Promise<BefreeAgrulter> {
-    return await this.befreeAgrulter.findOne({identifiant_interne_exploitation: id});
+    return await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id });
   }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Get ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
