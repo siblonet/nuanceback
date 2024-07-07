@@ -79,8 +79,12 @@ export class BefreeAgriculterService {
     return await this.befreeCooperative.find({ categorie: id });
   }
 
-  async getAllBefreeAgrulter(): Promise<BefreeAgrulter[]> {
-    return await this.befreeAgrulter.find();
+  async getAllBefreeAgrulter(skipNum: number = 0, limitNum: number = 100): Promise<{ agriculter: BefreeAgrulter[], agrilength: any }> {
+    const agrilength = await this.befreeAgrulter.countDocuments()//.exec();
+    const agriculter = await this.befreeAgrulter.find()
+      .skip(skipNum)
+      .limit(limitNum);
+    return { agriculter, agrilength };
   }
 
   async getAllBefreeAgrulture(): Promise<BefreeAgrulture[]> {
