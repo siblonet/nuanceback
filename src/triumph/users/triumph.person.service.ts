@@ -8,7 +8,8 @@ import { MineindService } from 'src/mineind/mineind.service';
 export class TriumphPersonService {
   constructor(
     @InjectModel('triumphuser') private triumphuserModel: Model<TriumphUser>,
-    private readonly mineindService: MineindService) { }
+    private readonly mineindService: MineindService
+  ) { }
 
 
   enderog(nez: any, ood: any): Boolean {

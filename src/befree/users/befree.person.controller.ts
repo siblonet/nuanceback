@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
-import { AccessRequest, BefreeUser } from './person.entity';
+import { AccessRequest, AccessUser, BefreeLogin, BefreeUser } from './person.entity';
 import { BefreePersonService } from './befree.person.service';
 
 @Controller('BefreeAccess')
@@ -9,16 +9,27 @@ export class BefreePersonController {
 
 
   @Post()
+  async postAccess(@Body() postAccess: AccessUser) {
+    return await this.personService.postAccess(postAccess);
+  };
+
+
+  @Post('login')
+  async loginAccess(@Body() pLog: AccessRequest) {
+    return await this.personService.loginAccess(pLog);
+  }
+
+
+  @Post('create_user')
   async postUser(@Body() triumphUser: BefreeUser) {
     return await this.personService.postUser(triumphUser);
   };
 
 
-  @Post('login')
-  async loginUser(@Body() pLog: AccessRequest) {
+  @Post('user_login')
+  async loginUser(@Body() pLog: BefreeLogin) {
     return await this.personService.loginUser(pLog);
   }
-
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Post ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Post ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Post ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
