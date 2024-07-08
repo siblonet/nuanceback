@@ -113,7 +113,7 @@ export class BefreeAgriculterService {
 
   async getByIdItergetBefreeAgrulter(id: string): Promise<{ agriculter: BefreeAgrulter, agriculture: BefreeAgrulture }> {
     try {
-      const agriculter = (await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id })).populated("BefreeCooperative");
+      const agriculter = await this.befreeAgrulter.findOne({ identifiant_interne_exploitation: id }).populate("cooperative");
       if (!agriculter) {
         throw new Error(`Agriculter with id ${id} not found`);
       }
