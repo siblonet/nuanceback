@@ -58,6 +58,8 @@ export const BefreeAgrulterSchema = new mongoose.Schema({
   },
   document: String,
   qrcode: String,
+  finger_print: String,
+  signature: String,
   created: { type: Date, default: Date.now },
 })
 

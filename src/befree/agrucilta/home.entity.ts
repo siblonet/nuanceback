@@ -48,6 +48,8 @@ export interface BefreeAgrulter {
   cooperative: BefreeCooperative;
   document: string;
   qrcode: string;
+  finger_print: string;
+  signature: string;
   created?: Date;
 }
 
