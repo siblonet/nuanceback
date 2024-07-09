@@ -29,29 +29,23 @@ export const BefreeCooperativeSchema = new mongoose.Schema({
 })
 
 
+
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+
 export const BefreeAgrulterSchema = new mongoose.Schema({
   prenom: String,
   nom: String,
   numero_telephone: String,
   identifiant_interne_exploitation: String,
   numero_etat_civil: String,
-  numero_piece_identite: String,
   numero_securite_sociale: String,
   numero_identification_national: String,
   genre: String,
   annee_naissance: String,
-  localite: {
-    name: String,
-    description: String,
-  },
-  district: {
-    name: String,
-    description: String,
-  },
-  region_inspection: {
-    name: String,
-    description: String,
-  },
   cooperative: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'BefreeCooperative',
@@ -63,25 +57,79 @@ export const BefreeAgrulterSchema = new mongoose.Schema({
   created: { type: Date, default: Date.now },
 })
 
-export const BefreeAgrultureSchema = new mongoose.Schema({
+
+export const BefreeExploitationAgricoleSchema = new mongoose.Schema({
+  localite: {
+    name: String,
+    description: String
+  },
+  district: {
+    name: String,
+    description: String
+  },
+  region_inspection: {
+    name: String,
+    description: String
+  },
+  identifiant_national_exploitation_agricole: String,
+  nombre_unites_agricoles_pour_cette_exploitation: String,
   superficie_exploitation: String,
   type_exploitation_agricole: String,
   nombre_unite_agricole: String,
   nombre_culture_certifiees: String,
-  inspecteur: {
-    name: String,
-    description: String,
+  agriculter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BefreeAgrulter',
   },
-  prenom_proprietaire_exploitation: String,
-  nom_proprietaire_exploitation: String,
-  numero_telephone_proprietaire_exploitation: String,
-  numero_identification_national_proprietaire_exploitation: String,
-  genre_proprietaire_exploitation: String,
-  nombre_travailleurs_permanents: String,
-  estimation_travailleurs_temporaires: String,
+  latitute: String,
+  longitude: String,
+  created: { type: Date, default: Date.now },
+
+})
+
+
+export const BefreeTravailleurAgricoleSchema = new mongoose.Schema({
+  nombre_travailleur_permanent: String,
+  estimation_nombre_travailleurs_temporaires: String,
+  agriculter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BefreeAgrulter',
+  },
+  created: { type: Date, default: Date.now },
+
+})
+
+
+
+export const BefreeInspecteurAgricoleSchema = new mongoose.Schema({
+  prenom: String,
+  nom: String,
   annee_inspection_interne: String,
   mois_inspection_interne: String,
   jour_inspection_interne: String,
+  agriculter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BefreeAgrulter',
+  },
+  created: { type: Date, default: Date.now },
+})
+
+
+export const BefreeProprieteurAgricoleSchema = new mongoose.Schema({
+  prenom: String,
+  nom: String,
+  numero_telephone: String,
+  numero_identification_national: String,
+  genre: String,
+  agriculter: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BefreeAgrulter',
+  },
+  created: { type: Date, default: Date.now },
+})
+
+
+export const BefreeExtraExploitationAgricoleSchema = new mongoose.Schema({
   variete_produit_agricole: String,
   superficie_produits_agricoles: String,
   estimation_totale_recolte: String,
@@ -92,8 +140,6 @@ export const BefreeAgrultureSchema = new mongoose.Schema({
   rendement_annee_precedente: String,
   identifiant_unite_agricole: String,
   superficie_unite_agricole: String,
-  latitute: String,
-  longitude: String,
   verification_latitute: String,
   verification_longitude: String,
   produit_agricole: String,
@@ -104,5 +150,8 @@ export const BefreeAgrultureSchema = new mongoose.Schema({
   created: { type: Date, default: Date.now },
 })
 
-
-
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
+//agricole @@@@@@@@@@
