@@ -148,6 +148,8 @@ export class BefreeAgriculterService {
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
+    return { done: "done" }
+
   }
 
 
@@ -156,6 +158,8 @@ export class BefreeAgriculterService {
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
+    return { done: "done" }
+
   }
 
   async updateBefreeAgrulter(id: string, house: BefreeAgrulter): Promise<any> {
@@ -163,6 +167,8 @@ export class BefreeAgriculterService {
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
+
+    return { done: "done" }
   }
 
   async updateBefreeAgrulture(id: string, house: BefreeAgrulture): Promise<any> {
@@ -170,6 +176,8 @@ export class BefreeAgriculterService {
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
+    return { done: "done" }
+
   }
 
 
@@ -178,6 +186,8 @@ export class BefreeAgriculterService {
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
+    return { done: "done" }
+
   }
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
   /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Update ends @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
