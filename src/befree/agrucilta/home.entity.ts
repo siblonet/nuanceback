@@ -89,9 +89,9 @@ export interface BefreeInspecteurAgricole {
   _id?: string;
   prenom: string;
   nom: string;
-  annee_inspection_interne: string,
-  mois_inspection_interne: string,
-  jour_inspection_interne: string,
+  annee_inspection_interne: string;
+  mois_inspection_interne: string;
+  jour_inspection_interne: string;
   agriculter: BefreeAgrulter;
   created?: Date;
 }
@@ -101,9 +101,9 @@ export interface BefreeProprieteurAgricole {
   _id?: string;
   prenom: string;
   nom: string;
-  numero_telephone: string,
-  numero_identification_national: string,
-  genre: string,
+  numero_telephone: string;
+  numero_identification_national: string;
+  genre: string;
   agriculter: BefreeAgrulter;
   created?: Date;
 }
