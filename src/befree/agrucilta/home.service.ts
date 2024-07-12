@@ -288,7 +288,7 @@ export class BefreeAgriculterService {
 
 
   async updateByidBefreeExploitationAgricole(id: string, house: any): Promise<any> {
-    const housea = await this.befreeExploitationAgricole.findOneAndUpdate({agriculter: id}, house);
+    const housea = await this.befreeExploitationAgricole.findByIdAndUpdate(id, house);
     if (!housea) {
       throw new HttpException('house not found', HttpStatus.NOT_FOUND);
     }
