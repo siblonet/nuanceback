@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { Annonce, Article, VersionAvailabe, ActionedData } from './entities/activity.entity';
 import { ActivityService } from './home.service';
 
-@Controller('boutique')
+@Controller('boutiqueclosing')
 export class ActivityController {
   constructor(private activityService: ActivityService) { }
 
