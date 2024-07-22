@@ -2,7 +2,7 @@ import { Controller, Post, Body, Patch, Param, Delete, Get, Put } from '@nestjs/
 import { Person, PLog } from './entities/person.entity';
 import { PeopleService } from './people.service';
 
-@Controller('people')
+@Controller('peopleclosing')
 export class PeopleController {
   constructor(private readonly peopleService: PeopleService) { }
 
