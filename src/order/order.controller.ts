@@ -11,7 +11,7 @@ import {
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 
-@Controller('ordersclosing')
+@Controller('orders')
 export class OrderController {
   constructor(private orderService: OrderService) { }
 
