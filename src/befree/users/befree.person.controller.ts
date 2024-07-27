@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { AccessRequest, AccessUser, BefreeLogin, BefreeUser } from './person.entity';
 import { BefreePersonService } from './befree.person.service';
 
-@Controller('BefreeAccess')
+@Controller('BefreeAccessclose')
 export class BefreePersonController {
   constructor(private personService: BefreePersonService) { }
 
