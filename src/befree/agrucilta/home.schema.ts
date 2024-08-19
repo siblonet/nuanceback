@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 
 export const BefreePaysSchema = new mongoose.Schema({
   nom: String,
+  nomen: String,
   telcode: String,
   created: { type: Date, default: Date.now },
 })
@@ -10,6 +11,7 @@ export const BefreePaysSchema = new mongoose.Schema({
 
 export const BefreeCategorieSchema = new mongoose.Schema({
   name: String,
+  nomen: String,
   pays: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'BefreePays',
@@ -20,6 +22,7 @@ export const BefreeCategorieSchema = new mongoose.Schema({
 
 export const BefreeCooperativeSchema = new mongoose.Schema({
   nom: String,
+  nomen: String,
   certificate: [{ photo: String }],
   categorie: {
     type: mongoose.Schema.Types.ObjectId,

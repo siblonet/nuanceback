@@ -1,6 +1,7 @@
 export interface BefreePays {
   _id?: string;
   nom: string;
+  nomen: string;
   telcode: string;
   created?: Date;
 }
@@ -8,6 +9,7 @@ export interface BefreePays {
 export interface BefreeCategorie {
   _id?: string;
   name: string;
+  nomen: string;
   pays: BefreePays;
   created?: Date;
 }
@@ -15,6 +17,7 @@ export interface BefreeCategorie {
 export interface BefreeCooperative {
   _id?: string;
   nom: string;
+  nomen: string;
   certificate: [{ photo: string }];
   categorie: BefreeCategorie;
   created?: Date;
