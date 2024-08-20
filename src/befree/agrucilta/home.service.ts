@@ -102,7 +102,7 @@ export class BefreeAgriculterService {
   }
 
   async getAllBefreeCooperative(): Promise<BefreeCooperative[]> {
-    return await this.befreeCooperative.find();
+    return await this.befreeCooperative.find().populate('categorie');
   }
 
 
@@ -120,7 +120,7 @@ export class BefreeAgriculterService {
 
 
   async getAllBefreeCategorie(): Promise<BefreeCategorie[]> {
-    return await this.befreeCategorie.find();
+    return await this.befreeCategorie.find().populate('pays');
   }
 
 
