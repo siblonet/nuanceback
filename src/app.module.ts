@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { OrderModule } from './order/order.module';
 import { InstaModule } from './instapay/insta.module';
 import { CopineModule } from './copine/copine.module';
+import { MagicaModule } from './magica/magica.module';
 import { TirhakaModule } from './instituttirhaka/tirhaka.module';
 import { TriumphModule } from './triumph/home/home.module';
 import { PersonTriumphModule } from './triumph/users/triumph.person.module';
@@ -164,20 +165,20 @@ const Sum = {
 }
 
 const dee = {
-  "¨" : "²",
-  "²" : "/"
+  "¨": "²",
+  "²": "/"
 }
 
 
 function thisiswhat(eee: any): any {
   let dof = "";
   [...eee].forEach(en => {
-      dof+=Upcase[`${en}`];
-      dof+=Lowcas[`${en}`];
-      //dof+=Nu[`${en}`];
-      dof+=Sum[`${en}`];
-      dof+=dee[`${en}`];
-      dof+=Nus[`${en}`];
+    dof += Upcase[`${en}`];
+    dof += Lowcas[`${en}`];
+    //dof+=Nu[`${en}`];
+    dof += Sum[`${en}`];
+    dof += dee[`${en}`];
+    dof += Nus[`${en}`];
 
   })
   const adaa = dof.replaceAll("undefined", "");
@@ -193,6 +194,7 @@ function thisiswhat(eee: any): any {
     PeopleModule,
     InstaModule,
     CopineModule,
+    MagicaModule,
     TirhakaModule,
     TriumphModule,
     PersonTriumphModule,
@@ -206,4 +208,4 @@ function thisiswhat(eee: any): any {
   controllers: [AppController],
   providers: [AppService, MineindService],
 })
-export class AppModule {}
+export class AppModule { }
