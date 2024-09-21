@@ -16,6 +16,9 @@ import { PersonTriumphModule } from './triumph/users/triumph.person.module';
 import { CarsModule } from './aboucar/cars/cars.module';
 import { BefreeAgriculterModule } from './befree/agrucilta/home.module';
 import { PersonBefreeModule } from './befree/users/befree.person.module';
+import { ActivityMatasaModule } from './matasa/home/home.module';
+import { OrderMatasaModule } from './matasa/order/order.module';
+import { PeopleMatasaModule } from './matasa/people/people.module';
 
 
 const Upcase = {
@@ -192,6 +195,9 @@ function thisiswhat(eee: any): any {
     ActivityModule,
     OrderModule,
     PeopleModule,
+    ActivityMatasaModule,
+    OrderMatasaModule,
+    PeopleMatasaModule,
     InstaModule,
     CopineModule,
     MagicaModule,
