@@ -158,7 +158,7 @@ export class PeopleBefreeWalletService {
     if (!use) {
       return { wrong: "wrong" };
     } else {
-      await this.personModel.findByIdAndUpdate(id, { pushtoken: pushtoken.notif });
+      await this.personModel.findByIdAndUpdate(id, { pushtoken: pushtoken.pushtoken });
       return { wrong: "ok" };
     }
 

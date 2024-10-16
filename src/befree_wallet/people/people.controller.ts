@@ -16,6 +16,12 @@ export class PeopleBefreeWalletController {
   async login(@Body() pLog: PLogWallet) {
     return await this.peopleService.login(pLog);
   }
+
+  @Put('pushtoken/:id')
+  Pushtoken(@Param('id') id: string, @Body() pushtoken: any) {
+    return this.peopleService.Pushtoken(id, pushtoken);
+  }
+  
 /*
 
   @Put('personupdate/:id')
