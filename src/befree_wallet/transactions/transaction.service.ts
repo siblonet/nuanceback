@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Transaction } from './entities/transaction.entity';
 import { PeopleBefreeWalletService } from '../people/people.service';
-import { PersonWallet } from '../people/entities/person.entity';
+import { AccountData, PersonWallet } from '../people/entities/person.entity';
 
 
 @Injectable()
@@ -12,7 +12,7 @@ export class TransactionBefreeWalletService {
   constructor(
     @InjectModel('TransactionBefreeWallet') private transactionModel: Model<Transaction>,
     @InjectModel('PeopleBefreeWallet') private personModel: Model<PersonWallet>,
-
+    @InjectModel('AccountData') private accountDataModel: Model<AccountData>,
     private readonly peopleService: PeopleBefreeWalletService) { }
 
 
@@ -39,6 +39,16 @@ export class TransactionBefreeWalletService {
     });
 
     await transact.save();
+
+    await this.accountDataModel.findByIdAndUpdate(sender.account,
+      { $inc: { balance: - transaction.amount, limit: - transaction.amount } },
+      { new: true }
+    );
+
+    await this.accountDataModel.findByIdAndUpdate(receivo.account,
+      { $inc: { balance: + transaction.amount, limit: - transaction.amount } },
+      { new: true }
+    );
     //await this.decreaseArticleQuantity("account limit reduice");
 
     const dato = {

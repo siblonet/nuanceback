@@ -21,5 +21,5 @@ export interface PLogWallet {
     operator: string;
     phone: string;
     limit: number;
-    balance: string
+    balance: number
   }
