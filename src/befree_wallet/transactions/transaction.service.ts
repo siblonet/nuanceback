@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Transaction } from './entities/transaction.entity';
 import { PeopleBefreeWalletService } from '../people/people.service';
+import { PersonWallet } from '../people/entities/person.entity';
 
 
 @Injectable()
@@ -10,29 +11,44 @@ export class TransactionBefreeWalletService {
 
   constructor(
     @InjectModel('TransactionBefreeWallet') private transactionModel: Model<Transaction>,
+    @InjectModel('PeopleBefreeWallet') private personModel: Model<PersonWallet>,
+
     private readonly peopleService: PeopleBefreeWalletService) { }
 
 
 
 
-  async create(transaction: Transaction) {
+  async create(transaction: any) {
+
+    const sender = await this.personModel.findOne({ phone: transaction.operator });
+    const receivo = await this.personModel.findOne({ phone: transaction.receiva });
+
+    const reconstration = {
+      amount: transaction.amount,
+      operator: sender._id,
+      receiva: receivo._id,
+      status: transaction.status,
+      fee: transaction.fee,
+      transation_id: transaction.transation_id,
+      transfatype: transaction.transfatype,
+    }
+
     const transact = await this.transactionModel.create({
-      ...transaction
+      ...reconstration
     });
+
     await transact.save();
     //await this.decreaseArticleQuantity("account limit reduice");
 
     const dato = {
       "sound": "default",
-      "title": `${transaction.type} par ${transaction.operator.nom + transaction.operator.prenom} - ${transaction.operator.phone}`,
-      "body": `${transaction.amount} F ${transaction.type}`,
+      "title": `${transaction.transfatype} par ${sender.nom + sender.prenom} - ${sender.phone}`,
+      "body": `${transaction.amount} F ${transaction.transfatype}`,
     }
-    await this.peopleService.sendExpoPushNotifications(dato, transaction.operator.phone);
+    await this.peopleService.sendExpoPushNotifications(dato, receivo.pushtoken);
 
     return { done: transact };
   }
-
-
 
 
   async allArticles(): Promise<Transaction[]> {
@@ -76,59 +92,59 @@ export class TransactionBefreeWalletService {
     return "done";
   }
 
-/*
-  async canceleOrders(id: string) {
-    try {
-      const order = await this.transactionModel.findById(id);
-
-      if (!order) {
-        throw new Error('Order not found');
-      }
-
-      for (const article of order.articles) {
-        const { arti_id, quantcho } = article;
-        const updatedBoutique = await this.boutiqueModel.findById(arti_id);
-
-        if (updatedBoutique) {
-          await this.boutiqueModel.findOneAndUpdate(
-            { _id: arti_id },
-            { $inc: { quantity: +quantcho, quanvend: -quantcho } },
-            { new: true }
-          );
-
+  /*
+    async canceleOrders(id: string) {
+      try {
+        const order = await this.transactionModel.findById(id);
+  
+        if (!order) {
+          throw new Error('Order not found');
         }
-      }
-
-      await this.transactionModel.findByIdAndRemove(id);
-      return 'done';
-    } catch (error) {
-      console.error('Error cancelling orders:', error.message);
-      throw error; // Rethrow the error for further handling or logging
-    }
-  };
-
-
-  async removeOrders(id: string, artid: string, quan: Number) {
-    await this.transactionModel.findByIdAndRemove(id);
-    this.increaseArticleQuantity(artid, quan);
-    return 'done';
-  };
-
-  async removeOrdersArticl(id: string, ad: string, artid: string, quan: Number) {
-    await this.transactionModel.findByIdAndUpdate(id,
-      {
-        $pull:
-        {
-          articles: {
-            _id: ad
+  
+        for (const article of order.articles) {
+          const { arti_id, quantcho } = article;
+          const updatedBoutique = await this.boutiqueModel.findById(arti_id);
+  
+          if (updatedBoutique) {
+            await this.boutiqueModel.findOneAndUpdate(
+              { _id: arti_id },
+              { $inc: { quantity: +quantcho, quanvend: -quantcho } },
+              { new: true }
+            );
+  
           }
         }
-      },
-      { new: true }
-    );
-
-    this.increaseArticleQuantity(artid, quan);
-    return "done";
-
-  }*/
+  
+        await this.transactionModel.findByIdAndRemove(id);
+        return 'done';
+      } catch (error) {
+        console.error('Error cancelling orders:', error.message);
+        throw error; // Rethrow the error for further handling or logging
+      }
+    };
+  
+  
+    async removeOrders(id: string, artid: string, quan: Number) {
+      await this.transactionModel.findByIdAndRemove(id);
+      this.increaseArticleQuantity(artid, quan);
+      return 'done';
+    };
+  
+    async removeOrdersArticl(id: string, ad: string, artid: string, quan: Number) {
+      await this.transactionModel.findByIdAndUpdate(id,
+        {
+          $pull:
+          {
+            articles: {
+              _id: ad
+            }
+          }
+        },
+        { new: true }
+      );
+  
+      this.increaseArticleQuantity(artid, quan);
+      return "done";
+  
+    }*/
 }

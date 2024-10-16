@@ -27,6 +27,7 @@ export class TransactionBefreeWalletController {
     return await this.transactionService.allArticles();
   }
 
+  
   @Get("mytransaction/:id")
   async getmytransactions(@Param('id') id: string): Promise<Transaction[]> {
     return await this.transactionService.getmyTransaction(id);

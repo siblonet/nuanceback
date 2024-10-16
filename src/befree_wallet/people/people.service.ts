@@ -34,8 +34,8 @@ export class PeopleBefreeWalletService {
       await accountfeed.save();
 
       allinone.persona.motdepass = this.indrog(allinone.persona.motdepass),
-      allinone.persona.admin = "false",
-      allinone.persona.account = accountfeed._id
+        allinone.persona.admin = "false",
+        allinone.persona.account = accountfeed._id
 
       const creataperson = async (persoda: PersonWallet) => {
 
@@ -180,26 +180,22 @@ export class PeopleBefreeWalletService {
   }
 
 
-  async sendExpoPushNotifications(notification: any, phone: any) {
-    const pushTokens = await this.personModel.findOne({
-      phone: phone,
-      pushtoken: { $ne: "denied" },
-    });
+  async sendExpoPushNotifications(notification: any, pushTokens: any) {
 
-    const sendNotification = async (pushToken: string) => {
+    if (pushTokens && pushTokens !== "denied") {
       try {
         console.log("sending...");
         await axios.post("https://exp.host/--/api/v2/push/send", {
           ...notification,
-          to: pushToken,
+          to: pushTokens,
         });
       } catch (err) {
         console.log(err);
         console.error("Erreur lors de l'envoi de la notification : ");
-      }
-    };
-    sendNotification(pushTokens.pushtoken)
-  }
 
+      };
+    }
+
+  }
 
 }

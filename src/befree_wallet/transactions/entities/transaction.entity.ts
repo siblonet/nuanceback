@@ -8,6 +8,6 @@ export interface Transaction extends Document {
     status: string;
     fee: string
     transation_id: string;
-    type: string;
+    transfatype: string;
     created_at?: Date;
 }
