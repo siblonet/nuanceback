@@ -22,8 +22,13 @@ export class PeopleBefreeWalletController {
     return this.peopleService.Pushtoken(id, pushtoken);
   }
   
-/*
 
+  @Get("mybalance/:id")
+  async getmyBalance(@Param('id') id: string): Promise<Object> {
+    return await this.peopleService.getmyBalance(id);
+  }
+  
+/*
   @Put('personupdate/:id')
   PersonUpte(@Param('id') id: string, @Body() persona: PersonWallet) {
     return this.peopleService.PersonUpte(id, persona);
