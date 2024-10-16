@@ -31,6 +31,7 @@ export class TransactionBefreeWalletService {
       fee: transaction.fee,
       transation_id: transaction.transation_id,
       transfatype: transaction.transfatype,
+      operatortype: transaction.operatortype,
     }
 
     const transact = await this.transactionModel.create({

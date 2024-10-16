@@ -9,5 +9,6 @@ export interface Transaction extends Document {
     fee: string
     transation_id: string;
     transfatype: string;
+    operatortype: string;
     created_at?: Date;
 }

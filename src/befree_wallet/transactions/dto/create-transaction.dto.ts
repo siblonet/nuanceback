@@ -14,5 +14,6 @@ export const TransactionSchema = new mongoose.Schema({
   fee: String,
   transation_id: String,
   transfatype: String,
+  operatortype: String,
   created_at: { type: Date, default: Date.now }
 });
