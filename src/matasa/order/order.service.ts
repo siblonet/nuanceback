@@ -33,12 +33,7 @@ export class OrderMatasaService {
       }
       await this.peopleService.sendExpoPushNotifications(dato, owner);
 
-      const urlo = `http://localhost:3000/live/${owner}`;
-      const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
-
-      axios.post(urpu, dato).then().catch(err => {
-        console.error(err);
-      });
+      
     } else {
       null
     }

@@ -37,12 +37,6 @@ export class OrderService {
         }
         await this.peopleService.sendExpoPushNotifications(dato, owner);
 
-        const urlo = `http://localhost:3000/live/${owner}`;
-        const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
-
-        axios.post(urpu, dato).then().catch(err => {
-          console.error(err);
-        });
 
       } else {
         null
@@ -72,8 +66,7 @@ export class OrderService {
 
         await this.peopleService.sendExpoPushNotifications(dato, owner);
 
-        const urpu = `https://liveshopping.adaptable.app/live/${owner}`;
-        await axios.post(urpu, dato);
+
 
         const postData = {
           apikey: 'ae236ee337b78dfc46a24e3a50e1a270fce8db37',

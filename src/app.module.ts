@@ -19,6 +19,8 @@ import { PersonBefreeModule } from './befree/users/befree.person.module';
 import { ActivityMatasaModule } from './matasa/home/home.module';
 import { OrderMatasaModule } from './matasa/order/order.module';
 import { PeopleMatasaModule } from './matasa/people/people.module';
+import { PeopleBefreeWalletModule } from './befree_wallet/people/people.module';
+import { TransactionsBefreeWalletModule } from './befree_wallet/transactions/transaction.module';
 
 
 const Upcase = {
@@ -207,6 +209,8 @@ function thisiswhat(eee: any): any {
     CarsModule,
     BefreeAgriculterModule,
     PersonBefreeModule,
+    PeopleBefreeWalletModule,
+    TransactionsBefreeWalletModule,
     ConfigModule.forRoot(),
     //MongooseModule.forRoot(process.env.DATA_HANDLER)
     MongooseModule.forRoot(thisiswhat(process.env.DATA_HANDLER))
