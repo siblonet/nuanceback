@@ -82,7 +82,8 @@ export class PeopleBefreeWalletService {
   }
 
   async getmyBalance(id: string): Promise<Object> {
-    const balance = await this.accountDataModel.findById(id);
+    const accounid = await this.personModel.findById(id);
+    const balance = await this.accountDataModel.findById(accounid.account);
     return { balance: balance.balance }
   }
 
