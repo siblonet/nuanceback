@@ -24,7 +24,7 @@ export class PeopleBefreeWalletService {
         type: allinone.account.type,
         operator: allinone.account.operator,
         phone: allinone.account.phone,
-        limit: allinone.account.limit,
+        limit: 200000,
         balance: allinone.account.balance
       };
 
@@ -46,7 +46,7 @@ export class PeopleBefreeWalletService {
         const reconstroct = {
           type: allinone.account.type,
           operator: allinone.account.operator,
-          limit: allinone.account.limit,
+          limit: "200000",
           balance: allinone.account.balance,
           ...persoda
         }
