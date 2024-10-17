@@ -19,46 +19,74 @@ export class TransactionBefreeWalletService {
 
 
   async create(transaction: any) {
-
     const sender = await this.personModel.findOne({ phone: transaction.operator });
     const receivo = await this.personModel.findOne({ phone: transaction.receiva });
+    const limitsender = await this.accountDataModel.findById(sender.account);
+    const limitreceiver = await this.accountDataModel.findById(receivo.account);
 
-    const reconstration = {
-      amount: transaction.amount,
-      operator: sender._id,
-      receiva: receivo._id,
-      status: transaction.status,
-      fee: transaction.fee,
-      transation_id: transaction.transation_id,
-      transfatype: transaction.transfatype,
-      operatortype: transaction.operatortype,
+    if (limitsender.limit > parseInt(transaction.amount) && limitreceiver.limit > parseInt(transaction.amount)) {
+      const reconstration = {
+        amount: transaction.amount,
+        operator: sender._id,
+        receiva: receivo._id,
+        status: transaction.status,
+        fee: transaction.fee,
+        transation_id: transaction.transation_id,
+        transfatype: transaction.transfatype,
+        operatortype: transaction.operatortype,
+      }
+
+      const transact = await this.transactionModel.create({
+        ...reconstration
+      });
+
+      await transact.save();
+
+      try {
+        const updatedSender = await this.accountDataModel.findByIdAndUpdate(
+          sender.account,
+          {
+            $inc: { balance: -transaction.amount, limit: -transaction.amount }
+          },
+          { new: true }
+        );
+
+        if (!updatedSender) {
+          throw new Error('Sender account not found');
+        }
+
+        const updatedReceiver = await this.accountDataModel.findByIdAndUpdate(
+          receivo.account,
+          {
+            $inc: { balance: transaction.amount, limit: -transaction.amount }
+          },
+          { new: true }
+        );
+
+        if (!updatedReceiver) {
+          throw new Error('Receiver account not found');
+        }
+      } catch (error) {
+        // Handle the error (e.g., log it, throw a custom error, etc.)
+        console.error(error);
+        throw new Error('Transaction failed');
+      }
+
+
+      //await this.decreaseArticleQuantity("account limit reduice");
+
+      const dato = {
+        "sound": "default",
+        "title": `${transaction.transfatype} par ${sender.nom + sender.prenom} - ${sender.phone}`,
+        "body": `${transaction.amount} F ${transaction.transfatype}`,
+      }
+      await this.peopleService.sendExpoPushNotifications(dato, receivo.pushtoken);
+
+      return { done: transact };
+    } else {
+      throw new Error('Transaction failed limited account');
+
     }
-
-    const transact = await this.transactionModel.create({
-      ...reconstration
-    });
-
-    await transact.save();
-
-    await this.accountDataModel.findByIdAndUpdate(sender.account,
-      { $inc: { balance: - transaction.amount, limit: - transaction.amount } },
-      { new: true }
-    );
-
-    await this.accountDataModel.findByIdAndUpdate(receivo.account,
-      { $inc: { balance: + transaction.amount, limit: - transaction.amount } },
-      { new: true }
-    );
-    //await this.decreaseArticleQuantity("account limit reduice");
-
-    const dato = {
-      "sound": "default",
-      "title": `${transaction.transfatype} par ${sender.nom + sender.prenom} - ${sender.phone}`,
-      "body": `${transaction.amount} F ${transaction.transfatype}`,
-    }
-    await this.peopleService.sendExpoPushNotifications(dato, receivo.pushtoken);
-
-    return { done: transact };
   }
 
 
