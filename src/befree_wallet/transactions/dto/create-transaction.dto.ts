@@ -15,5 +15,6 @@ export const TransactionSchema = new mongoose.Schema({
   transation_id: String,
   transfatype: String,
   operatortype: String,
+  webhooks: String,
   created_at: { type: Date, default: Date.now }
 });

@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Param, Delete, Get, Put } from '@nestjs/common';
-import { AccountData, PersonWallet, PLogWallet } from './entities/person.entity';
+import { AccountData, PersonWallet, PLogWallet, WalletType } from './entities/person.entity';
 import { PeopleBefreeWalletService } from './people.service';
 
 @Controller('BefreeWalletpeople')
@@ -27,6 +27,13 @@ export class PeopleBefreeWalletController {
   async getmyBalance(@Param('id') id: string): Promise<Object> {
     return await this.peopleService.getmyBalance(id);
   }
+  
+
+  @Put('bounceWallet/:id')
+  bounceWallet(@Param('id') id: string, @Body() wallet: WalletType) {
+    return this.peopleService.bounceWallet(id, wallet);
+  }
+
   
 /*
   @Put('personupdate/:id')

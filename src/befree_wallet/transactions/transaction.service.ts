@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Transaction } from './entities/transaction.entity';
 import { PeopleBefreeWalletService } from '../people/people.service';
 import { AccountData, PersonWallet } from '../people/entities/person.entity';
+import axios from 'axios';
 
 
 @Injectable()
@@ -67,13 +68,9 @@ export class TransactionBefreeWalletService {
           throw new Error('Receiver account not found');
         }
       } catch (error) {
-        // Handle the error (e.g., log it, throw a custom error, etc.)
         console.error(error);
         throw new Error('Transaction failed');
       }
-
-
-      //await this.decreaseArticleQuantity("account limit reduice");
 
       const dato = {
         "sound": "default",
@@ -88,6 +85,127 @@ export class TransactionBefreeWalletService {
 
     }
   }
+
+
+
+
+
+  async walletRechargin(accounid: string, rechage: {
+    transaction: {
+      amount: string;
+      status: string;
+      fee: string;
+      transation_id: string;
+      transfatype: string;
+      operatortype: string;
+    };
+    rechagedata: {
+      amount: string;
+      currency: string;
+      network: string;
+      country: string;
+      email: string;
+      phone_number: string;
+      fullname: string;
+    };
+  }): Promise<any> {
+    try {
+      const limitsender = await this.accountDataModel.findById(accounid);
+      const sender = await this.personModel.findOne({ account: accounid });
+
+      if (!limitsender || !sender) {
+        throw new Error('Sender or account not found');
+      }
+
+      if (limitsender.limit > parseInt(rechage.transaction.amount)) {
+        // Create transaction data
+        const transactionData = {
+          amount: rechage.transaction.amount,
+          operator: sender._id,
+          receiva: sender._id,
+          status: rechage.transaction.status,
+          fee: rechage.transaction.fee,
+          transation_id: rechage.transaction.transation_id,
+          transfatype: rechage.transaction.transfatype,
+          operatortype: rechage.transaction.operatortype,
+        };
+
+        // Create and save the transaction
+        const transact = await this.transactionModel.create(transactionData);
+        await transact.save();
+
+        // Prepare recharge data for the API call
+        const api_key = 'FLWSECK-5d0e3026148671f6f2a8c7b98c61df60-192a717d324vt-X';
+        const rechageData = {
+          tx_ref: transact._id.toString().toUpperCase(), // Convert transaction ID to uppercase
+          amount: rechage.rechagedata.amount,
+          currency: rechage.rechagedata.currency,
+          network: rechage.rechagedata.network,
+          country: rechage.rechagedata.country,
+          email: rechage.rechagedata.email,
+          phone_number: rechage.rechagedata.phone_number,
+          fullname: rechage.rechagedata.fullname,
+        };
+
+        // Make API call
+        const apiUrl = "https://api.flutterwave.com/v3/charges?type=mobile_money_franco";
+        const header = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${api_key}`,//Bearer
+          },
+        };
+
+        const resp = await axios.post(apiUrl, rechageData, header);
+
+        // Send notification to the user
+        const notificationData = {
+          sound: 'default',
+          title: 'Rechargement en cours',
+          body: `Rechargement de ${rechage.transaction.amount} F via ${rechage.transaction.transfatype}`,
+        };
+        await this.peopleService.sendExpoPushNotifications(notificationData, sender.pushtoken);
+
+        return { recharge_response: resp.data.meta };
+      } else {
+        throw new Error('Recharge failed: insufficient limit in account');
+      }
+    } catch (error) {
+      console.error('Recharge error:', error);
+      throw new Error('Recharge failed due to an unexpected error');
+    }
+  }
+
+
+
+
+  async rechargeStatus(Transaction: any): Promise<any> {
+    const rechageHistory = await this.transactionModel.findOneAndUpdate({ webhooks: Transaction.data.id }, { status: Transaction.data.status });
+    if (Transaction.data.status === "successful" || Transaction.data.status === "success") {
+
+      const reachager = await this.personModel.findById(rechageHistory.operator);
+
+      // Update account balance and limit after successful transaction
+      await this.accountDataModel.findByIdAndUpdate(
+        reachager.account,
+        { $inc: { balance: rechageHistory.amount, limit: -rechageHistory.amount } },
+        { new: true }
+      );
+
+      // Send notification to the user
+      const notificationData = {
+        sound: 'default',
+        title: 'Rechargement en cours',
+        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype}`,
+      };
+      await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken);
+
+    }
+
+  }
+
+
+
 
 
   async allArticles(): Promise<Transaction[]> {
@@ -118,18 +236,6 @@ export class TransactionBefreeWalletService {
     return "done";
   }
 
-
-  async paymentStatus(Transactionid: any): Promise<any> {
-    //console.log(id, statuts);
-
-    const admin = await this.transactionModel.findOneAndUpdate({ transaction_id: Transactionid }, { payment_status: "paid" });
-
-    if (!admin) {
-      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
-    }
-
-    return "done";
-  }
 
   /*
     async canceleOrders(id: string) {

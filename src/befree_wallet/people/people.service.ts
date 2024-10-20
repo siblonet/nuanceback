@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
-import { AccountData, PersonWallet, PLogWallet } from './entities/person.entity';
+import { AccountData, PersonWallet, PLogWallet, WalletType } from './entities/person.entity';
 import axios from 'axios';
 
 
@@ -203,6 +203,23 @@ export class PeopleBefreeWalletService {
       };
     }
 
+  }
+
+
+
+  async bounceWallet(accountid: string, wallet: Partial<WalletType>): Promise<AccountData> {
+
+    const account = await this.accountDataModel.findOneAndUpdate(
+      { _id: accountid },
+      { $push: { bounced_account: wallet } },
+      { new: true }
+    );
+
+    if (!account) {
+      throw new HttpException('Account not found for update', HttpStatus.NOT_FOUND);
+    }
+
+    return account;
   }
 
 }

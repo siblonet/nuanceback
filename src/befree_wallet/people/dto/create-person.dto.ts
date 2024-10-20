@@ -24,5 +24,12 @@ export const AccountDataSchema = new mongoose.Schema({
   operator: String,
   phone: String,
   limit: Number,
-  balance: Number
+  balance: Number,
+  bounced_account: [{
+    type: String,//mtn,wave...
+    operator: String,
+    phone_id: String,
+    limit: Number,
+    balance: Number,
+  }]
 });

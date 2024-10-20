@@ -10,5 +10,6 @@ export interface Transaction extends Document {
     transation_id: string;
     transfatype: string;
     operatortype: string;
+    webhooks: string;
     created_at?: Date;
 }
