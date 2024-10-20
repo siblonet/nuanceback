@@ -7,7 +7,6 @@ export interface Transaction extends Document {
     receiva: PersonWallet;
     status: string;
     fee: string
-    transation_id: string;
     transfatype: string;
     operatortype: string;
     webhooks: string;

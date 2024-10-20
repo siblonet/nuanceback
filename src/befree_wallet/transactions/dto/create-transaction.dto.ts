@@ -12,7 +12,6 @@ export const TransactionSchema = new mongoose.Schema({
   },
   status: String,
   fee: String,
-  transation_id: String,
   transfatype: String,
   operatortype: String,
   webhooks: String,

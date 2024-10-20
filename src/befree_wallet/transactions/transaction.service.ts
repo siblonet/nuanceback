@@ -32,7 +32,6 @@ export class TransactionBefreeWalletService {
         receiva: receivo._id,
         status: transaction.status,
         fee: transaction.fee,
-        transation_id: transaction.transation_id,
         transfatype: transaction.transfatype,
         operatortype: transaction.operatortype,
       }
@@ -95,7 +94,6 @@ export class TransactionBefreeWalletService {
       amount: string;
       status: string;
       fee: string;
-      transation_id: string;
       transfatype: string;
       operatortype: string;
     };
@@ -125,7 +123,6 @@ export class TransactionBefreeWalletService {
           receiva: sender._id,
           status: rechage.transaction.status,
           fee: rechage.transaction.fee,
-          transation_id: rechage.transaction.transation_id,
           transfatype: rechage.transaction.transfatype,
           operatortype: rechage.transaction.operatortype,
         };
@@ -138,7 +135,7 @@ export class TransactionBefreeWalletService {
         const api_key = 'FLWSECK-5d0e3026148671f6f2a8c7b98c61df60-192a717d324vt-X';
         const rechageData = {
           tx_ref: transact._id.toString().toUpperCase(), // Convert transaction ID to uppercase
-          amount: rechage.rechagedata.amount,
+          amount: rechage.rechagedata.amount+parseFloat(rechage.transaction.fee),
           currency: rechage.rechagedata.currency,
           network: rechage.rechagedata.network,
           country: rechage.rechagedata.country,
