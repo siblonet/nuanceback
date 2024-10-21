@@ -219,8 +219,8 @@ export class PeopleBefreeWalletService {
 
   async bounceWallet(accountid: string, wallet: Partial<WalletType>): Promise<AccountData> {
 
-    const account = await this.accountDataModel.findOneAndUpdate(
-      { _id: accountid },
+    const account = await this.accountDataModel.findByIdAndUpdate(
+      accountid,
       { $push: { bounced_account: wallet } },
       { new: true }
     );
