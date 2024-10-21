@@ -13,7 +13,7 @@ export interface PersonWallet {
   admin?: string;
   pushtoken?: string;
   currency: string;
-  money_operator: string;
+  country_name: string;
   country_abre: string;
   country_code: string;
   account: AccountData;
@@ -30,6 +30,10 @@ export interface AccountData {
     type: string;//MOBILE MONEY, BANC CART...
     operator: string;//MTN,WAVE...
     phone_id: string;
+    currency: string;
+    country_name: string;
+    country_abre: string;
+    country_code: string;
     limit: number;
     balance: number;
   }]
@@ -40,6 +44,10 @@ export interface WalletType {
   type: string;//MOBILE MONEY, BANC CART...
   operator: string;//MTN,WAVE...
   phone_id: string;
+  currency: string;
+  country_name: string;
+  country_abre: string;
+  country_code: string;
   limit: number;
   balance: number;
 }
@@ -48,7 +56,10 @@ export interface WalletListType {
   _id?: string;
   type: string;//MOBILE MONEY, BANC CART...
   operator: string;//MTN,WAVE...
-  operator_country: string;
+  currency: string;
+  country_name: string;
+  country_abre: string;
+  country_code: string;
   service_name: string;
   availability: boolean
 }

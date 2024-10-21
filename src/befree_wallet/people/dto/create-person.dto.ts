@@ -11,6 +11,10 @@ export const PersonWalletSchema = new mongoose.Schema({
     default: "false",
   },
   pushtoken: String,
+  currency: String,
+  country_name: String,
+  country_abre: String,
+  country_code: String,
   account: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'AccountData', // Corrected reference to 'Article' model
@@ -29,6 +33,10 @@ export const AccountDataSchema = new mongoose.Schema({
     type: { type: String },//MOBILE MONEY, BANC CART...
     operator: { type: String },//MTN,WAVE...
     phone_id: { type: String },
+    currency: { type: String },
+    country_name: { type: String },
+    country_abre: { type: String },
+    country_code: { type: String },
     limit: { type: Number },
     balance: { type: Number },
   }]
@@ -38,7 +46,10 @@ export const AccountDataSchema = new mongoose.Schema({
 export const WalletListTypeSchema = new mongoose.Schema({
   type: String,//MOBILE MONEY, BANC CART...
   operator: String,//MTN WAVE...
-  operator_country: String,
+  currency: String,
+  country_name: String,
+  country_abre: String,
+  country_code: String,
   service_name: String,
   availability: Boolean
 });
