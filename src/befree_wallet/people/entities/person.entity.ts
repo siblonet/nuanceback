@@ -43,5 +43,7 @@ export interface WalletListType {
   _id?: string;
   type: string;
   operator: string;
+  operator_country: string;
+  service_name: string;
   availability: boolean
 }

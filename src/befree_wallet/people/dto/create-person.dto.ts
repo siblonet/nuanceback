@@ -38,5 +38,7 @@ export const AccountDataSchema = new mongoose.Schema({
 export const WalletListTypeSchema = new mongoose.Schema({
   type: String,
   operator: String,
+  operator_country: String,
+  service_name: String,
   availability: Boolean
 });
