@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const PersonWalletSchema = new mongoose.Schema({
+  photo: String,
   prenom: String,
   nom: String,
   phone: String,
@@ -15,6 +16,11 @@ export const PersonWalletSchema = new mongoose.Schema({
   country_name: String,
   country_abre: String,
   country_code: String,
+  status: {
+    type: String,
+    default: "active",
+  },
+  document: String,
   account: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'AccountData', // Corrected reference to 'Article' model

@@ -5,6 +5,7 @@ export interface PLogWallet {
 
 export interface PersonWallet {
   _id?: string;
+  photo: string;
   prenom: string;
   nom: string;
   phone: string;
@@ -16,6 +17,8 @@ export interface PersonWallet {
   country_name: string;
   country_abre: string;
   country_code: string;
+  status: string;
+  document: string;
   account: AccountData;
 }
 
