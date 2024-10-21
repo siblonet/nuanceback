@@ -93,6 +93,11 @@ export class PeopleBefreeWalletService {
     return { balance: wallet.balance, bounced_account: wallet.bounced_account, myinfo: accounid }
   }
 
+  async getmyProfile(id: string): Promise<PersonWallet> {
+    const accounid = (await this.personModel.findById(id)).populated("account");
+    return accounid
+  }
+
 
   indrog(dd: any) {
     const dae = this.mineindService.whatisthis(dd)
@@ -221,15 +226,15 @@ export class PeopleBefreeWalletService {
     const account = await this.accountDataModel.findByIdAndUpdate(
       accountId,
       { $push: { bounced_account: wallet } }, // Ensure `wallet` structure matches bounced_account
-      { new: true} // Use the latest MongoDB options to avoid deprecation warnings
+      { new: true } // Use the latest MongoDB options to avoid deprecation warnings
     ); // Chain exec() for better type safety
-  
+
     if (!account) {
       throw new HttpException('Account not found for update', HttpStatus.NOT_FOUND);
     }
-  
+
     return account;
   }
-  
+
 
 }
