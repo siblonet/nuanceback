@@ -33,3 +33,10 @@ export const AccountDataSchema = new mongoose.Schema({
     balance: Number,
   }]
 });
+
+
+export const WalletListTypeSchema = new mongoose.Schema({
+  type: String,
+  operator: String,
+  availability: Boolean
+});

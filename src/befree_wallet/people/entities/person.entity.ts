@@ -38,3 +38,10 @@ export interface WalletType {
   limit: number;
   balance: number;
 }
+
+export interface WalletListType {
+  _id?: string;
+  type: string;
+  operator: string;
+  availability: boolean
+}

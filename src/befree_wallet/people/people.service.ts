@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MineindService } from 'src/mineind/mineind.service';
-import { AccountData, PersonWallet, PLogWallet, WalletType } from './entities/person.entity';
+import { AccountData, PersonWallet, PLogWallet, WalletListType, WalletType } from './entities/person.entity';
 import axios from 'axios';
 
 
@@ -11,6 +11,7 @@ export class PeopleBefreeWalletService {
   constructor(
     @InjectModel('PeopleBefreeWallet') private personModel: Model<PersonWallet>,
     @InjectModel('AccountData') private accountDataModel: Model<AccountData>,
+    @InjectModel('WalletList') private walletListModel: Model<WalletListType>,
     private readonly mineindService: MineindService) { }
 
 
@@ -37,9 +38,7 @@ export class PeopleBefreeWalletService {
 
       const creataperson = async (persoda: PersonWallet) => {
 
-        const person = await this.personModel.create({
-          ...persoda
-        });
+        const person = await this.personModel.create(persoda);
         await person.save();
         const reconstroct = {
           type: allinone.account.type,
@@ -88,7 +87,7 @@ export class PeopleBefreeWalletService {
   }
 
 
-  async getmyData(id: string): Promise<{ myinfo: PersonWallet, balance: number, bounced_account:[] }> {
+  async getmyData(id: string): Promise<{ myinfo: PersonWallet, balance: number, bounced_account: [] }> {
     const accounid = await this.personModel.findById(id);
     const wallet = await this.accountDataModel.findById(accounid.account);
     return { balance: wallet.balance, bounced_account: wallet.bounced_account, myinfo: accounid }
@@ -178,16 +177,25 @@ export class PeopleBefreeWalletService {
     return this.personModel.findByIdAndRemove(id);
   }
 
-  async allPerson(owner: string): Promise<PersonWallet[]> {
-    return await this.personModel.find({ owner: owner });
+  async walletsList(): Promise<WalletListType[]> {
+    return await this.walletListModel.find();
 
   }
 
-  async allNonadmin(owner: string): Promise<PersonWallet[]> {
-    return await this.personModel.find({ owner: owner, admin: owner === "BefreeWallet" ? { $ne: "true" } : "false" });
-
+  async walletPost(walletListType: WalletListType): Promise<WalletListType> {
+    const createwallet = await this.walletListModel.create(walletListType);
+    await createwallet.save();
+    return createwallet;
   }
 
+
+  async walletPut(walletid: string, walletListType: WalletListType): Promise<WalletListType> {
+    const putwallet = await this.walletListModel.findByIdAndUpdate(walletid, walletListType);
+    if (!putwallet) {
+      throw new Error("Wallet no found");
+    }
+    return putwallet;
+  }
 
   async sendExpoPushNotifications(notification: any, pushTokens: any) {
 
