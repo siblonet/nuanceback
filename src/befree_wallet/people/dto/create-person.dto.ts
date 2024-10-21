@@ -20,14 +20,14 @@ export const PersonWalletSchema = new mongoose.Schema({
 
 
 export const AccountDataSchema = new mongoose.Schema({
-  type: String,
-  operator: String,
+  type: String,//Personel, bussiness...
+  operator: String,//MTN,WAVE...
   phone: String,
   limit: Number,
   balance: Number,
   bounced_account: [{
-    type: String,//mtn,wave...
-    operator: String,
+    type: String,//MOBILE Money...
+    operator: String,//MTN,WAVE...
     phone_id: String,
     limit: Number,
     balance: Number,
@@ -36,8 +36,8 @@ export const AccountDataSchema = new mongoose.Schema({
 
 
 export const WalletListTypeSchema = new mongoose.Schema({
-  type: String,
-  operator: String,
+  type: String,//MOBILE MONEY...
+  operator: String,//MTN WAVE...
   operator_country: String,
   service_name: String,
   availability: Boolean

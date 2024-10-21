@@ -45,7 +45,7 @@ export class PeopleBefreeWalletService {
           operator: allinone.account.operator,
           limit: "200000",
           balance: allinone.account.balance,
-          accountid: accountcreata._id,
+          accountid: accountfeed._id,
           ...persoda
         }
         return this.generatToken(reconstroct);
@@ -67,7 +67,7 @@ export class PeopleBefreeWalletService {
         limit: person.account.limit,
         balance: person.account.balance,
         _id: person._id,
-        accountid: person.account,
+        accountid: person.account._id,
         prenom: person.prenom,
         nom: person.nom,
         phone: person.phone,

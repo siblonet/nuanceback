@@ -21,7 +21,7 @@ export interface PersonWallet {
 
 export interface AccountData {
   _id?: string;
-  type: string;
+  type: string;//Personnel, Business ...
   operator: string;
   phone: string;
   limit: number;
@@ -32,8 +32,8 @@ export interface AccountData {
 
 export interface WalletType {
   _id?: string;
-  type: string;
-  operator: string;
+  type: string;//MTN,WAVE...
+  operator: string;//MTN,WAVE...
   phone_id: string;
   limit: number;
   balance: number;
@@ -41,8 +41,8 @@ export interface WalletType {
 
 export interface WalletListType {
   _id?: string;
-  type: string;
-  operator: string;
+  type: string;//MTN,WAVE...
+  operator: string;//MTN,WAVE...
   operator_country: string;
   service_name: string;
   availability: boolean
