@@ -26,17 +26,17 @@ export const AccountDataSchema = new mongoose.Schema({
   limit: Number,
   balance: Number,
   bounced_account: [{
-    type: String,//MOBILE Money...
-    operator: String,//MTN,WAVE...
-    phone_id: String,
-    limit: Number,
-    balance: Number,
+    type: { type: String },//MOBILE MONEY, BANC CART...
+    operator: { type: String },//MTN,WAVE...
+    phone_id: { type: String },
+    limit: { type: Number },
+    balance: { type: Number },
   }]
 });
 
 
 export const WalletListTypeSchema = new mongoose.Schema({
-  type: String,//MOBILE MONEY...
+  type: String,//MOBILE MONEY, BANC CART...
   operator: String,//MTN WAVE...
   operator_country: String,
   service_name: String,

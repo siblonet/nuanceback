@@ -26,13 +26,18 @@ export interface AccountData {
   phone: string;
   limit: number;
   balance: number;
-  bounced_account?: []
+  bounced_account?: [{
+    type: string;//MOBILE MONEY, BANC CART...
+    operator: string;//MTN,WAVE...
+    phone_id: string;
+    limit: number;
+    balance: number;
+  }]
 }
 
 
 export interface WalletType {
-  _id?: string;
-  type: string;//MTN,WAVE...
+  type: string;//MOBILE MONEY, BANC CART...
   operator: string;//MTN,WAVE...
   phone_id: string;
   limit: number;
@@ -41,7 +46,7 @@ export interface WalletType {
 
 export interface WalletListType {
   _id?: string;
-  type: string;//MTN,WAVE...
+  type: string;//MOBILE MONEY, BANC CART...
   operator: string;//MTN,WAVE...
   operator_country: string;
   service_name: string;

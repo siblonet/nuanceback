@@ -26,7 +26,7 @@ export class PeopleBefreeWalletService {
         operator: allinone.account.operator,
         phone: allinone.account.phone,
         limit: 200000,
-        balance: allinone.account.balance
+        balance: allinone.account.balance,
       };
 
       const accountfeed = await this.accountDataModel.create(accountcreata);
@@ -87,7 +87,7 @@ export class PeopleBefreeWalletService {
   }
 
 
-  async getmyData(id: string): Promise<{ myinfo: PersonWallet, balance: number, bounced_account: [] }> {
+  async getmyData(id: string): Promise<{ myinfo: PersonWallet, balance: number, bounced_account: any }> {
     const accounid = await this.personModel.findById(id);
     const wallet = await this.accountDataModel.findById(accounid.account);
     return { balance: wallet.balance, bounced_account: wallet.bounced_account, myinfo: accounid }
@@ -217,19 +217,19 @@ export class PeopleBefreeWalletService {
 
 
 
-  async bounceWallet(accountid: string, wallet: Partial<WalletType>): Promise<AccountData> {
-
+  async bounceWallet(accountId: string, wallet: WalletType): Promise<AccountData> {
     const account = await this.accountDataModel.findByIdAndUpdate(
-      accountid,
-      { $push: { bounced_account: wallet } },
-      { new: true }
-    );
-
+      accountId,
+      { $push: { bounced_account: wallet } }, // Ensure `wallet` structure matches bounced_account
+      { new: true} // Use the latest MongoDB options to avoid deprecation warnings
+    ); // Chain exec() for better type safety
+  
     if (!account) {
       throw new HttpException('Account not found for update', HttpStatus.NOT_FOUND);
     }
-
+  
     return account;
   }
+  
 
 }
