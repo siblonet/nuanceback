@@ -5,6 +5,7 @@ import { Transaction } from './entities/transaction.entity';
 import { PeopleBefreeWalletService } from '../people/people.service';
 import { AccountData, PersonWallet } from '../people/entities/person.entity';
 import axios from 'axios';
+import { MineindService } from 'src/mineind/mineind.service';
 
 
 @Injectable()
@@ -14,9 +15,8 @@ export class TransactionBefreeWalletService {
     @InjectModel('TransactionBefreeWallet') private transactionModel: Model<Transaction>,
     @InjectModel('PeopleBefreeWallet') private personModel: Model<PersonWallet>,
     @InjectModel('AccountData') private accountDataModel: Model<AccountData>,
-    private readonly peopleService: PeopleBefreeWalletService) { }
-
-
+    private readonly peopleService: PeopleBefreeWalletService,
+    private readonly mineindService: MineindService) { }
 
 
   async create(transaction: any) {
@@ -132,10 +132,10 @@ export class TransactionBefreeWalletService {
         await transact.save();
 
         // Prepare recharge data for the API call
-        const api_key = 'FLWSECK-5d0e3026148671f6f2a8c7b98c61df60-192a717d324vt-X';
+        const api_key = this.generatApi('uodhvxp:6W1V8195073540U5U9Z3X4Y23X50WU51:029Z404W897EG:c');
         const rechageData = {
           tx_ref: transact._id.toString().toUpperCase(), // Convert transaction ID to uppercase
-          amount: rechage.rechagedata.amount+parseFloat(rechage.transaction.fee),
+          amount: rechage.rechagedata.amount + parseFloat(rechage.transaction.fee),
           currency: rechage.rechagedata.currency,
           network: rechage.rechagedata.network,
           country: rechage.rechagedata.country,
@@ -174,9 +174,13 @@ export class TransactionBefreeWalletService {
   }
 
 
+  generatApi(nez: string): string {
+    const dae = this.mineindService.thisiswhat(nez)
+    return dae.replaceAll("undefined", "");
+  }
 
 
-  async rechargeStatus(Transaction: any): Promise<any> {
+  async rechargeStatus(Transaction: any) {
     const rechageHistory = await this.transactionModel.findOneAndUpdate({ webhooks: Transaction.data.id }, { status: Transaction.data.status });
     if (Transaction.data.status === "successful" || Transaction.data.status === "success") {
 

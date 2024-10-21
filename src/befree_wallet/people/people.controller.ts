@@ -28,6 +28,12 @@ export class PeopleBefreeWalletController {
     return await this.peopleService.getmyBalance(id);
   }
   
+  
+  @Get("mydata/:id")
+  async getmyData(@Param('id') id: string): Promise<any> {
+    return await this.peopleService.getmyData(id);
+  }
+
 
   @Put('bounceWallet/:id')
   bounceWallet(@Param('id') id: string, @Body() wallet: WalletType) {

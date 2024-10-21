@@ -48,7 +48,6 @@ export class TransactionBefreeWalletController {
   };
 
 
-
   
   /* @Put('/:id/:od')
    updatetransaction(@Param('id') id: string, @Param('od') od: string, @Body() activle: transaction) {

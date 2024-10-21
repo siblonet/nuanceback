@@ -12,6 +12,10 @@ export interface PersonWallet {
   motdepass: string;
   admin?: string;
   pushtoken?: string;
+  currency: string;
+  money_operator: string;
+  country_abre: string;
+  country_code: string;
   account: AccountData;
 }
 

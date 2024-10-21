@@ -28,9 +28,7 @@ export class PeopleBefreeWalletService {
         balance: allinone.account.balance
       };
 
-      const accountfeed = await this.accountDataModel.create({
-        ...accountcreata
-      });
+      const accountfeed = await this.accountDataModel.create(accountcreata);
       await accountfeed.save();
 
       allinone.persona.motdepass = this.indrog(allinone.persona.motdepass),
@@ -48,6 +46,7 @@ export class PeopleBefreeWalletService {
           operator: allinone.account.operator,
           limit: "200000",
           balance: allinone.account.balance,
+          accountid: accountcreata._id,
           ...persoda
         }
         return this.generatToken(reconstroct);
@@ -69,6 +68,7 @@ export class PeopleBefreeWalletService {
         limit: person.account.limit,
         balance: person.account.balance,
         _id: person._id,
+        accountid: person.account,
         prenom: person.prenom,
         nom: person.nom,
         phone: person.phone,
@@ -88,6 +88,11 @@ export class PeopleBefreeWalletService {
   }
 
 
+  async getmyData(id: string): Promise<{ myinfo: PersonWallet, balance: number, bounced_account:[] }> {
+    const accounid = await this.personModel.findById(id);
+    const wallet = await this.accountDataModel.findById(accounid.account);
+    return { balance: wallet.balance, bounced_account: wallet.bounced_account, myinfo: accounid }
+  }
 
 
   indrog(dd: any) {
@@ -106,16 +111,13 @@ export class PeopleBefreeWalletService {
   }
 
   generatToken(person: any): Object {
-    const { _id, prenom, nom, phone, email, admin, type, limit, operator, balance } = person;
-    const perset = `${_id}°${prenom}°${nom}°${phone}°${email}°${admin}°${type}°${limit}°${operator}°${balance}`;
+    const { _id, accountid, prenom, nom, email, phone, type, admin, limit, operator, balance } = person;
+    const perset = `${_id}°${accountid}°${prenom}°${nom}°${email}°${phone}°${type}°${admin}°${limit}°${operator}°${balance}`;
     const dae = this.mineindService.whatisthis(perset);
     const adaa = dae.replaceAll("undefined", "");
     const doa = { token: adaa };
     return doa;
   }
-
-
-
 
 
   async PersonUpte(id: any, persan: PersonWallet): Promise<any> {
