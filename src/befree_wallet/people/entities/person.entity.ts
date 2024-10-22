@@ -39,6 +39,7 @@ export interface AccountData {
     country_code: string;
     limit: number;
     balance: number;
+    connectedwallet: WalletListType
   }]
 }
 
@@ -53,6 +54,7 @@ export interface WalletType {
   country_code: string;
   limit: number;
   balance: number;
+  connectedwallet: WalletListType
 }
 
 export interface WalletListType {

@@ -45,6 +45,11 @@ export const AccountDataSchema = new mongoose.Schema({
     country_code: { type: String },
     limit: { type: Number },
     balance: { type: Number },
+    connectedwallet: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'WalletList', // Corrected reference to 'Article' model
+    }
+
   }]
 });
 
