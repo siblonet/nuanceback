@@ -135,7 +135,7 @@ export class TransactionBefreeWalletService {
         const api_key = this.generatApi('uodhvxp:6W1V8195073540U5U9Z3X4Y23X50WU51:029Z404W897EG:c');
         const rechageData = {
           tx_ref: transact._id.toString().toUpperCase(), // Convert transaction ID to uppercase
-          amount: rechage.rechagedata.amount + parseFloat(rechage.transaction.fee),
+          amount: rechage.rechagedata.amount,
           currency: rechage.rechagedata.currency,
           network: rechage.rechagedata.network,
           country: rechage.rechagedata.country,
