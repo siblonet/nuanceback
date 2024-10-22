@@ -196,11 +196,21 @@ export class TransactionBefreeWalletService {
       // Send notification to the user
       const notificationData = {
         sound: 'default',
-        title: 'Rechargement en cours',
-        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype}`,
+        title: 'Rechargement éffectuée',
+        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype} éffectué`,
       };
       await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken);
 
+    }else{
+      const reachager = await this.personModel.findById(rechageHistory.operator);
+
+      // Send notification to the user
+      const notificationData = {
+        sound: 'default',
+        title: 'Rechargement échouée',
+        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype} échouée`,
+      };
+      await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken); 
     }
 
   }
