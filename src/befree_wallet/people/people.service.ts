@@ -94,7 +94,10 @@ export class PeopleBefreeWalletService {
   }
 
   async getmyProfile(id: string): Promise<PersonWallet> {
-    const accounid = (await this.personModel.findById(id)).populated("account");
+    const accounid = await this.personModel.findById(id).populate("account");
+    if (!accounid) {
+      throw new Error("Not found")
+    }
     return accounid
   }
 
