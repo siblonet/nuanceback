@@ -127,17 +127,22 @@ export class PeopleBefreeWalletService {
   }
 
 
-  async PersonUpte(id: any, persan: PersonWallet): Promise<any> {
-    const admin = await this.personModel.findByIdAndUpdate(id, {
-      nom: persan.nom,
+  async PersonUpte(id: any, persan: PersonWallet): Promise<Object> {
+    const persontoupdate = await this.personModel.findByIdAndUpdate(id, {
       prenom: persan.prenom,
+      nom: persan.nom,
+      phone: persan.phone,
       email: persan.email,
-      phone: persan.phone
+      currency: persan.currency,
+      country_name: persan.country_name,
+      country_abre: persan.country_abre,
+      country_code: persan.country_code,
     });
-    if (!admin) {
-      throw new HttpException('femmes not found', HttpStatus.NOT_FOUND);
+
+    if (!persontoupdate) {
+      throw new HttpException('persontoupdate not found', HttpStatus.NOT_FOUND);
     }
-    return "ok";
+    return { done: "ok" };
 
   }
 

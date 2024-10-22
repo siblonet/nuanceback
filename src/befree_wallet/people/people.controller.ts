@@ -61,13 +61,13 @@ export class PeopleBefreeWalletController {
     return await this.peopleService.walletPut(walletid, walletListType);
   }
 
-
+  @Put('personupdate/:id')
+  PersonUpte(@Param('id') id: string, @Body() persona: PersonWallet): Promise<Object> {
+    return this.peopleService.PersonUpte(id, persona);
+  }
 
   /*
-    @Put('personupdate/:id')
-    PersonUpte(@Param('id') id: string, @Body() persona: PersonWallet) {
-      return this.peopleService.PersonUpte(id, persona);
-    }
+ 
   
     @Put('status/:id')
     PersonStatus(@Param('id') id: string, @Body() status: any) {
