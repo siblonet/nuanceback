@@ -159,7 +159,7 @@ export class TransactionBefreeWalletService {
         const notificationData = {
           sound: 'default',
           title: 'Rechargement en cours',
-          body: `Rechargement de ${rechage.transaction.amount} F via ${rechage.transaction.transfatype}`,
+          body: `Rechargement de ${rechage.transaction.amount} F via ${rechage.transaction.operatortype}`,
         };
         await this.peopleService.sendExpoPushNotifications(notificationData, sender.pushtoken);
 
