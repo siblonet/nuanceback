@@ -27,6 +27,11 @@ export class OrderController {
     return this.orderService.createOnlinePayment(soft_use, creata_id, article, customer, owner);
   }
 
+  @Post("/genratepaymenlink")
+  //@UseGuards(AuthGuard('jwt'), AdminGuard)
+  createOnlinePaymentManual() {
+    return this.orderService.createOnlinePaymentManual();
+  }
 
   @Post("syncro/local/toline/:owner")
   //@UseGuards(AuthGuard('jwt'), AdminGuard)

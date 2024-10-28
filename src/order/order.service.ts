@@ -101,6 +101,39 @@ export class OrderService {
   }
 
 
+  async createOnlinePaymentManual() {
+    //console.log(soft_use, creata_id, customer, owner);
+
+      try {
+        const postData = {
+          apikey: 'ae236ee337b78dfc46a24e3a50e1a270fce8db37',
+          service: '010324183052320001',
+          amount: "70000", // Convert to string
+          custom_data: "articl._id",
+          extra: "acrticle.transaction_id",
+          provider: "cards",
+          customer: "0701743686",
+        };
+
+        const apiUrl = 'https://kaliapay.com/flash-light/';
+
+        const response = await axios.post(
+          apiUrl,
+          new URLSearchParams(postData).toString(),
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          },
+        );
+
+        console.log(response.data.url);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    
+
+  }
 
 
 

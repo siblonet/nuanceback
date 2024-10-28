@@ -181,8 +181,10 @@ export class TransactionBefreeWalletService {
 
 
   async rechargeStatus(Transaction: any) {
-    const rechageHistory = await this.transactionModel.findOneAndUpdate({ webhooks: Transaction.data.id }, { status: Transaction.data.status });
-    if (Transaction.data.status === "successful" || Transaction.data.status === "success") {
+    const rechageHistory = await this.transactionModel.findByIdAndUpdate(Transaction.data.tx_ref.toString().toLowerCase(), { status: Transaction.data.status });
+    console.log(rechageHistory);
+
+    if ((Transaction.data.status === "successful" || Transaction.data.status === "success") && rechageHistory) {
 
       const reachager = await this.personModel.findById(rechageHistory.operator);
 
