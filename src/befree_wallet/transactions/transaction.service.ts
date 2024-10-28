@@ -197,7 +197,7 @@ export class TransactionBefreeWalletService {
       const notificationData = {
         sound: 'default',
         title: 'Rechargement éffectuée',
-        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype} éffectué`,
+        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.operatortype} éffectué`,
       };
       await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken);
 
@@ -208,7 +208,7 @@ export class TransactionBefreeWalletService {
       const notificationData = {
         sound: 'default',
         title: 'Rechargement échouée',
-        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.transfatype} échouée`,
+        body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.operatortype} échouée`,
       };
       await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken); 
     }
