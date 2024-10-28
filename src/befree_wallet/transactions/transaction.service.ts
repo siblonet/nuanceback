@@ -181,8 +181,9 @@ export class TransactionBefreeWalletService {
 
 
   async rechargeStatus(Transaction: any) {
-    const rechageHistory = await this.transactionModel.findByIdAndUpdate(Transaction.data.tx_ref.toString().toLowerCase(), { status: Transaction.data.status });
+    const rechageHistory = await this.transactionModel.findById(Transaction.data.tx_ref.toString().toLowerCase());
     if ((Transaction.data.status === "successful" || Transaction.data.status === "success") && rechageHistory) {
+      await this.transactionModel.findByIdAndUpdate(rechageHistory._id, { status: Transaction.data.status });
 
       const reachager = await this.personModel.findById(rechageHistory.operator);
 
@@ -203,6 +204,7 @@ export class TransactionBefreeWalletService {
 
     }else{
       const reachager = await this.personModel.findById(rechageHistory.operator);
+      await this.transactionModel.findByIdAndUpdate(rechageHistory._id, { status: "Failed" });
 
       // Send notification to the user
       const notificationData = {
@@ -211,6 +213,7 @@ export class TransactionBefreeWalletService {
         body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.operatortype} échouée`,
       };
       await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken); 
+
     }
 
   }
