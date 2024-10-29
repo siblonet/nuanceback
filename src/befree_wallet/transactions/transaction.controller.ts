@@ -48,6 +48,11 @@ export class TransactionBefreeWalletController {
   };
 
 
+  @Post("banktransfer/:accounid/:userid")
+  async transferBank(@Param('accounid') accounid: string, @Param('userid') userid: string, @Body() Transfer: any) {
+    return await this.transactionService.transferBank(accounid, userid, Transfer);
+  };
+
   
   /* @Put('/:id/:od')
    updatetransaction(@Param('id') id: string, @Param('od') od: string, @Body() activle: transaction) {

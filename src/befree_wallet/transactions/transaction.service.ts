@@ -20,7 +20,7 @@ export class TransactionBefreeWalletService {
 
 
   async create(transaction: any) {
-    const sender = await this.personModel.findOne({ phone: transaction.operator });
+    const sender = await this.personModel.findById(transaction.operator);
     const receivo = await this.personModel.findOne({ phone: transaction.receiva });
     const limitsender = await this.accountDataModel.findById(sender.account);
     const limitreceiver = await this.accountDataModel.findById(receivo.account);
@@ -28,7 +28,7 @@ export class TransactionBefreeWalletService {
     if (limitsender.limit > parseInt(transaction.amount) && limitreceiver.limit > parseInt(transaction.amount)) {
       const reconstration = {
         amount: transaction.amount,
-        operator: sender._id,
+        operator: transaction.operator,
         receiva: receivo._id,
         status: transaction.status,
         fee: transaction.fee,
@@ -84,8 +84,6 @@ export class TransactionBefreeWalletService {
 
     }
   }
-
-
 
 
 
@@ -202,7 +200,7 @@ export class TransactionBefreeWalletService {
       };
       await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken);
 
-    }else{
+    } else {
       const reachager = await this.personModel.findById(rechageHistory.operator);
       await this.transactionModel.findByIdAndUpdate(rechageHistory._id, { status: "Failed" });
 
@@ -212,13 +210,82 @@ export class TransactionBefreeWalletService {
         title: 'Rechargement échouée',
         body: `Rechargement de ${rechageHistory.amount} F via ${rechageHistory.operatortype} échouée`,
       };
-      await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken); 
+      await this.peopleService.sendExpoPushNotifications(notificationData, reachager.pushtoken);
 
     }
 
   }
 
 
+  async transferBank(accounid: string, userid: string, transfer: {
+    transaction: Transaction;
+    bank: {
+      account_bank: string,
+      account_number: string,//"1234567840",
+      amount: number,
+      narration: string,
+      currency: string,
+    };
+  }): Promise<any> {
+    try {
+      const senderAccount: any = await this.accountDataModel.findById(accounid);
+      const sender = await this.personModel.findById(userid);
+
+      if (!senderAccount || !sender) {
+        throw new Error('Sender or account not found');
+      }
+
+      if (parseInt(senderAccount.limit) > parseInt(transfer.transaction.amount) && parseInt(senderAccount.balance) >= parseInt(transfer.transaction.amount)) {
+        // Prepare recharge data for the API call
+        const api_key = this.generatApi('uodhvxp:6W1V8195073540U5U9Z3X4Y23X50WU51:029Z404W897EG:c');
+
+
+        // Make API call
+        const apiUrl = "https://api.flutterwave.com/v3/transfers";
+        const header = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${api_key}`,//Bearer
+          },
+        };
+
+        try {
+          const resp = await axios.post(apiUrl, transfer.bank, header);
+
+
+          if (resp.status === 200 || resp.statusText === "OK") {
+            transfer.transaction.webhooks = resp.data.data.id;
+            const transact = await this.transactionModel.create(transfer.transaction);
+            await transact.save();
+
+
+
+            // Send notification to the user
+            const notificationData = {
+              sound: 'default',
+              title: 'Transfer en cours',
+              body: `Transfer bancaire de ${transfer.transaction.amount} F vers ${transfer.bank.account_number}`,
+            };
+            await this.peopleService.sendExpoPushNotifications(notificationData, sender.pushtoken);
+
+            return { transfer_res: resp.data };
+          } else {
+            throw new Error('Transfer failed: Flutter server');
+
+          }
+
+        } catch (error) {
+          throw new Error('Transfer failed due to an unexpected error fluter');
+        }
+
+      } else {
+        throw new Error('Transfer failed: insufficient limit in account');
+      }
+    } catch (error) {
+      console.error('Transfer error:', error);
+      //throw new Error('Transfer failed due to an unexpected error');
+    }
+  }
 
 
 
