@@ -85,7 +85,9 @@ export class TransactionBefreeWalletService {
     }
   }
 
-
+/*this function is for recharging the user wallet
+nknf
+*/
 
   async walletRechargin(accounid: string, rechage: {
     transaction: {
