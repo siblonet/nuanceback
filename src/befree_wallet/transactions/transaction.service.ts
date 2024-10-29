@@ -255,6 +255,12 @@ export class TransactionBefreeWalletService {
 
           if (resp.status === 200 || resp.statusText === "OK") {
             transfer.transaction.webhooks = resp.data.data.id;
+            await this.accountDataModel.findByIdAndUpdate(
+              accounid,
+              { $inc: { balance: transfer.transaction.amount, limit: -transfer.transaction.amount } },
+              { new: true }
+            );
+
             const transact = await this.transactionModel.create(transfer.transaction);
             await transact.save();
 
