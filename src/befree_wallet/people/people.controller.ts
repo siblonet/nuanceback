@@ -2,7 +2,7 @@ import { Controller, Post, Body, Param, Delete, Get, Put } from '@nestjs/common'
 import { AccountData, PersonWallet, PLogWallet, WalletListType, WalletType } from './entities/person.entity';
 import { PeopleBefreeWalletService } from './people.service';
 
-@Controller('BefreeWalletpeopleclose')
+@Controller('BefreeWalletpeople')
 export class PeopleBefreeWalletController {
   constructor(private readonly peopleService: PeopleBefreeWalletService) { }
 

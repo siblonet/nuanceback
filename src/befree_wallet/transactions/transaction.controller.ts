@@ -12,7 +12,7 @@ import { TransactionBefreeWalletService } from './transaction.service';
 import { Transaction } from './entities/transaction.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-@Controller('BefreeWallettransactionsclose')
+@Controller('BefreeWallettransactions')
 export class TransactionBefreeWalletController {
   constructor(private transactionService: TransactionBefreeWalletService) { }
 

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { BefreeAgriculterService } from './home.service';
 import { BefreePays, BefreeCooperative, BefreeAgrulter, BefreeCategorie, BefreeExploitationAgricole, BefreeExtraExploitationAgricole, BefreeInspecteurAgricole, BefreeProprieteurAgricole, BefreeTravailleurAgricole } from './home.entity';
 
-@Controller('BefreeAgriculterclose')
+@Controller('BefreeAgriculter')
 export class BefreeAgriculterController {
   constructor(private befreeAgriculterService: BefreeAgriculterService) { }
 
