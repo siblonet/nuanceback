@@ -7,7 +7,7 @@ export class BefreeAgriculterController {
   constructor(private befreeAgriculterService: BefreeAgriculterService) { }
 
 
-  @Post("postBefreePays")
+  @Post("postBefreePaysclose")
   async postBefreePays(@Body() housea: BefreePays) {
     return await this.befreeAgriculterService.postBefreePays(housea);
   };
