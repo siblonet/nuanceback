@@ -22,6 +22,7 @@ import { PeopleMatasaModule } from './matasa/people/people.module';
 import { PeopleBefreeWalletModule } from './befree_wallet/people/people.module';
 import { TransactionsBefreeWalletModule } from './befree_wallet/transactions/transaction.module';
 import { WaveModule } from './wave_qrcode/wave/wave.module';
+import { PoubyModule } from './pouby/pouby.module';
 
 
 const Upcase = {
@@ -202,6 +203,7 @@ function thisiswhat(eee: any): any {
     OrderMatasaModule,
     PeopleMatasaModule,
     InstaModule,
+    PoubyModule,
     CopineModule,
     MagicaModule,
     TirhakaModule,
