@@ -5,6 +5,7 @@ export const MembersSchema = new mongoose.Schema({
   middleName: String,
   lastName: String,
   email: String,
+  user_name: String,
   pink_phone: String,
   phone: String,
   allow: {

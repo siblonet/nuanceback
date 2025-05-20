@@ -32,8 +32,8 @@ export class PoubyService {
   // ───── MEMBER MANAGEMENT ─────
 
   async registerMember(member: Members) {
-    const { email, pink_phone, phone } = member;
-    const existingUser = await this.memberModel.findOne({ email, pink_phone, phone });
+    const { email, pink_phone, phone, user_name } = member;
+    const existingUser = await this.memberModel.findOne({ email, pink_phone, phone, user_name });
 
     if (existingUser) return { ee: 'phoneused' };
 
@@ -75,6 +75,8 @@ export class PoubyService {
     return { ee: 'Invalid' };
   }
 
+
+  
   async recoverAccount({ user_id }: { user_id: string }) {
     const user = await this.memberModel.findOne({
       $or: [
