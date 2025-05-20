@@ -15,95 +15,68 @@ export class PoubyService {
     private readonly mineindService: MineindService
   ) {
     this.transporter = nodemailer.createTransport({
-      host: 'smtppro.zoho.com',
-      port: 465,
+      host: this.mineindService.whatisthis("HNGKKIL&ALSL&XLN"),
+      port: parseInt(this.mineindService.whatisthis("756")),
       secure: true,
       auth: {
-        user: 'manager@pouby.com',
-        pass: "&WJvz4t%$kW&5wF", // replace with real app-specific password
+        user: this.mineindService.whatisthis("NZMZTVI`KLFYB&XLN"),
+        pass: this.mineindService.whatisthis(".dqEA7G[àPd.6Du"),
       },
       ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
       },
       requireSSL: true,
     });
   }
 
+  // ───── MEMBER MANAGEMENT ─────
 
-
-  async create(member: Members) {
+  async registerMember(member: Members) {
     const { email, pink_phone, phone } = member;
-    const user = await this.memberModel.findOne({ email, pink_phone, phone });
-    if (user) {
-      return { ee: 'phoneused' };
-    } else {
-      const membersetting: Members = {
-        firstName: member.firstName,
-        middleName: member.middleName,
-        lastName: member.lastName,
-        email: member.email,
-        pink_phone: member.pink_phone,
-        phone: member.phone,
-        user_name: member.user_name,
-        password: this.indrog(member.password),
-        allow: member.allow,
-      };
+    const existingUser = await this.memberModel.findOne({ email, pink_phone, phone });
 
-      const person = await this.memberModel.create({ ...membersetting });
-      await person.save();
-      await this.otpcreation(person._id);
-      return this.generatToken(person);
-    }
+    if (existingUser) return { ee: 'phoneused' };
+
+    const newMember: Members = {
+      ...member,
+      password: this.encrypt(member.password),
+      allow: false,
+    };
+
+    const savedMember = await this.memberModel.create(newMember);
+    await savedMember.save();
+    await this.generateOtp(savedMember._id);
+    return this.generateToken(savedMember);
   }
 
-  async otpcreation(otprequesta: string) {
-    const otp_code = await this.generateVerificationCode();
-    const otpExists = await this.otpcodeModel.findOne({ otp_code });
-
-    if (otpExists) {
-      return { ee: 'Invalid' };
-    } else {
-      const createdCode = await this.otpcodeModel.create({
-        otp_code,
-        user_id: otprequesta,
-      });
-      await createdCode.save();
-      await this.sendConfirmationEmail(createdCode);
-      return createdCode;
-    }
+  async getAllMembers(): Promise<Members[]> {
+    return this.memberModel.find();
   }
 
-  async login(membLogin: MembLogin) {
-    const { user_name, password } = membLogin;
-    const person = await this.memberModel.findOne({ user_name });
-
-    if (!person) {
-      return { ee: 'Invalid' };
-    } else if (this.enderog(password, person.password)) {
-      return this.generatToken(person);
-    }
-
-    return { ee: 'Invalid' };
+  async getMemberById(user_id: string) {
+    const member = await this.memberModel.findById(user_id);
+    if (!member) return { ee: 'Invalid' };
+    return this.generateToken(member);
   }
 
-  async otpvalidation(otp_cod: OtpCode) {
-    const { otp_code, user_id } = otp_cod;
-    const otpcode = await this.otpcodeModel.findOne({ otp_code });
-
-    if (!otpcode) {
-      return { ee: 'Invalid' };
-    } else {
-      await this.memberModel.findByIdAndUpdate(user_id, { allow: true });
-      return otpcode;
-    }
-  }
-
-  remove(id: string) {
+  async deleteMember(id: string) {
     return this.memberModel.findByIdAndRemove(id);
   }
 
-  async accountRecovering(user_id: string) {
-    const person = await this.memberModel.findOne({
+  // ───── AUTH & RECOVERY ─────
+
+  async loginMember(credentials: MembLogin) {
+    const { user_name, password } = credentials;
+    const user = await this.memberModel.findOne({ user_name });
+
+    if (user && this.decrypt(password, user.password)) {
+      return this.generateToken(user);
+    }
+    return { ee: 'Invalid' };
+  }
+
+  async recoverAccount({ user_id }: { user_id: string }) {
+    const user = await this.memberModel.findOne({
       $or: [
         { user_name: user_id },
         { phone: user_id },
@@ -112,89 +85,120 @@ export class PoubyService {
       ],
     });
 
-    if (!person) {
-      return { ee: 'Invalid' };
-    } else {
-      await this.otpcreation(person._id);
-      return { code: 'sent' };
-    }
+    if (!user) return { ee: 'Invalid' };
+
+    await this.generateOtp(user._id);
+    return { code: 'sent' };
   }
 
-  async getMydata(user_id: string) {
-    const person = await this.memberModel.findById(user_id);
-    if (!person) {
-      return { ee: 'Invalid' };
-    } else {
-      return this.generatToken(person);
-    }
+  // ───── OTP HANDLING ─────
+
+  async generateOtp(user_id: string) {
+    const code = await this.generateVerificationCode();
+
+    const existing = await this.otpcodeModel.findOne({ otp_code: code });
+    if (existing) return { ee: 'Invalid' };
+
+    const newOtp = await this.otpcodeModel.create({ otp_code: code, user_id });
+    await newOtp.save();
+    await this.sendOtpEmail(newOtp);
+    return newOtp;
   }
 
-  async allMembers(): Promise<Members[]> {
-    return await this.memberModel.find();
+  async validateOtp(input: OtpCode) {
+    const record = await this.otpcodeModel.findOne({ otp_code: input.otp_code });
+    if (!record) return { ee: 'Invalid' };
+
+    await this.deleteOtp(record._id);
+    const doneid = await this.memberModel.findByIdAndUpdate(record.user_id, { allow: true });
+    return this.getMemberById(doneid._id);
   }
 
-  enderog(nez: any, ood: any): boolean {
-    const dae = this.mineindService.thisiswhat(nez);
-    const adaa = dae.replaceAll('undefined', '');
-    return adaa === ood;
+
+    async validatePassw(input: OtpCode) {
+    const record = await this.otpcodeModel.findOne({ otp_code: input.otp_code });
+    if (!record) return { ee: 'Invalid' };
+
+    await this.deleteOtp(record._id);
+    const doneid = await this.memberModel.findByIdAndUpdate(record.user_id, { allow: true });
+    return {id: doneid._id};
   }
 
-  generatToken(member: Members): object {
-    const {
-      _id,
-      firstName,
-      middleName,
-      lastName,
-      email,
-      pink_phone,
-      phone,
-      user_name,
-      allow,
-    } = member;
-
-    const perset = `${_id}°${firstName}°${middleName}°${lastName}°${email}°${pink_phone}°${phone}°${user_name}°${allow}`;
-    const dae = this.mineindService.whatisthis(perset);
-    const adaa = dae.replaceAll('undefined', '');
-    return { token: adaa };
+  async getAllOtps(): Promise<OtpCode[]> {
+    return this.otpcodeModel.find();
   }
 
-  indrog(dd: any) {
-    const dae = this.mineindService.whatisthis(dd);
-    return dae.replaceAll('undefined', '');
+  async deleteOtp(id: any) {
+    return this.otpcodeModel.findByIdAndRemove(id);
   }
 
-  /** @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
-  async generateVerificationCode(): Promise<number> {
+  async updatePassword(id: any, updatepass: any) {
+    const updatedid = await this.memberModel.findByIdAndUpdate(id, { password: this.encrypt(updatepass.password) });
+    const updatedUser = await this.memberModel.findById(updatedid._id);
+    return this.generateToken(updatedUser);
+  }
+
+  // ───── UTILITY METHODS ─────
+
+  private encrypt(input: any): string {
+    const result = this.mineindService.whatisthis(input);
+    return result.replaceAll('undefined', '');
+  }
+
+  private decrypt(input: any, compareTo: any): boolean {
+    const result = this.mineindService.thisiswhat(input);
+    return result.replaceAll('undefined', '') === compareTo;
+  }
+
+  private generateToken(member: Members): object {
+    const data = [
+      member._id,
+      member.firstName,
+      member.middleName,
+      member.lastName,
+      member.email,
+      member.pink_phone,
+      member.phone,
+      member.user_name,
+      member.allow,
+    ].join('°');
+
+    const token = this.mineindService.whatisthis(data).replaceAll('undefined', '');
+    return { token };
+  }
+
+  private async generateVerificationCode(): Promise<number> {
     const digits = new Set<number>();
-
-    while (digits.size < 5) {
-      const digit = Math.floor(Math.random() * 10);
-      digits.add(digit);
-    }
-
-    const code = Array.from(digits).join('');
-    return parseInt(code, 10);
+    while (digits.size < 5) digits.add(Math.floor(Math.random() * 10));
+    return parseInt([...digits].join(''), 10);
   }
 
-  async sendConfirmationEmail(otp_data: any) {
-    const user = await this.memberModel.findById(otp_data.user_id);
+  private async sendOtpEmail(otpData: any) {
+    const user = await this.memberModel.findById(otpData.user_id);
 
     const mailOptions = {
-      from: '"Pouby Team" <manager@pouby.com>',
+      from: '"Pouby Team noreply" <donotreply@pouby.com>',
       to: user.email,
       subject: 'Verification Code',
       html: `
-        <h3>Hi ${user.firstName},</h3>
-        <p>Thank you for your interest in Pouby.</p>
-        <p>Your confirmation code is:</p>
-        <h2 style="padding:20px;background:#fff;color:#105d6a;border-radius:5px;">
-          ${otp_data.otp_code}
-        </h2>
-        <p>If you did not request this code or create an account, you can safely ignore this email.</p>
-        <br><p>— The Pouby Team</p>
+        <table style="width:100%;font-family:sans-serif;">
+          <tr>
+            <td style="padding:20px;background-color:#f5f5f5;">
+              <h2 style="color:#105d6a;">Pouby Verification Code</h2>
+              <p>Hello ${user.firstName || 'there'},</p>
+              <p>Thanks for joining Pouby! Please confirm your account using this code:</p>
+              <div style="padding:10px;margin:20px 0;font-size:24px;font-weight:bold;color:#fff;background-color:#105d6a;border-radius:5px;text-align:center;">
+                ${otpData.otp_code}
+              </div>
+              <p>If you didn’t sign up, you can ignore this email.</p>
+              <p style="margin-top:30px;">— The Pouby Team <i style="color: red">Do not reply to this mail</i></p>
+            </td>
+          </tr>
+        </table>
+
       `,
     };
 
-    return await this.transporter.sendMail(mailOptions);
+    await this.transporter.sendMail(mailOptions);
   }
 }

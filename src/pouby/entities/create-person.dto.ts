@@ -16,5 +16,6 @@ export const MembersSchema = new mongoose.Schema({
 
 export const OtpCodeSchema = new mongoose.Schema({
   otp_code: String,
+  user_id: String
 });
 

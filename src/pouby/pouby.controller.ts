@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Delete, Get } from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete, Get, Put } from '@nestjs/common';
 import { Members, MembLogin, OtpCode } from './entities/person.entity';
 import { PoubyService } from './pouby.service';
 
@@ -6,43 +6,70 @@ import { PoubyService } from './pouby.service';
 export class PoubyController {
   constructor(private readonly peopleService: PoubyService) { }
 
-  @Post()
-  async create(@Body() person: Members): Promise<any> {
-    return this.peopleService.create(person);
+  // ───── MEMBER ROUTES ─────
+
+  @Post('members')
+  async registerMember(@Body() member: Members): Promise<any> {
+    return this.peopleService.registerMember(member);
   }
 
-  @Post('otpcreation')
-  async otpcreation(@Body('user_id') user_id: string): Promise<any> {
-    return this.peopleService.otpcreation(user_id);
+  @Get('members')
+  async getAllMembers(): Promise<Members[]> {
+    return this.peopleService.getAllMembers();
   }
 
-  @Post('login')
-  async login(@Body() memberLogin: MembLogin): Promise<any> {
-    return this.peopleService.login(memberLogin);
+  @Get('members/:user_id')
+  async getMemberById(@Param('user_id') user_id: string): Promise<any> {
+    return this.peopleService.getMemberById(user_id);
   }
 
-  @Post('otpvalidation')
-  async otpvalidation(@Body() otpcode: OtpCode): Promise<any> {
-    return this.peopleService.otpvalidation(otpcode);
+  @Delete('members/:id')
+  async deleteMember(@Param('id') id: string): Promise<any> {
+    return this.peopleService.deleteMember(id);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<any> {
-    return this.peopleService.remove(id);
+  // ───── OTP ROUTES ─────
+
+  @Post('otp/create')
+  async createOtp(@Body('user_id') user_id: string): Promise<any> {
+    return this.peopleService.generateOtp(user_id);
   }
 
-  @Get(':user_id')
-  async getMydata(@Param('user_id') user_id: string): Promise<any> {
-    return this.peopleService.getMydata(user_id);
+  @Post('otp/validate')
+  async validateOtp(@Body() otpcode: OtpCode): Promise<any> {
+    return this.peopleService.validateOtp(otpcode);
   }
 
-  @Get('allMembers')
-  async allMembers(): Promise<Members[]> {
-    return this.peopleService.allMembers();
+  @Post('validatePassw/validate')
+  async validatePassw(@Body() otpcode: OtpCode): Promise<any> {
+    return this.peopleService.validatePassw(otpcode);
   }
 
-  @Post('recover')
-  async accountRecovering(@Body('user_id') user_id: string): Promise<any> {
-    return this.peopleService.accountRecovering(user_id);
+  @Get('otp/all')
+  async getAllOtps(): Promise<OtpCode[]> {
+    return this.peopleService.getAllOtps();
+  }
+
+  @Delete('otp/:id')
+  async deleteOtp(@Param('id') id: string): Promise<any> {
+    return this.peopleService.deleteOtp(id);
+  }
+
+  // ───── AUTH ROUTES ─────
+
+  @Post('auth/login')
+  async loginMember(@Body() memberLogin: MembLogin): Promise<any> {
+    return this.peopleService.loginMember(memberLogin);
+  }
+
+  @Post('auth/recover')
+  async recoverAccount(@Body() user_id: { user_id: string }): Promise<any> {
+    return this.peopleService.recoverAccount(user_id);
+  }
+
+
+  @Put('members/updatepassword/:id')
+  async updatePassword(@Param('id') id: string, @Body() idupdatepass: { password: string }): Promise<any> {
+    return this.peopleService.updatePassword(id, idupdatepass);
   }
 }
