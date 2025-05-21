@@ -69,6 +69,7 @@ export class PoubyService {
     const { user_name, password } = credentials;
     const user = await this.memberModel.findOne({ user_name });
 
+    //console.log((user && this.decrypt(password, user.password)), user, credentials)
     if (user && this.decrypt(password, user.password)) {
       return this.generateToken(user);
     }

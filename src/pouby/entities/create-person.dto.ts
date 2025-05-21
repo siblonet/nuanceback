@@ -8,6 +8,7 @@ export const MembersSchema = new mongoose.Schema({
   user_name: String,
   pink_phone: String,
   phone: String,
+  password: String,
   allow: {
     type: Boolean,
     default: false,
