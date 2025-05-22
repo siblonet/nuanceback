@@ -46,6 +46,7 @@ export class PoubyService {
     const savedMember = await this.memberModel.create(newMember);
     await savedMember.save();
     await this.generateOtp(savedMember._id);
+    await this.newAccountCreated({ user_id: savedMember._id });
     return this.generateToken(savedMember);
   }
 
@@ -77,7 +78,7 @@ export class PoubyService {
   }
 
 
-  
+
   async recoverAccount({ user_id }: { user_id: string }) {
     const user = await this.memberModel.findOne({
       $or: [
@@ -118,13 +119,13 @@ export class PoubyService {
   }
 
 
-    async validatePassw(input: OtpCode) {
+  async validatePassw(input: OtpCode) {
     const record = await this.otpcodeModel.findOne({ otp_code: input.otp_code });
     if (!record) return { ee: 'Invalid' };
 
     await this.deleteOtp(record._id);
     const doneid = await this.memberModel.findByIdAndUpdate(record.user_id, { allow: true });
-    return {id: doneid._id};
+    return { id: doneid._id };
   }
 
   async getAllOtps(): Promise<OtpCode[]> {
@@ -195,6 +196,34 @@ export class PoubyService {
               </div>
               <p>If you didn’t sign up, you can ignore this email.</p>
               <p style="margin-top:30px;">— The Pouby Team <i style="color: red">Do not reply to this mail</i></p>
+            </td>
+          </tr>
+        </table>
+
+      `,
+    };
+
+    await this.transporter.sendMail(mailOptions);
+  }
+
+  private async newAccountCreated(otpData: any) {
+    const user = await this.memberModel.findById(otpData.user_id);
+
+    const mailOptions = {
+      from: '"Pouby Team noreply" <donotreply@pouby.com>',
+      to: "johnpdkokar@gmail.com",
+      subject: 'New Account Created',
+      html: `
+        <table style="width:100%;font-family:sans-serif;">
+          <tr>
+            <td style="padding:20px;background-color:#f5f5f5; border-radio: 10px">
+              <h2 style="color:#105d6a;">New account for ${user.firstName}</h2>
+              <p>Hello CEO, user details</p>
+              <div style="padding:10px;font-size:24px;font-weight:bold;color:#fff;background-color:#105d6a;border-radius:5px;text-align:center;">
+                
+              <p>Name: ${user.firstName} ${user.middleName} ${user.lastName}</p>
+              <p>eMail: ${user.email}</p>
+              </div>
             </td>
           </tr>
         </table>
