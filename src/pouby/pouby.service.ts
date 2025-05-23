@@ -71,7 +71,10 @@ export class PoubyService {
     const user = await this.memberModel.findOne({ user_name });
 
     //console.log((user && this.decrypt(password, user.password)), user, credentials)
-    if (user && this.decrypt(password, user.password)) {
+    if (user && this.decrypt(password, user.password) && user.allow === false) {
+      await this.generateOtp(user.email);
+      return this.generateToken(user);
+    }else if(user && this.decrypt(password, user.password)){
       return this.generateToken(user);
     }
     return { ee: 'Invalid' };
