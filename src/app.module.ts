@@ -23,6 +23,7 @@ import { PeopleBefreeWalletModule } from './befree_wallet/people/people.module';
 import { TransactionsBefreeWalletModule } from './befree_wallet/transactions/transaction.module';
 import { WaveModule } from './wave_qrcode/wave/wave.module';
 import { PoubyModule } from './pouby/pouby.module';
+import { RockspaModule } from './rockspa/rockspa.module';
 
 
 const Upcase = {
@@ -206,6 +207,7 @@ function thisiswhat(eee: any): any {
     PoubyModule,
     CopineModule,
     MagicaModule,
+    RockspaModule,
     TirhakaModule,
     TriumphModule,
     PersonTriumphModule,
