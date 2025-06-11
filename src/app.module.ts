@@ -7,13 +7,8 @@ import { MineindService } from './mineind/mineind.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { OrderModule } from './order/order.module';
-import { InstaModule } from './instapay/insta.module';
 import { CopineModule } from './copine/copine.module';
-import { MagicaModule } from './magica/magica.module';
 import { TirhakaModule } from './instituttirhaka/tirhaka.module';
-import { TriumphModule } from './triumph/home/home.module';
-import { PersonTriumphModule } from './triumph/users/triumph.person.module';
-import { CarsModule } from './aboucar/cars/cars.module';
 import { BefreeAgriculterModule } from './befree/agrucilta/home.module';
 import { PersonBefreeModule } from './befree/users/befree.person.module';
 import { ActivityMatasaModule } from './matasa/home/home.module';
@@ -23,7 +18,6 @@ import { PeopleBefreeWalletModule } from './befree_wallet/people/people.module';
 import { TransactionsBefreeWalletModule } from './befree_wallet/transactions/transaction.module';
 import { WaveModule } from './wave_qrcode/wave/wave.module';
 import { PoubyModule } from './pouby/pouby.module';
-import { RockspaModule } from './rockspa/rockspa.module';
 
 
 const Upcase = {
@@ -203,15 +197,9 @@ function thisiswhat(eee: any): any {
     ActivityMatasaModule,
     OrderMatasaModule,
     PeopleMatasaModule,
-    InstaModule,
     PoubyModule,
     CopineModule,
-    MagicaModule,
-    RockspaModule,
     TirhakaModule,
-    TriumphModule,
-    PersonTriumphModule,
-    CarsModule,
     BefreeAgriculterModule,
     PersonBefreeModule,
     PeopleBefreeWalletModule,
